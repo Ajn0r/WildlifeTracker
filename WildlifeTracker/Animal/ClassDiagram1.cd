@@ -47,17 +47,10 @@
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTracker.Dog">
-    <Position X="0.5" Y="5" Width="1.5" />
+    <Position X="1.5" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Mammals\Dog.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="WildlifeTracker.Elephant">
-    <Position X="2.5" Y="5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Mammals\Elephant.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTracker.Donkey">
