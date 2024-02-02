@@ -7,5 +7,8 @@ namespace WildlifeTracker
 {
     public class Bird : Animal
     {
+        private bool sings;
+
+        public bool Sings { get => sings; set => sings = value; }
     }
 }
