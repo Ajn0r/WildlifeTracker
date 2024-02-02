@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="WildlifeTracker.Animal">
-    <Position X="8" Y="0.5" Width="1.5" />
+    <Position X="8" Y="0.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAQAABAUAQAQgAEAAgAQAAAAEAAAAAAAIAAAAAAA=</HashCode>
       <FileName>Animal\Animal.cs</FileName>
@@ -12,9 +12,9 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="WildlifeTracker.Mammal">
-    <Position X="1.5" Y="1" Width="1.5" />
+    <Position X="1.25" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAQACAAAAAAAAAAAAAAACAAAAAAABAAAAAAAAAAA=</HashCode>
       <FileName>Mammals\Mammal.cs</FileName>
     </TypeIdentifier>
   </Class>

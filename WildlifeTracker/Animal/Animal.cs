@@ -7,31 +7,28 @@ namespace WildlifeTracker
 {
     public class Animal
     {
-        // Instance variables
+        #region // Instance variables //
         private string name;
         private int age;
-        private bool isDomisticated;
+        private bool isDomesticated;
         private bool isEndangered;
         private GenderType gender;
         private CategoryType category;
+        #endregion
+
+        #region // Properties //
 
         // Property to get and set the gender of the animal
-        public GenderType GenderType
-        {
-            // Get the gender
-            get => gender;
-            // Set the gender
-            set => gender = value;
-        }
+        public GenderType GenderType { get => gender; set => gender = value; }
 
         // Property to get and set the category type of the animal
-        public CategoryType CategoryType
-        {
-            // get the category type
-            get => category;
-            // Set the category type
-            set => category = value;
-        }
+        public CategoryType CategoryType { get => category; set => category = value; }
+
+        // Property to get and set the domesticated status of the animal
+        public bool IsDomisticated { get => isDomesticated; set => isDomesticated = value; }
+
+        // Property to get and set the endangered status of the animal
+        public bool IsEndangered { get => isEndangered; set => isEndangered = value; }
 
         // Prperty to get and setthe name of the animal
         public string Name
@@ -57,7 +54,32 @@ namespace WildlifeTracker
             }
         }
 
-        public bool IsDomisticated { get => isDomisticated; set => isDomisticated = value; }
-        public bool IsEndangered { get => isEndangered; set => isEndangered = value; }
+        #endregion
+
+        #region // Constructors //
+        // Default constructor
+        public Animal()
+        {
+        }
+
+        // Constructor with all parameters
+        public Animal(string name, int age, bool isDomesticated, bool isEndangered, GenderType gender, CategoryType category)
+        {
+            this.name = name;
+            this.age = age;
+            this.isDomesticated = isDomesticated;
+            this.isEndangered = isEndangered;
+        }
+
+        // Chainded constructor that sets gender to unknown
+        public Animal(string name, int age, bool isDomesticated, bool isEndangered, CategoryType category) : this(name, age, isDomesticated, isEndangered, GenderType.Unknown, category)
+        {
+            this.name = name;
+            this.age = age;
+            this.isDomesticated = isDomesticated;
+            this.isEndangered = isEndangered;
+            this.category = category;
+        }
+        #endregion
     }
 }
