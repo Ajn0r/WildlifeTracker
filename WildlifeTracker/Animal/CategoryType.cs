@@ -9,7 +9,6 @@ namespace WildlifeTracker
     {
         Mammal,
         Bird,
-        Reptile,
         Insect
     }
 }

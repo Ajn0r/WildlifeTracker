@@ -3,7 +3,7 @@
   <Class Name="WildlifeTracker.Animal">
     <Position X="8" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAQAABAUAQAQgAEAAgAQAAAAEAACAAAAIAAAAAAA=</HashCode>
+      <HashCode>AAAAAQAABAUAwAQgAEBBgAQAAAAEAACAAAAIgAAAAAA=</HashCode>
       <FileName>Animal\Animal.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -19,7 +19,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTracker.Bird">
-    <Position X="8.25" Y="5" Width="1.5" />
+    <Position X="8.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAEAAAABAAAAAAAAABAAAAAwAAAAAAAAAAAAA=</HashCode>
       <FileName>Birds\Bird.cs</FileName>
@@ -52,26 +52,26 @@
   <Class Name="WildlifeTracker.Donkey">
     <Position X="4.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAIQAAIAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAhgAAAIQAAIAAAAAAACAAAAAgAAAAAAAAAAA=</HashCode>
       <FileName>Mammals\Donkey.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTracker.Penguin">
-    <Position X="6.5" Y="8" Width="1.5" />
+    <Position X="6.5" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACAAAAAgAAAAAAAAAAAAAAAAAAAgAAAAIAAAAAAAAA=</HashCode>
       <FileName>Birds\Penguin.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTracker.Parrot">
-    <Position X="8.25" Y="8" Width="1.5" />
+    <Position X="8.25" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AICEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAhAA=</HashCode>
       <FileName>Birds\Parrot.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTracker.Owl">
-    <Position X="10" Y="8" Width="1.5" />
+    <Position X="10" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
       <FileName>Birds\Owl.cs</FileName>
@@ -92,9 +92,9 @@
     </TypeIdentifier>
   </Class>
   <Enum Name="WildlifeTracker.CategoryType">
-    <Position X="5.25" Y="0.5" Width="1.5" />
+    <Position X="5.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAwAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <HashCode>AAAAwAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Animal\CategoryType.cs</FileName>
     </TypeIdentifier>
   </Enum>

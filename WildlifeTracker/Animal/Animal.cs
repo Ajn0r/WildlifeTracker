@@ -11,7 +11,6 @@ namespace WildlifeTracker
         private string name;
         private int age;
         private bool isDomesticated;
-        private bool isEndangered;
         private GenderType gender;
         private CategoryType category;
         private string color;
@@ -29,9 +28,6 @@ namespace WildlifeTracker
 
         // Property to get and set the domesticated status of the animal
         public bool IsDomisticated { get => isDomesticated; set => isDomesticated = value; }
-
-        // Property to get and set the endangered status of the animal
-        public bool IsEndangered { get => isEndangered; set => isEndangered = value; }
 
         // Prperty to get and setthe name of the animal
         public string Name
@@ -80,22 +76,21 @@ namespace WildlifeTracker
         }
 
         // Constructor with all parameters
-        public Animal(string typePrefix, string name, int age, bool isDomesticated, bool isEndangered, GenderType gender, CategoryType category, string color)
+        public Animal(string typePrefix, string name, int age, bool isDomesticated, GenderType gender, CategoryType category, string color)
         {
             // Generate the ID based on the type of animal, type is sent from the derived class constructor
             ID = GenerateID(typePrefix);
             this.name = name;
             this.age = age;
             this.isDomesticated = isDomesticated;
-            this.isEndangered = isEndangered;
             this.gender = gender;
             this.category = category;
             this.color = color;
         }
 
         // Chainded constructor that sets gender to unknown
-        public Animal(string typePrefix, string name, int age, bool isDomesticated, bool isEndangered, CategoryType category, string color) : 
-            this(typePrefix, name, age, isDomesticated, isEndangered, GenderType.Unknown, category, color)
+        public Animal(string typePrefix, string name, int age, bool isDomesticated,  CategoryType category, string color) : 
+            this(typePrefix, name, age, isDomesticated, GenderType.Unknown, category, color)
         {
         }
         #endregion

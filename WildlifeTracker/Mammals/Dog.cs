@@ -20,14 +20,31 @@ namespace WildlifeTracker
         public bool IsSpecialTrained { get => isSpecialTrained; set => isSpecialTrained = value; }
         public SpecialTrainingType SpecialTrainingType
         {
-            get => default;
+            // If the dog is special trained, get the training type, otherwise return None
+            get => isSpecialTrained ? specialTrainingType : SpecialTrainingType.None;
             set
             {
+                // If the dog is special trained, then the training type is set, otherwise it will be set to None
+                specialTrainingType = isSpecialTrained ? value : SpecialTrainingType.None;
             }
         }
         #endregion
 
         #region // Constructors //
+        // Default constructor
+        public Dog() : base()
+        {
+        }
+
+        // Constructor with all parameters
+        public Dog(string name, int age, bool isDemesticated, GenderType gender, CategoryType category, string color, int numOfTeeth, bool hasFurOrHair, string breed, double tailLength, bool isSpecialTrained, SpecialTrainingType trainingType) :
+            base(name, age, isDemesticated, gender, category, color, numOfTeeth, hasFurOrHair)
+        {
+            this.breed = breed;
+            this.tailLength = tailLength;
+            this.isSpecialTrained = isSpecialTrained;
+            this.specialTrainingType = trainingType;
+        }
         #endregion
 
         #region // Methods //
