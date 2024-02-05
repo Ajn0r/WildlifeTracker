@@ -7,5 +7,6 @@ namespace WildlifeTracker
 {
     public class Donkey : Mammal
     {
+        private int maxLoad;
     }
 }

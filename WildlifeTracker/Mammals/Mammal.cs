@@ -34,5 +34,8 @@ namespace WildlifeTracker
             this.hasFurOrHair = hasFurOrHair;
         }
         #endregion
+
+        #region // Methods //
+        #endregion
     }
 }

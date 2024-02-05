@@ -14,6 +14,7 @@ namespace WildlifeTracker
         private bool isEndangered;
         private GenderType gender;
         private CategoryType category;
+        private string color;
         #endregion
 
         #region // Properties //
