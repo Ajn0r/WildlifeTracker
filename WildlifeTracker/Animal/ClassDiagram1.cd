@@ -12,77 +12,80 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="WildlifeTracker.Mammal">
-    <Position X="1.25" Y="0.5" Width="2" />
+    <Position X="2.25" Y="1.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAQACAAAAAAAAAAAAAAACAAAAAAABAAAAAAAAAAA=</HashCode>
       <FileName>Mammals\Mammal.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTracker.Bird">
-    <Position X="5.75" Y="2.75" Width="1.5" />
+    <Position X="8.25" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAEAAAABAAAAAAAAABAAAAAwAAAAAAAAAAAAA=</HashCode>
       <FileName>Birds\Bird.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTracker.Insect" Collapsed="true">
-    <Position X="11.5" Y="2.75" Width="1.5" />
+    <Position X="12.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Insects\Insect.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTracker.Cat">
-    <Position X="0.5" Y="3.75" Width="1.5" />
+    <Position X="0.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAQAIAAEACAAAIAAAA=</HashCode>
       <FileName>Mammals\Cat.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTracker.Dog">
-    <Position X="1.5" Y="5.25" Width="1.5" />
+    <Position X="2.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AgAAAAAABAAAQAAAAAAAAEAABABAQAAAAAAAAAIAAAA=</HashCode>
       <FileName>Mammals\Dog.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="SpecialTrainingType" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="WildlifeTracker.Donkey">
-    <Position X="2.5" Y="3.75" Width="1.5" />
+    <Position X="4.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAIQAAIAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
       <FileName>Mammals\Donkey.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTracker.Penguin">
-    <Position X="4" Y="5.75" Width="1.5" />
+    <Position X="6.5" Y="8" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AACAAAAAgAAAAAAAAAAAAAAAAAAAgAAAAIAAAAAAAAA=</HashCode>
       <FileName>Birds\Penguin.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTracker.Parrot">
-    <Position X="5.75" Y="5.75" Width="1.5" />
+    <Position X="8.25" Y="8" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <HashCode>AICEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAhAA=</HashCode>
       <FileName>Birds\Parrot.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTracker.Owl">
-    <Position X="7.5" Y="5.75" Width="1.5" />
+    <Position X="10" Y="8" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <HashCode>AAAEAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
       <FileName>Birds\Owl.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTracker.Bee">
-    <Position X="10.5" Y="4.75" Width="1.5" />
+    <Position X="11.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Insects\Bee.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTracker.Butterfly">
-    <Position X="12.25" Y="4.75" Width="1.5" />
+    <Position X="13.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Insects\Butterfly.cs</FileName>
@@ -100,6 +103,13 @@
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAABA=</HashCode>
       <FileName>Animal\GenderType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="WildlifeTracker.SpecialTrainingType" Collapsed="true">
+    <Position X="2.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAIAAAAAAABIAAAJACQAAAAAIQAAAAAAAKCEAAAA=</HashCode>
+      <FileName>Mammals\SpecialTrainingType.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

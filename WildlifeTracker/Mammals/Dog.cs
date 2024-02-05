@@ -9,16 +9,22 @@ namespace WildlifeTracker
     {
         #region // Instance variables //
         private string breed;
-        private int tailLength;
+        private double tailLength;
         private bool isSpecialTrained;
         private SpecialTrainingType specialTrainingType;
         #endregion
 
         #region // Properties //
         public string Breed { get => breed; set => breed = value; }
-        public int TailLength { get => tailLength; set => tailLength = value; }
+        public double TailLength { get => tailLength; set => tailLength = value; }
         public bool IsSpecialTrained { get => isSpecialTrained; set => isSpecialTrained = value; }
-        public SpecialTrainingType SpecialTrainingType { get => specialTrainingType; set => specialTrainingType = value; }
+        public SpecialTrainingType SpecialTrainingType
+        {
+            get => default;
+            set
+            {
+            }
+        }
         #endregion
 
         #region // Constructors //
@@ -26,6 +32,7 @@ namespace WildlifeTracker
 
         #region // Methods //
         #endregion
+
 
     }
 }
