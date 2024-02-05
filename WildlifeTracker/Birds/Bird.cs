@@ -19,6 +19,10 @@ namespace WildlifeTracker
         #endregion
 
         #region // Constructors //
+        // Default constructor
+        public Bird() : base("B")
+        {
+        }
         #endregion
 
         #region // Methods //
