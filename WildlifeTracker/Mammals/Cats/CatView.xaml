@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="WildlifeTracker.Mammals.Cats.CatView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WildlifeTracker.Mammals.Cats"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="400">
+    
+    <GroupBox Header="Cat Specification">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="Breed" Target="{Binding ElementName=catBreed}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+            <TextBox Name="catBreed" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
+            <Label Content="Litter box trained" Target="{Binding BindingGroupName=LitterBox}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+            <RadioButton GroupName="LitterBox" Name="rdoLitterYes" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Yes" IsChecked="True"/>
+            <RadioButton GroupName="LitterBox" Name="rdoLitterNo" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="No" Margin="45, 0, 0, 0 " />
+            <Label Content="Favorite Toy" Target="{Binding ElementName=catToy}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+            <TextBox Name="catToy" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
+        </Grid>
+    </GroupBox>
+
+</UserControl>

@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="WildlifeTracker.Mammals.Donkeys.DonkeyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WildlifeTracker.Mammals.Donkeys"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="400">
+    
+    <GroupBox Header="Donkey Specification" Padding="3">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="Height" Target="{Binding ElementName=txtHeight}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+            <TextBox Name="txtHeight" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
+            <Label Content="Weight" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Target="{Binding ElementName=txtWeight}"/>
+            <TextBox Name="txtWeight" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
+            <Label Content="Carries load" Target="{Binding ElementName=chkCarriesLoad}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+            <CheckBox Name="chkCarriesLoad" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Unchecked="checkBClicked" Checked="checkBClicked" HorizontalAlignment="Left" />
+            <Label Content="Max load capacity" Target="{Binding ElementName=txtMaxLoad}" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Name="lblMaxLoad" Visibility="Hidden"/>
+            <TextBox Name="txtMaxLoad" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Padding="3" Visibility="Hidden" />
+        </Grid>
+    </GroupBox>
+</UserControl>

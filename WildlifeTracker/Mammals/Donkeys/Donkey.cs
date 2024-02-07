@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WildlifeTracker
+namespace WildlifeTracker.Mammals.Donkeys
 {
     public class Donkey : Mammal
     {

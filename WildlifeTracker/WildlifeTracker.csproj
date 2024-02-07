@@ -55,19 +55,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Mammals\Cats\CatView.xaml.cs">
+      <DependentUpon>CatView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Mammals\Dogs\DogView.xaml.cs">
+      <DependentUpon>DogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helper classes\CategoryToVisibilityConverter.cs" />
     <Compile Include="Insects\Bee.cs" />
     <Compile Include="Insects\Butterfly.cs" />
-    <Compile Include="Mammals\Donkey.cs" />
-    <Compile Include="Mammals\Dog.cs" />
-    <Compile Include="Mammals\Cat.cs" />
+    <Compile Include="Mammals\Donkeys\Donkey.cs" />
+    <Compile Include="Mammals\Dogs\Dog.cs" />
+    <Compile Include="Mammals\Cats\Cat.cs" />
     <Compile Include="Animal\CategoryType.cs" />
     <Compile Include="Animal\GenderType.cs" />
     <Compile Include="Insects\Insect.cs" />
     <Compile Include="Birds\Owl.cs" />
     <Compile Include="Birds\Parrot.cs" />
     <Compile Include="Birds\Penguin.cs" />
-    <Compile Include="Mammals\SpecialTrainingType.cs" />
+    <Compile Include="Mammals\Dogs\SpecialTrainingType.cs" />
+    <Page Include="Mammals\Cats\CatView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Mammals\Dogs\DogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -82,8 +96,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Mammals\Donkeys\DonkeyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mammals\Donkeys\DonkeyView.xaml.cs">
+      <DependentUpon>DonkeyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Mammals\Mammal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

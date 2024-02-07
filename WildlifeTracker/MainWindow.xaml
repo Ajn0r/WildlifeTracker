@@ -4,7 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WildlifeTracker"
-        mc:Ignorable="d"        Title="Wildlife Tracker" Height="450" Width="800" ResizeMode="NoResize">
+        xmlns:dogs="clr-namespace:WildlifeTracker.Mammals.Dogs"
+        xmlns:donkeys="clr-namespace:WildlifeTracker.Mammals.Donkeys"
+        xmlns:cats="clr-namespace:WildlifeTracker.Mammals.Cats"
+        mc:Ignorable="d"        Title="Wildlife Tracker" Height="460" Width="750" ResizeMode="NoResize" >
     <Grid>
 
         <!-- Main grid layout -->
@@ -17,7 +20,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="138*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- Menu controls, functionality will be implemented in a later release  -->
@@ -79,7 +82,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-               
+
                 <Label Grid.Row="0" Content="Species:" Target="{Binding ElementName=listSpecies}" VerticalAlignment="Center"/>
                 <ScrollViewer Grid.Row="1" Name="scrollSpecies" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <ListView Name="listSpecies" SelectionMode="Single" d:ItemsSource="{d:SampleData ItemCount=5}" Height="110" />
@@ -88,7 +91,7 @@
                 <CheckBox Name="chkShowAll" Grid.Row="2" VerticalAlignment="Center"/>
             </Grid>
         </GroupBox>
-        
+
         <!-- Animal image -->
         <StackPanel Grid.Row="1" Grid.Column="2">
             <Border BorderBrush="Gray" BorderThickness="1" Height="150" Width="200" Margin="0, 5" CornerRadius="5">
@@ -96,7 +99,7 @@
             </Border>
             <Button Name="btnAddImage" Content="Add Image" Width="100" Height="25"/>
         </StackPanel>
-        
+
         <!-- Mammal specification -->
         <GroupBox Header="Mammal Specification" Grid.Column="0" Grid.Row="2" Padding="0, 8, 5, 8" Visibility="Hidden">
             <Grid>
@@ -116,7 +119,7 @@
                 <RadioButton GroupName="FurOrHair" Name="rdoMamNo" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="No" Margin="45, 0, 0, 0 " />
             </Grid>
         </GroupBox>
-        
+
         <!-- Bird Specification -->
         <GroupBox Header="Bird Specification" Grid.Column="0" Grid.Row="2" Padding="5, 8, 5, 8" Visibility="Visible" >
             <Grid>
@@ -138,31 +141,18 @@
                 <CheckBox Name="chkSings" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
             </Grid>
         </GroupBox>
-        
+
         <!-- Cat Specification -->
-        <GroupBox Header="Cat Specification" Grid.Row="2" Grid.Column="1" Visibility="Hidden">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label Content="Breed" Target="{Binding ElementName=catBreed}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-                <TextBox Name="catBreed" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
-                <Label Content="Litter box trained" Target="{Binding ElementName=chkLitterBox}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-                <RadioButton GroupName="LitterBox" Name="rdoLitterYes" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Yes" IsChecked="True"/>
-                <RadioButton GroupName="LitterBox" Name="rdoLitterNo" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="No" Margin="45, 0, 0, 0 " />
-                <Label Content="Favorite Toy" Target="{Binding ElementName=catToy}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-                <TextBox Name="catToy" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
-            </Grid>
-        </GroupBox>
-        
+        <cats:CatView Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
+
         <!-- Dog Specification -->
-        <GroupBox Header="Dog Specification" Grid.Row="2" Grid.Column="1" Visibility="Visible" Padding="3">
+        <dogs:DogView Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
+
+        <!-- Donkey Specification -->
+        <donkeys:DonkeyView Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
+
+        <!-- Owl Specification -->
+        <GroupBox Header="Owl Specification" Grid.Row="2" Grid.Column="1" Visibility="Hidden" Padding="3">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -171,20 +161,31 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Species: " Target="{Binding ElementName=txtOwlSpecies}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                <TextBox Name="txtOwlSpecies" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
+                <Label Content="Nocturnal" Target="{Binding ElementName=chkNocturnal}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                <CheckBox Name="chkNocturnal" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" />
+            </Grid>
+        </GroupBox>
+
+        <!-- Add animal button -->
+        <Button Content="Add animal" Grid.Column="1" Grid.Row="3" MaxHeight="30" Margin="10, 20"/>
+        
+        <!-- View Animal Info -->
+        <GroupBox Header="View Animal Info" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Padding="5, 8, 5, 8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Label Content="Breed" Target="{Binding ElementName=dogBreed}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0 0 40 0"/>
-                <TextBox Name="dogBreed" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
-                <Label Content="Tail length" Grid.Row="1" Grid.Column="0" Target="{Binding ElementName=txtTailLength}"/>
-                <TextBox Name="txtTailLength" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
-                <Label Content="Special trained" Target="{Binding ElementName=chkSpecialTrained}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-                <CheckBox Name="chkSpecialTrained" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Checked="specTrainedCBoxChanged" Unchecked="specTrainedCBoxChanged"/>
-                <Label Content="Training type" Target="{Binding ElementName=cmbTrainingType}" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
-                <ComboBox Name="cmbTrainingType" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"/>
+                
             </Grid>
         </GroupBox>
 
 
-    </Grid>
+    </Grid> 
 </Window>
