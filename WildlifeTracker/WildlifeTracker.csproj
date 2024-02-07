@@ -55,11 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper classes\CategoryToVisibilityConverter.cs" />
     <Compile Include="Insects\Bee.cs" />
     <Compile Include="Insects\Butterfly.cs" />
-    <Compile Include="Reptiles\Lizard.cs" />
     <Compile Include="Mammals\Donkey.cs" />
-    <Compile Include="Mammals\Elephant.cs" />
     <Compile Include="Mammals\Dog.cs" />
     <Compile Include="Mammals\Cat.cs" />
     <Compile Include="Animal\CategoryType.cs" />
@@ -68,8 +67,7 @@
     <Compile Include="Birds\Owl.cs" />
     <Compile Include="Birds\Parrot.cs" />
     <Compile Include="Birds\Penguin.cs" />
-    <Compile Include="Reptiles\Reptile.cs" />
-    <Compile Include="Reptiles\Turtle.cs" />
+    <Compile Include="Mammals\SpecialTrainingType.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

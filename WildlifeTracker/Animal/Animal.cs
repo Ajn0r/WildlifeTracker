@@ -19,7 +19,7 @@ namespace WildlifeTracker
         #endregion
 
         #region // Properties //
-
+        
         // Property to get and set the gender of the animal
         public GenderType GenderType { get => gender; set => gender = value; }
 
@@ -27,7 +27,7 @@ namespace WildlifeTracker
         public CategoryType CategoryType { get => category; set => category = value; }
 
         // Property to get and set the domesticated status of the animal
-        public bool IsDomisticated { get => isDomesticated; set => isDomesticated = value; }
+        public bool IsDomesticated { get => isDomesticated; set => isDomesticated = value; }
 
         // Prperty to get and setthe name of the animal
         public string Name

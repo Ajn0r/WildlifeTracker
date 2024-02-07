@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +21,14 @@ namespace WildlifeTracker
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
+            // Populate the combo box with the categories
+            cmbCategory.ItemsSource = Enum.GetValues(typeof(CategoryType));
+            // Populate the gender combo box with the gender types
+            cmbGender.ItemsSource = Enum.GetValues(typeof(GenderType));
         }
     }
 }
