@@ -7,7 +7,10 @@
         xmlns:dogs="clr-namespace:WildlifeTracker.Mammals.Dogs"
         xmlns:donkeys="clr-namespace:WildlifeTracker.Mammals.Donkeys"
         xmlns:cats="clr-namespace:WildlifeTracker.Mammals.Cats"
-        mc:Ignorable="d"        Title="Wildlife Tracker" Height="460" Width="750" ResizeMode="NoResize" >
+        xmlns:parrots="clr-namespace:WildlifeTracker.Birds.Parrots"
+        xmlns:owls="clr-namespace:WildlifeTracker.Birds.Owls"
+        xmlns:penguins="clr-namespace:WildlifeTracker.Birds.Penguins"
+        mc:Ignorable="d"        Title="Wildlife Tracker" Height="500" Width="800" ResizeMode="NoResize" >
     <Grid>
 
         <!-- Main grid layout -->
@@ -40,7 +43,7 @@
         <TextBlock Text="Wildlife Tracker" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Grid.Column="1" Height="21" Width="108"/>
 
         <!-- Animal specification -->
-        <GroupBox Header="Animal specification" Grid.Column="0" Grid.Row="1" Padding="0, 8, 5, 8">
+        <GroupBox Header="Animal specification" Grid.Column="0" Grid.Row="1" Padding="0, 8, 5, 8" Margin="5, 0, 0, 0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -55,9 +58,9 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Content="Name:" Target="{Binding ElementName=txtName}"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Name="txtName" VerticalAlignment="Center" Padding="3"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Name="txtName" VerticalAlignment="Center" Padding="3" />
                 <Label Grid.Row="1" Grid.Column="0" Content="Age:" Target="{Binding ElementName=txtAge}" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Name="txtAge" VerticalAlignment="Center" Padding="3"/>
+                <TextBox Grid.Row="1"  Grid.Column="1" Name="txtAge" VerticalAlignment="Center" Padding="3"/>
                 <Label Grid.Row="2" Grid.Column="0" Content="Color:" Target="{Binding ElementName=txtAge}" VerticalAlignment="Center"/>
                 <TextBox Grid.Row="2" Grid.Column="1" Name="txtColor" VerticalAlignment="Center" Padding="3"/>
                 <Label Grid.Row="3" Grid.Column="0" Content="Gender" Target="{Binding ElementName=cmbGender}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -93,7 +96,7 @@
         </GroupBox>
 
         <!-- Animal image -->
-        <StackPanel Grid.Row="1" Grid.Column="2">
+        <StackPanel Grid.Row="1" Grid.Column="2"  Margin="0, 0, 5, 0">
             <Border BorderBrush="Gray" BorderThickness="1" Height="150" Width="200" Margin="0, 5" CornerRadius="5">
                 <Image Name="imgAnimal" Height="150" Width="200" Stretch="Fill" />
             </Border>
@@ -101,7 +104,7 @@
         </StackPanel>
 
         <!-- Mammal specification -->
-        <GroupBox Header="Mammal Specification" Name="mammalSpec"  Grid.Column="0" Grid.Row="2" Padding="0, 8, 5, 8" Visibility="Hidden">
+        <GroupBox Header="Mammal Specification" Name="mammalSpec" Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="2" Padding="0, 8, 5, 8" Visibility="Hidden">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -121,7 +124,7 @@
         </GroupBox>
 
         <!-- Bird Specification -->
-        <GroupBox Header="Bird Specification" Name="birdSpec" Grid.Column="0" Grid.Row="2" Padding="5, 8, 5, 8" Visibility="Hidden" >
+        <GroupBox Header="Bird Specification" Name="birdSpec"  Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="2" Padding="5, 8, 5, 8" Visibility="Hidden" >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -150,39 +153,51 @@
 
         <!-- Donkey Specification -->
         <donkeys:DonkeyView x:Name="donkeyView" Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
-
+        
         <!-- Owl Specification -->
-        <GroupBox Header="Owl Specification" Grid.Row="2" Grid.Column="1" Visibility="Hidden" Padding="3">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label Content="Species: " Target="{Binding ElementName=txtOwlSpecies}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-                <TextBox Name="txtOwlSpecies" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
-                <Label Content="Nocturnal" Target="{Binding ElementName=chkNocturnal}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-                <CheckBox Name="chkNocturnal" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" />
-            </Grid>
-        </GroupBox>
+        <owls:OwlView x:Name="owlView" Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
+
+        <!-- Parrot Specification -->
+        <parrots:ParrotView x:Name="parrotView" Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
+        
+        <!-- Penguin Specification -->
+        <penguins:PenguinView x:Name="penguinView" Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
 
         <!-- Add animal button -->
-        <Button Content="Add animal" Grid.Column="1" Grid.Row="3" MaxHeight="30" Margin="10, 20"/>
+        <Button Content="Add animal" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" MaxHeight="30" Width="150" Margin="10, 20"/>
         
         <!-- View Animal Info -->
-        <GroupBox Header="View Animal Info" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Padding="5, 8, 5, 8">
+        <GroupBox Header="View Animal Info" Grid.Column="2" Grid.Row="2"  Margin="0, 0, 5, 0" Grid.RowSpan="2" Padding="5, 8, 5, 8">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                
+                <Label Content="Name:" Grid.Row="0" Grid.Column="0" />
+                <TextBlock x:Name="nameDisplay" Text="{Binding Name}" Grid.Row="0" Grid.Column="1"/>
+                <Label Content="Age:" Grid.Row="1" Grid.Column="0" />
+                <TextBlock x:Name="ageDisplay" Text="{Binding Age}" Grid.Row="1" Grid.Column="1"/>
+                <Label Content="Color:" Grid.Row="2" Grid.Column="0" />
+                <TextBlock x:Name="colorDisplay" Text="{Binding Color}" Grid.Row="2" Grid.Column="1"/>
+                <Label Content="Gender:" Grid.Row="3" Grid.Column="0" />
+                <TextBlock x:Name="genderDisplay" Text="{Binding GenderType}" Grid.Row="3" Grid.Column="1"/>
+                <Label Content="Category:" Grid.Row="4" Grid.Column="0" />
+                <TextBlock x:Name="categoryDisplay" Text="{Binding CategoryType}" Grid.Row="4" Grid.Column="1"/>
+                <Label Content="Domesticated:" Grid.Row="5" Grid.Column="0" />
+                <TextBlock x:Name="domesticatedDisplay" Text="{Binding IsDomesticated}" Grid.Row="5" Grid.Column="1"/>
+                <Button Content="View animal" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" />
+
+
+
             </Grid>
         </GroupBox>
 

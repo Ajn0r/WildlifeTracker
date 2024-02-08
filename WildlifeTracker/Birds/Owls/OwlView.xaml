@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="WildlifeTracker.Birds.Owls.OwlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WildlifeTracker.Birds.Owls"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="400">
+    <GroupBox Header="Owl Specification" Padding="3">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="Species: " Target="{Binding ElementName=txtOwlSpecies}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+            <TextBox Name="txtOwlSpecies" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
+            <Label Content="Nocturnal" Target="{Binding ElementName=chkNocturnal}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+            <CheckBox Name="chkNocturnal" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" />
+        </Grid>
+    </GroupBox>
+</UserControl>

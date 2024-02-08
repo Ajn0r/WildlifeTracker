@@ -55,6 +55,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Birds\Owls\OwlView.xaml.cs">
+      <DependentUpon>OwlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Birds\Parrots\ParrotView.xaml.cs">
+      <DependentUpon>ParrotView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Birds\Penguins\PenguinView.xaml.cs">
+      <DependentUpon>PenguinView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helper classes\InputValidator.cs" />
     <Compile Include="Mammals\Cats\CatView.xaml.cs">
       <DependentUpon>CatView.xaml</DependentUpon>
     </Compile>
@@ -70,10 +80,22 @@
     <Compile Include="Animal\CategoryType.cs" />
     <Compile Include="Animal\GenderType.cs" />
     <Compile Include="Insects\Insect.cs" />
-    <Compile Include="Birds\Owl.cs" />
-    <Compile Include="Birds\Parrot.cs" />
-    <Compile Include="Birds\Penguin.cs" />
+    <Compile Include="Birds\Owls\Owl.cs" />
+    <Compile Include="Birds\Parrots\Parrot.cs" />
+    <Compile Include="Birds\Penguins\Penguin.cs" />
     <Compile Include="Mammals\Dogs\SpecialTrainingType.cs" />
+    <Page Include="Birds\Owls\OwlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Birds\Parrots\ParrotView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Birds\Penguins\PenguinView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Mammals\Cats\CatView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

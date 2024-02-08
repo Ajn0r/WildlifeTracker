@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WildlifeTracker.Helper_classes;
+using WildlifeTracker.Mammals.Cats;
 
 
 namespace WildlifeTracker
@@ -30,6 +32,9 @@ namespace WildlifeTracker
         {
             InitializeComponent();
             PopulateComboBoxes();
+
+            Cat cat = new Cat("Maja", 10, true, GenderType.Female, CategoryType.Mammal, "multi color", 33, true, "Housecat", true, "Catnip");
+            this.DataContext = cat;
         }
 
         /// <summary>
@@ -43,7 +48,13 @@ namespace WildlifeTracker
             cmbCategory.SelectedItem = CategoryType.Mammal;
             // Populate the gender combo box with the gender types
             cmbGender.ItemsSource = Enum.GetValues(typeof(GenderType));
+        }
 
+        /// <summary>
+        /// Method to read common attributes from the UI
+        /// </summary>
+        private void ReadCommonValues(ref Animal animal)
+        {
         }
 
         /// <summary>
@@ -187,12 +198,20 @@ namespace WildlifeTracker
             }
         }
 
+        /// <summary>
+        /// Method to handle the different species views visibility
+        /// based on which species is selected
+        /// </summary>
+        /// <param name="species"></param>
         private void toggleVisibilty(string species)
         {
             // First hide all the species views
             catView.Visibility = Visibility.Hidden;
             dogView.Visibility = Visibility.Hidden;
             donkeyView.Visibility = Visibility.Hidden;
+            parrotView.Visibility = Visibility.Hidden;
+            owlView.Visibility = Visibility.Hidden;
+            penguinView.Visibility = Visibility.Hidden;
 
             // Then, based on the selected species, show the correct species view
             switch (species)
@@ -205,6 +224,15 @@ namespace WildlifeTracker
                     break;
                 case "Donkey":
                     donkeyView.Visibility = Visibility.Visible;
+                    break;
+                case "Parrot":
+                    parrotView.Visibility = Visibility.Visible;
+                    break;
+                case "Owl":
+                    owlView.Visibility = Visibility.Visible;
+                    break;
+                case "Penguin":
+                    penguinView.Visibility = Visibility.Visible;
                     break;
             }
         }

@@ -69,6 +69,9 @@ namespace WildlifeTracker
 
         #region // Constructors //
         // Default constructor
+        public Animal()
+        {
+        }
         public Animal(string typePrefix)
         {
             // Generate the ID based on the type of animal, type is sent from the derived class constructor
