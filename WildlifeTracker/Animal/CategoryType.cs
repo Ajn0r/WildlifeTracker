@@ -8,7 +8,6 @@ namespace WildlifeTracker
     public enum CategoryType
     {
         Mammal,
-        Bird,
-        Insect
+        Bird
     }
 }

@@ -35,6 +35,11 @@ namespace WildlifeTracker
         #endregion
 
         #region // Methods //
+        public static string[] GetBirdTypes()
+        {
+            string[] birdTypes = { "Owl", "Penguin", "Parrot" };
+            return birdTypes;
+        }
         #endregion
 
     }

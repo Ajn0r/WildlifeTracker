@@ -64,7 +64,7 @@
                 <ComboBox Grid.Row="3" Grid.Column="1" Name="cmbGender">
                 </ComboBox>
                 <Label Grid.Row="4" Content="Category:" Grid.Column="0" Target="{Binding ElementName=cmbCategory}" VerticalAlignment="Top"/>
-                <ComboBox Grid.Row="4" Grid.Column="1" Name="cmbCategory">
+                <ComboBox Grid.Row="4" Grid.Column="1" Name="cmbCategory" SelectionChanged="cmbCategoryChanged">
                 </ComboBox>
                 <Label Grid.Row="5" Grid.Column="0" Content="Domesticated" Target="{Binding ElementName=chkDomesticated}"/>
                 <CheckBox Grid.Row="5" Grid.Column="1" Name="chkDomesticated" VerticalAlignment="Center"/>
@@ -85,10 +85,10 @@
 
                 <Label Grid.Row="0" Content="Species:" Target="{Binding ElementName=listSpecies}" VerticalAlignment="Center"/>
                 <ScrollViewer Grid.Row="1" Name="scrollSpecies" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <ListView Name="listSpecies" SelectionMode="Single" d:ItemsSource="{d:SampleData ItemCount=5}" Height="110" />
+                    <ListView Name="listSpecies" SelectionMode="Single" d:ItemsSource="{d:SampleData ItemCount=5}" Height="110" SelectionChanged="speciesSelectedChanged" />
                 </ScrollViewer>
                 <Label Content="Show all animals" Grid.Row="2"  Margin="15, 0, 0, 0"/>
-                <CheckBox Name="chkShowAll" Grid.Row="2" VerticalAlignment="Center"/>
+                <CheckBox Name="chkShowAll" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Checked="chkShowAllChecked" Unchecked="chkShowAllUnchecked"/>
             </Grid>
         </GroupBox>
 
@@ -101,7 +101,7 @@
         </StackPanel>
 
         <!-- Mammal specification -->
-        <GroupBox Header="Mammal Specification" Grid.Column="0" Grid.Row="2" Padding="0, 8, 5, 8" Visibility="Hidden">
+        <GroupBox Header="Mammal Specification" Name="mammalSpec"  Grid.Column="0" Grid.Row="2" Padding="0, 8, 5, 8" Visibility="Hidden">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -121,7 +121,7 @@
         </GroupBox>
 
         <!-- Bird Specification -->
-        <GroupBox Header="Bird Specification" Grid.Column="0" Grid.Row="2" Padding="5, 8, 5, 8" Visibility="Visible" >
+        <GroupBox Header="Bird Specification" Name="birdSpec" Grid.Column="0" Grid.Row="2" Padding="5, 8, 5, 8" Visibility="Hidden" >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -143,13 +143,13 @@
         </GroupBox>
 
         <!-- Cat Specification -->
-        <cats:CatView Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
+        <cats:CatView x:Name="catView"  Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
 
         <!-- Dog Specification -->
-        <dogs:DogView Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
+        <dogs:DogView x:Name="dogView" Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
 
         <!-- Donkey Specification -->
-        <donkeys:DonkeyView Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
+        <donkeys:DonkeyView x:Name="donkeyView" Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
 
         <!-- Owl Specification -->
         <GroupBox Header="Owl Specification" Grid.Row="2" Grid.Column="1" Visibility="Hidden" Padding="3">
