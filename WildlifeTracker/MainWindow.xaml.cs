@@ -38,12 +38,15 @@ namespace WildlifeTracker
             btnAddAnimal.IsEnabled = false; // Disable the add animal button until a species is selected
         }
 
-
         private void UpdateGUI()
         {
             ClearTextBoxes();
+            UpdateAddAnimalButton();
         }
 
+        /// <summary>
+        /// MEthod to clear all the text boxes and reset the combo boxes once an animal has been added
+        /// </summary>
         private void ClearTextBoxes()
         {
             txtName.Text = "";
@@ -53,11 +56,15 @@ namespace WildlifeTracker
             chkDomesticated.IsChecked = false;
             txtTeeth.Text = "";
             chkSings.IsChecked = false;
+            txtWingSpan.Text = "";
 
             // Clear the species views
             dogView.ClearFields();
             catView.ClearFields();
             donkeyView.ClearFields();
+            parrotView.ClearFields();
+            owlView.ClearFields();
+            penguinView.ClearFields();
         }
 
         /// <summary>
@@ -79,16 +86,16 @@ namespace WildlifeTracker
         /// 
         private Animal ReadInput()
         {
-            string category = ReadCategory().ToString();
+            CategoryType selectedCategory = ReadCategory();
 
             Animal animal = null;
-            switch (category)
+            switch (selectedCategory)
             {
-                case "Mammal":
+                case CategoryType.Mammal:
                     animal = CreateMammal();
                     break;
-                case "Bird":
-                    // animal = CreateBird();
+                case CategoryType.Bird:
+                    animal = CreateBird();
                     break;
             }
             if (animal != null)
@@ -116,6 +123,27 @@ namespace WildlifeTracker
         }
 
         /// <summary>
+        /// Method that reads the specific values for birds from the UI
+        /// </summary>
+        /// <returns></returns>
+        private (bool, bool, int) ReadBirdSpec()
+        {
+            bool sings = false;
+            bool canFly = false;
+            int wingSpan = 0;
+            if (chkSings.IsChecked == true)
+                sings = true;
+            if (rdoBirdYes.IsChecked == true)
+                canFly = true;
+            if (InputValidator.IsNumberValid(txtWingSpan.Text))
+                wingSpan = int.Parse(txtWingSpan.Text);
+            else
+                errorList.Add("Wing span is required and must be a number");
+
+            return (sings, canFly, wingSpan);
+        }
+
+        /// <summary>
         /// Method that creates a new Mammal object based on the selected species 
         /// and the mammal specific values. Based on the species, it will also read the
         /// specific values for that species from the UI
@@ -126,10 +154,14 @@ namespace WildlifeTracker
             Animal animal = null;
             int numOfTeeth;
             bool hasFurOrHair;
+            // Read the common mammal specific values
             (numOfTeeth, hasFurOrHair) = ReadMammalSpec();
+            // Get the selected species from the list view
             MammalSpecies species = (MammalSpecies)listSpecies.SelectedItem;
+            // Create a new mammal object based on the selected species with the mammalfactory
             animal = MammalFactory.CreateMammal(species, numOfTeeth, hasFurOrHair);
 
+            // Read the different mammal specific values based on the species
             switch (species)
             {
                 case MammalSpecies.Cat:
@@ -140,6 +172,42 @@ namespace WildlifeTracker
                     break;
                 case MammalSpecies.Donkey:
                     ReadDonkeyValues(ref animal);
+                    break;
+            }
+            return animal;
+        }
+
+        /// <summary>
+        /// Method to create a new Bird object based on the selected species
+        /// </summary>
+        /// <returns></returns>
+        private Animal CreateBird()
+        {
+            Animal animal = null;
+
+            // Read the common bird specific values
+            (bool sings, bool canFly, int wingSpan) = ReadBirdSpec();
+            // Get the selected species from the list view
+            BirdSpecies species = (BirdSpecies)listSpecies.SelectedItem;
+            // Create a new bird object based on the selected species with the birdfactory
+            animal = BirdFactory.CreateBird(species, sings, canFly, wingSpan);
+
+            // Read the different bird specific values based on the species
+            // Keeping them in this method for now, instead of seperate as it is for the mammals, might refactor later
+            switch (species)
+            {
+                case BirdSpecies.Parrot:
+                    ((Parrot)animal).FavoritePhrase = parrotView.ReadFavoritePhrase();
+                    ((Parrot)animal).CanSpeak = parrotView.ReadCanSpeak();
+                    ((Parrot)animal).Species = parrotView.ReadSpecies(ref errorList);
+                    break;
+                case BirdSpecies.Owl:
+                    ((Owl)animal).IsNocturnal = owlView.ReadIsNocturnal();
+                    ((Owl)animal).Species = owlView.ReadSpecies(ref errorList);
+                    break;
+                case BirdSpecies.Penguin:
+                    ((Penguin)animal).CanSwim = penguinView.ReadCanSwim();
+                    ((Penguin)animal).FavoriteFish = penguinView.ReadFavoriteFish();
                     break;
             }
             return animal;
@@ -308,6 +376,7 @@ namespace WildlifeTracker
             fillAllSpecies();
             // Grey out the categories box
             cmbCategory.IsEnabled = false;
+            UpdateAddAnimalButton();
         }
 
         /// <summary>
@@ -321,6 +390,7 @@ namespace WildlifeTracker
             fillListView((CategoryType)cmbCategory.SelectedItem);
             // Enable the categories box
             cmbCategory.IsEnabled = true;
+            UpdateAddAnimalButton();
         }
 
         /// <summary>
@@ -437,5 +507,14 @@ namespace WildlifeTracker
             }
         }
 
+        /// <summary>
+        /// Method that updates the add animal button based on if a species is selected or not
+        /// to make sure the user can't add an animal without selecting a species
+        /// </summary>
+        private void UpdateAddAnimalButton()
+        {
+            if (listSpecies.SelectedItem == null)
+                btnAddAnimal.IsEnabled = false;
+        }
     }
 }

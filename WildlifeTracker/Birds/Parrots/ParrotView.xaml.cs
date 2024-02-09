@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WildlifeTracker.Helper_classes;
 
 namespace WildlifeTracker.Birds.Parrots
 {
@@ -23,6 +24,60 @@ namespace WildlifeTracker.Birds.Parrots
         public ParrotView()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// MEthod to read the can speak property of the parrot
+        /// </summary>
+        /// <returns></returns>
+        public bool ReadCanSpeak()
+        {
+            return chkCanTalk.IsChecked == true ? true : false;
+        }
+
+        /// <summary>
+        /// Method to read the favorite phrase of the parrot
+        /// </summary>
+        /// <returns></returns>
+        public string ReadFavoritePhrase()
+        {
+            // Check if the parrot can speak
+            if (chkCanTalk.IsChecked == true)
+            { // it it can, check if the favorite phrase is valid, e.g. not null or empty
+                if (InputValidator.IsStringValid(txtFavvePhrase.Text))
+                    return txtFavvePhrase.Text;
+                else // if not valid, return a default message for the favorite phrase
+                    return "Favorite phrase not known";
+            }
+            else
+            { // if the parrot cannot speak, return a default message for the favorite phrase
+                return "Cannot speak";
+            }
+        }
+
+        /// <summary>
+        /// Method to read the species of the parrot
+        /// </summary>
+        /// <param name="errorList"></param>
+        /// <returns></returns>
+        public string ReadSpecies(ref List<string> errorList)
+        {
+            if (InputValidator.IsStringValid(txtParrotSpecies.Text))
+            {
+                return txtParrotSpecies.Text;
+            }
+            else
+            {
+                errorList.Add("Species is required");
+                return null;
+            }
+        }
+
+        public void ClearFields()
+        {
+            txtFavvePhrase.Text = "";
+            txtParrotSpecies.Text = "";
+            chkCanTalk.IsChecked = false;
         }
 
         /// <summary>

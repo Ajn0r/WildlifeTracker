@@ -16,19 +16,19 @@ namespace WildlifeTracker.Birds
         /// </summary>
         /// <param name="birdSpecies"></param>
         /// <returns></returns>
-        public static Bird CreateBird(BirdSpecies birdSpecies)
+        public static Bird CreateBird(BirdSpecies birdSpecies, bool sings, bool canFly, int wingSpan)
         {
             Bird bird = null;
             switch (birdSpecies)
             {
                 case BirdSpecies.Parrot:
-                    bird = new Parrot(true, true, 10);
+                    bird = new Parrot(sings, canFly, wingSpan);
                     break;
                 case BirdSpecies.Penguin:
-                    bird = new Penguin(true, true, 10);
+                    bird = new Penguin(sings, canFly, wingSpan);
                     break;
                 case BirdSpecies.Owl:
-                    bird = new Owl(true, true, 10);
+                    bird = new Owl(sings, canFly, wingSpan);
                     break;
                 default:
                     return null;

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WildlifeTracker.Helper_classes;
 
 namespace WildlifeTracker.Birds.Penguins
 {
@@ -23,6 +24,37 @@ namespace WildlifeTracker.Birds.Penguins
         public PenguinView()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// Method that returns if the penguin can swim or not
+        /// </summary>
+        /// <returns></returns>
+        public bool ReadCanSwim()
+        {
+            return chkCanSwim.IsChecked == true ? true : false;
+        }
+
+        /// <summary>
+        /// Method to read the favorite fish from the text box, if no value is entered, return a default value
+        /// </summary>
+        /// <returns></returns>
+        public string ReadFavoriteFish()
+        {
+            if (InputValidator.IsStringValid(txtFavveFish.Text))
+            {
+                return txtFavveFish.Text;
+            }
+            else
+            {
+                return "Loves all fish";
+            }
+        }
+
+        internal void ClearFields()
+        {
+            txtFavveFish.Text = "";
+            chkCanSwim.IsChecked = false;
         }
     }
 }

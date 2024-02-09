@@ -88,7 +88,7 @@
 
                 <Label Grid.Row="0" Content="Species:" Target="{Binding ElementName=listSpecies}" VerticalAlignment="Center"/>
                 <ScrollViewer Grid.Row="1" Name="scrollSpecies" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <ListView Name="listSpecies" SelectionMode="Single" d:ItemsSource="{d:SampleData ItemCount=5}" Height="110" SelectionChanged="speciesSelectedChanged" />
+                    <ListView Name="listSpecies" SelectionMode="Single" d:ItemsSource="{d:SampleData ItemCount=5}" Height="110" SelectionChanged="speciesSelectedChanged"/>
                 </ScrollViewer>
                 <Label Content="Show all animals" Grid.Row="2"  Margin="15, 0, 0, 0"/>
                 <CheckBox Name="chkShowAll" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Checked="chkShowAllChecked" Unchecked="chkShowAllUnchecked"/>
@@ -195,15 +195,11 @@
                 <TextBlock x:Name="genderDisplay" Text="{Binding GenderType}" Grid.Row="4" Grid.Column="1"/>
                 <Label Content="Category:" Grid.Row="5" Grid.Column="0" />
                 <TextBlock x:Name="categoryDisplay" Text="{Binding CategoryType}" Grid.Row="5" Grid.Column="1"/>
-                <Label Content="Domesticated:" Grid.Row="6" Grid.Column="0" />
-                <TextBlock x:Name="domesticatedDisplay" Text="{Binding IsDomesticated}" Grid.Row="6" Grid.Column="1"/>
+                <Label Content="Species:" Grid.Row="6" Grid.Column="0" />
+                <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding AnimalType}" />
                 <Button Content="View animal" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" />
-
-
-
             </Grid>
         </GroupBox>
-
 
     </Grid> 
 </Window>

@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Birds\BirdFactory.cs" />
     <Compile Include="Birds\BirdSpecies.cs" />
     <Compile Include="Birds\Owls\OwlView.xaml.cs">
       <DependentUpon>OwlView.xaml</DependentUpon>

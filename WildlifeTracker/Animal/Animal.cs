@@ -19,7 +19,8 @@ namespace WildlifeTracker
         #endregion
 
         #region // Properties //
-        
+        public string AnimalType => GetType().Name; // Property to get the type of animal
+
         // Property to get and set the gender of the animal
         public GenderType GenderType { get => gender; set => gender = value; }
 
