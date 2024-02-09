@@ -274,6 +274,9 @@ namespace WildlifeTracker
             fillListMammalSpecies();
         }
 
+        /// <summary>
+        /// Method to fill the list view with the Bird species
+        /// </summary>
         private void fillListBirdSpecies()
         {
             // Loop through the enum of bird species

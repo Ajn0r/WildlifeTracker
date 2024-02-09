@@ -19,14 +19,8 @@ namespace WildlifeTracker
         public int WingSpan { get => wingSpan; set => wingSpan = value; }
         #endregion
 
-        #region // Constructors //
-        // Default constructor
-        public Bird() : base("B")
-        {
-        }
-        // Constructor with all parameters
-        public Bird(string name, int age, bool isDomesticated, GenderType genderType, CategoryType categoryType, string color, bool sings, bool canFly, int wingSpan) : 
-            base("B", name, age, isDomesticated, genderType, categoryType, color)
+        #region // Constructor //
+        public Bird(bool sings, bool canFly, int wingSpan) : base("B")
         {
             this.sings = sings;
             this.canFly = canFly;
@@ -35,11 +29,6 @@ namespace WildlifeTracker
         #endregion
 
         #region // Methods //
-        public static string[] GetBirdTypes()
-        {
-            string[] birdTypes = { "Owl", "Penguin", "Parrot" };
-            return birdTypes;
-        }
         #endregion
 
     }

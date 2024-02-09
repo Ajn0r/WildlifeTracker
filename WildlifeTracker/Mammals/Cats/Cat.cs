@@ -39,20 +39,9 @@ namespace WildlifeTracker.Mammals.Cats
         }
         #endregion
 
-        #region // Constructors //
-        // Default constructor
+        #region // Constructor //
         public Cat(int numOfTeeth, bool hasFurOrHair) : base(numOfTeeth, hasFurOrHair)
         {
-
-        }
-
-        // Constructor with all parameters that calls the base constructor
-       public Cat(string name, int age, bool isDemesticated, GenderType gender, CategoryType category, string color, int numOfTeeth, bool hasFurOrHair, string breed, bool isHouseTrained, string favoriteToy) :
-            base(name, age, isDemesticated, gender, category, color, numOfTeeth, hasFurOrHair)
-        {
-            this.breed = breed;
-            this.isHouseTrained = isHouseTrained;
-            this.favoriteToy = favoriteToy;
         }
         #endregion
 

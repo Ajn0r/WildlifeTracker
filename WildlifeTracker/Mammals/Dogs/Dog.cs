@@ -30,18 +30,7 @@ namespace WildlifeTracker.Mammals.Dogs
         }
         #endregion
 
-        #region // Constructors //
-
-        // Constructor with all parameters
-        //public Dog(string name, int age, bool isDemesticated, GenderType gender, CategoryType category, string color, int numOfTeeth, bool hasFurOrHair, string breed, double tailLength, bool isSpecialTrained, SpecialTrainingType trainingType) :
-        //    base(name, age, isDemesticated, gender, category, color, numOfTeeth, hasFurOrHair)
-        //{
-        //    this.breed = breed;
-        //    this.tailLength = tailLength;
-        //    this.isSpecialTrained = isSpecialTrained;
-        //    this.specialTrainingType = trainingType;
-        //}
-
+        #region // Constructor //
         public Dog(int numOfTeeth, bool hasFurOrHair) : base(numOfTeeth, hasFurOrHair)
         {
         }

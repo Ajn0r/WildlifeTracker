@@ -181,20 +181,23 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Label Content="Name:" Grid.Row="0" Grid.Column="0" />
-                <TextBlock x:Name="nameDisplay" Text="{Binding Name}" Grid.Row="0" Grid.Column="1"/>
-                <Label Content="Age:" Grid.Row="1" Grid.Column="0" />
-                <TextBlock x:Name="ageDisplay" Text="{Binding Age}" Grid.Row="1" Grid.Column="1"/>
-                <Label Content="Color:" Grid.Row="2" Grid.Column="0" />
-                <TextBlock x:Name="colorDisplay" Text="{Binding Color}" Grid.Row="2" Grid.Column="1"/>
-                <Label Content="Gender:" Grid.Row="3" Grid.Column="0" />
-                <TextBlock x:Name="genderDisplay" Text="{Binding GenderType}" Grid.Row="3" Grid.Column="1"/>
-                <Label Content="Category:" Grid.Row="4" Grid.Column="0" />
-                <TextBlock x:Name="categoryDisplay" Text="{Binding CategoryType}" Grid.Row="4" Grid.Column="1"/>
-                <Label Content="Domesticated:" Grid.Row="5" Grid.Column="0" />
-                <TextBlock x:Name="domesticatedDisplay" Text="{Binding IsDomesticated}" Grid.Row="5" Grid.Column="1"/>
-                <Button Content="View animal" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" />
+                <Label Content="ID:" Grid.Row="0" Grid.Column="0" />
+                <TextBlock x:Name="idDisplay" Text="{Binding ID}" Grid.Row="0" Grid.Column="1"/>
+                <Label Content="Name:" Grid.Row="1" Grid.Column="0" />
+                <TextBlock x:Name="nameDisplay" Text="{Binding Name}" Grid.Row="1" Grid.Column="1"/>
+                <Label Content="Age:" Grid.Row="2" Grid.Column="0" />
+                <TextBlock x:Name="ageDisplay" Text="{Binding Age}" Grid.Row="2" Grid.Column="1"/>
+                <Label Content="Color:" Grid.Row="3" Grid.Column="0" />
+                <TextBlock x:Name="colorDisplay" Text="{Binding Color}" Grid.Row="3" Grid.Column="1"/>
+                <Label Content="Gender:" Grid.Row="4" Grid.Column="0" />
+                <TextBlock x:Name="genderDisplay" Text="{Binding GenderType}" Grid.Row="4" Grid.Column="1"/>
+                <Label Content="Category:" Grid.Row="5" Grid.Column="0" />
+                <TextBlock x:Name="categoryDisplay" Text="{Binding CategoryType}" Grid.Row="5" Grid.Column="1"/>
+                <Label Content="Domesticated:" Grid.Row="6" Grid.Column="0" />
+                <TextBlock x:Name="domesticatedDisplay" Text="{Binding IsDomesticated}" Grid.Row="6" Grid.Column="1"/>
+                <Button Content="View animal" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" />
 
 
 

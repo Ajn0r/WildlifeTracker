@@ -21,17 +21,7 @@ namespace WildlifeTracker.Mammals.Donkeys
         public double Weight { get => weight; set => weight = value; }
         #endregion
 
-        #region // Constructors //
-        // Constructor with all parameters that calls the base constructor
-        //public Donkey(string name, int age, bool isDemesticated, GenderType gender, CategoryType category, string color, int numOfTeeth, bool hasFurOrHair, int maxLoad, bool isUsedAsPackAnimal, double height, double weight) :
-        //     base(name, age, isDemesticated, gender, category, color, numOfTeeth, hasFurOrHair)
-        //{
-        //    this.maxLoad = maxLoad;
-        //    this.isUsedAsPackAnimal = isUsedAsPackAnimal;
-        //    this.height = height;
-        //    this.weight = weight;
-        //}
-
+        #region // Constructor //
         public Donkey(int numOfTeeth, bool hasFurOrHair) : base(numOfTeeth, hasFurOrHair)
         {
         }

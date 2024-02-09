@@ -20,6 +20,9 @@ namespace WildlifeTracker
         #endregion
 
         #region // Constructors //
+        public Parrot(bool sings, bool canFly, int wingSpan) : base(sings, canFly, wingSpan)
+        {
+        }
         #endregion
 
         #region // Methods //

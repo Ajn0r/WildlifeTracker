@@ -14,8 +14,8 @@ namespace WildlifeTracker
         private GenderType gender;
         private CategoryType category;
         private string color;
-        private string ID;
-        private static int nextIDNumber; // Static variable to keep track of the next ID number
+        private string id;
+        private static int nextIDNumber = 1; // Static variable to keep track of the next ID number
         #endregion
 
         #region // Properties //
@@ -64,37 +64,14 @@ namespace WildlifeTracker
         }
 
         // Property to get the ID of the animal, no set method because the ID is generated in the constructor and should not be changed
-        public string GetID { get => ID;}
+        public string ID { get => id; }
         #endregion
 
         #region // Constructors //
-        // Default constructor
-        public Animal()
-        {
-        }
         public Animal(string typePrefix)
         {
             // Generate the ID based on the type of animal, type is sent from the derived class constructor
-            ID = GenerateID(typePrefix);
-        }
-
-        // Constructor with all parameters
-        public Animal(string typePrefix, string name, int age, bool isDomesticated, GenderType gender, CategoryType category, string color)
-        {
-            // Generate the ID based on the type of animal, type is sent from the derived class constructor
-            ID = GenerateID(typePrefix);
-            this.name = name;
-            this.age = age;
-            this.isDomesticated = isDomesticated;
-            this.gender = gender;
-            this.category = category;
-            this.color = color;
-        }
-
-        // Chainded constructor that sets gender to unknown
-        public Animal(string typePrefix, string name, int age, bool isDomesticated, CategoryType category, string color) :
-            this(typePrefix, name, age, isDomesticated, GenderType.Unknown, category, color)
-        {
+            id = GenerateID(typePrefix);
         }
         #endregion
 

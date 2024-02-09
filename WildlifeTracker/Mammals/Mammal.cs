@@ -26,14 +26,6 @@ namespace WildlifeTracker
             this.numOfTeeth = numOfTeeth;
             this.hasFurOrHair = hasFurOrHair;
         }
-
-        // Constructor with all parameters
-        public Mammal(string name, int age, bool isDomesticated, GenderType gender, CategoryType category, string color, int numOfTeeth, bool hasFurOrHair) 
-            : base("M", name, age, isDomesticated, gender, category, color)
-        {
-            this.numOfTeeth = numOfTeeth;
-            this.hasFurOrHair = hasFurOrHair;
-        }
         #endregion
 
         #region // Methods //
