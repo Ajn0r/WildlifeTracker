@@ -20,6 +20,11 @@ namespace WildlifeTracker.Helper_classes
             return int.TryParse(input, out int result);
         }
 
+        public static bool IsDoubleValid(string input)
+        {
+            return double.TryParse(input, out double result);
+        }
+
         public static void DisplayErrorMessage(string message)
         {
             MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);

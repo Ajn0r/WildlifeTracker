@@ -73,5 +73,15 @@ namespace WildlifeTracker.Mammals.Cats
         {
             return ReadIsHouseTrained() ? "Yes" : "No";
         }
+
+        /// <summary>
+        /// Method to clear the fields of the cat view
+        /// </summary>
+        public void ClearFields()
+        {
+            txtCatBreed.Text = "";
+            txtCatToy.Text = "";
+            rdoLitterYes.IsChecked = true;
+        }
     }
 }

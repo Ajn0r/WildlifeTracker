@@ -17,6 +17,8 @@ using WildlifeTracker.Birds;
 using WildlifeTracker.Helper_classes;
 using WildlifeTracker.Mammals;
 using WildlifeTracker.Mammals.Cats;
+using WildlifeTracker.Mammals.Dogs;
+using WildlifeTracker.Mammals.Donkeys;
 
 
 namespace WildlifeTracker
@@ -34,6 +36,28 @@ namespace WildlifeTracker
             InitializeComponent();
             PopulateComboBoxes();
             btnAddAnimal.IsEnabled = false; // Disable the add animal button until a species is selected
+        }
+
+
+        private void UpdateGUI()
+        {
+            ClearTextBoxes();
+        }
+
+        private void ClearTextBoxes()
+        {
+            txtName.Text = "";
+            txtAge.Text = "";
+            txtColor.Text = "";
+            cmbGender.SelectedItem = GenderType.Unknown;
+            chkDomesticated.IsChecked = false;
+            txtTeeth.Text = "";
+            chkSings.IsChecked = false;
+
+            // Clear the species views
+            dogView.ClearFields();
+            catView.ClearFields();
+            donkeyView.ClearFields();
         }
 
         /// <summary>
@@ -112,8 +136,10 @@ namespace WildlifeTracker
                     ReadCatValues(ref animal);
                     break;
                 case MammalSpecies.Dog:
+                    ReadDogValues(ref animal);
                     break;
                 case MammalSpecies.Donkey:
+                    ReadDonkeyValues(ref animal);
                     break;
             }
             return animal;
@@ -130,6 +156,30 @@ namespace WildlifeTracker
             ((Cat)animal).FavoriteToy = catView.ReadFavoriteToy();
             ((Cat)animal).IsHouseTrained = catView.ReadIsHouseTrained();
         }
+
+        /// <summary>
+        /// Method to read the dog specific values from the UI
+        /// </summary>
+        /// <param name="animal"></param>
+        private void ReadDogValues(ref Animal animal)
+        {
+            ((Dog)animal).Breed = dogView.ReadDogBreed(ref errorList); // errorList is passed by reference incase of errors
+            ((Dog)animal).TailLength = dogView.ReadTailLength(ref errorList); // errorList is passed by reference incase of errors
+            ((Dog)animal).IsSpecialTrained = dogView.ReadSpecialTrained();
+            ((Dog)animal).SpecialTrainingType = dogView.ReadTrainingType();
+        }
+
+        /// <summary>
+        /// Mwthod to read the donkey specific values from the UI
+        /// </summary>
+        /// <param name="animal"></param>
+        private void ReadDonkeyValues(ref Animal animal)
+        {
+            ((Donkey)animal).Height = donkeyView.ReadHeight(ref errorList);
+            ((Donkey)animal).Weight = donkeyView.ReadWeight(ref errorList);
+            ((Donkey)animal).IsUsedAsPackAnimal = donkeyView.ReadIsUsedAsPackAnimal();
+            ((Donkey)animal).MaxLoad = donkeyView.ReadMaxLoad(ref errorList);
+        }   
 
         /// <summary>
         /// Method to read common attributes from the UI
@@ -380,7 +430,9 @@ namespace WildlifeTracker
                 MessageBox.Show("Animal added");
                 // Set the data context of the animal view to the animal object to display the animal details
                 this.DataContext = animal;
+                UpdateGUI(); // Update the GUI
             }
         }
+
     }
 }
