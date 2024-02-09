@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Birds\BirdSpecies.cs" />
     <Compile Include="Birds\Owls\OwlView.xaml.cs">
       <DependentUpon>OwlView.xaml</DependentUpon>
     </Compile>
@@ -65,6 +66,7 @@
       <DependentUpon>PenguinView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper classes\InputValidator.cs" />
+    <Compile Include="Mammals\MammalSpecies.cs" />
     <Compile Include="Mammals\Cats\CatView.xaml.cs">
       <DependentUpon>CatView.xaml</DependentUpon>
     </Compile>
@@ -128,6 +130,7 @@
       <DependentUpon>DonkeyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Mammals\Mammal.cs" />
+    <Compile Include="Mammals\MammalFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

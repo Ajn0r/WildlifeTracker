@@ -13,7 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WildlifeTracker.Birds;
 using WildlifeTracker.Helper_classes;
+using WildlifeTracker.Mammals;
 using WildlifeTracker.Mammals.Cats;
 
 
@@ -24,17 +26,14 @@ namespace WildlifeTracker
     /// </summary>
     public partial class MainWindow : Window
     {
-        // Get the list of Mammal and bird types, will refactor this later
-        private string[] mammalList = Mammal.GetMammalTypes();
-        private string[] birdList = Bird.GetBirdTypes();
+        // A list to store any errors that occur when creating an animal
+        private List<string> errorList = new List<string>();
 
         public MainWindow()
         {
             InitializeComponent();
             PopulateComboBoxes();
-
-            Cat cat = new Cat("Maja", 10, true, GenderType.Female, CategoryType.Mammal, "multi color", 33, true, "Housecat", true, "Catnip");
-            this.DataContext = cat;
+            btnAddAnimal.IsEnabled = false; // Disable the add animal button until a species is selected
         }
 
         /// <summary>
@@ -51,10 +50,118 @@ namespace WildlifeTracker
         }
 
         /// <summary>
+        /// Method to create a new animal based on the category selected
+        /// </summary>
+        /// 
+        private Animal ReadInput()
+        {
+            string category = ReadCategory().ToString();
+
+            Animal animal = null;
+            switch (category)
+            {
+                case "Mammal":
+                    animal = CreateMammal();
+                    break;
+                case "Bird":
+                    // animal = CreateBird();
+                    break;
+            }
+            if (animal != null)
+                ReadCommonValues(ref animal);
+            return animal;
+        }
+
+        /// <summary>
+        /// Reads the mammal specific values from the UI
+        /// </summary>
+        /// <returns></returns>
+        private (int, bool) ReadMammalSpec()
+        {
+            int numOfTeeth = 0;
+            bool hasFurOrHair;
+            if (InputValidator.IsNumberValid(txtTeeth.Text))
+                numOfTeeth = int.Parse(txtTeeth.Text);
+            else
+                errorList.Add("Number of teeth is required and must be a number");
+            if (rdoMamYes.IsChecked == true)
+                hasFurOrHair = true;
+            else
+                hasFurOrHair = false;
+            return (numOfTeeth, hasFurOrHair);
+        }
+
+        /// <summary>
+        /// Method that creates a new Mammal object based on the selected species 
+        /// and the mammal specific values. Based on the species, it will also read the
+        /// specific values for that species from the UI
+        /// </summary>
+        /// <returns>animal</returns>
+        private Animal CreateMammal()
+        {
+            Animal animal = null;
+            int numOfTeeth;
+            bool hasFurOrHair;
+            (numOfTeeth, hasFurOrHair) = ReadMammalSpec();
+            MammalSpecies species = (MammalSpecies)listSpecies.SelectedItem;
+            animal = MammalFactory.CreateMammal(species, numOfTeeth, hasFurOrHair);
+
+            switch (species)
+            {
+                case MammalSpecies.Cat:
+                    ReadCatValues(ref animal);
+                    break;
+                case MammalSpecies.Dog:
+                    break;
+                case MammalSpecies.Donkey:
+                    break;
+            }
+            return animal;
+        }
+
+        /// <summary>
+        /// Method that reads the cat specific values from the UI 
+        /// if the animal is a cat
+        /// </summary>
+        /// <param name="animal"></param>
+        private void ReadCatValues(ref Animal animal)
+        {
+            ((Cat)animal).Breed = catView.ReadBreed(ref errorList); // errorList is passed by reference incase of errors
+            ((Cat)animal).FavoriteToy = catView.ReadFavoriteToy();
+            ((Cat)animal).IsHouseTrained = catView.ReadIsHouseTrained();
+        }
+
+        /// <summary>
         /// Method to read common attributes from the UI
         /// </summary>
         private void ReadCommonValues(ref Animal animal)
         {
+            if (InputValidator.IsStringValid(txtName.Text))
+                animal.Name = txtName.Text;
+            else
+                errorList.Add("Name is required");
+            if (InputValidator.IsNumberValid(txtAge.Text))
+                animal.Age = int.Parse(txtAge.Text);
+            else
+                errorList.Add("Age is required and must be a number");
+            if (cmbGender.SelectedItem != null)
+                animal.GenderType = (GenderType)cmbGender.SelectedIndex;
+            else
+                animal.GenderType = GenderType.Unknown;
+            if (chkDomesticated.IsChecked == true)
+                animal.IsDomesticated = true;
+            else
+                animal.IsDomesticated = false;
+            animal.Color = txtColor.Text;
+        }
+
+        /// <summary>
+        /// Method to read the selected category from the category combo box
+        /// </summary>
+        /// <returns></returns>
+        private CategoryType ReadCategory()
+        {
+            return (CategoryType)cmbCategory.SelectedItem;
         }
 
         /// <summary>
@@ -74,7 +181,6 @@ namespace WildlifeTracker
                 mammalSpec.Visibility = Visibility.Visible;
                 // Hide the Bird specification box
                 birdSpec.Visibility = Visibility.Hidden;
-                
             }
             else
             {
@@ -88,6 +194,10 @@ namespace WildlifeTracker
                 fillListView(selectedCategory);
         }
 
+        /// <summary>
+        /// A method to fill the list view with the species of the selected category
+        /// </summary>
+        /// <param name="categoryType"></param>
         private void fillListView(CategoryType categoryType)
         {
             // Clear the list view
@@ -104,6 +214,9 @@ namespace WildlifeTracker
             }
         }
 
+        /// <summary>
+        /// Method to fill the list view with all the species of both Mammal and Bird
+        /// </summary>
         private void fillAllSpecies()
         {
             listSpecies.Items.Clear();
@@ -113,15 +226,10 @@ namespace WildlifeTracker
 
         private void fillListBirdSpecies()
         {
-            // Loop through the list of Birds
-            foreach (string bird in birdList)
+            // Loop through the enum of bird species
+            foreach (BirdSpecies species in Enum.GetValues(typeof(BirdSpecies)))
             {
-                // Create a new list view item
-                ListViewItem item = new ListViewItem();
-                // Set the content of the list view item to the name of the bird
-                item.Content = bird;
-                // Add the list view item to the list view
-                listSpecies.Items.Add(item);
+                listSpecies.Items.Add(species);
             }
         }
 
@@ -129,15 +237,10 @@ namespace WildlifeTracker
         /// Method to fill the list view with the Mammal species
         private void fillListMammalSpecies()
         {
-            // Loop through the list of Mammals
-            foreach (string mammal in mammalList)
+            // Loop through the ENUM of Mammal species
+            foreach (MammalSpecies species in Enum.GetValues(typeof(MammalSpecies)))
             {
-                // Create a new list view item
-                ListViewItem item = new ListViewItem();
-                // Set the content of the list view item to the name of the mammal
-                item.Content = mammal;
-                // Add the list view item to the list view
-                listSpecies.Items.Add(item);
+                listSpecies.Items.Add(species);
             }
         }
 
@@ -181,15 +284,15 @@ namespace WildlifeTracker
                 return;
             else
             {
-                ListViewItem item = (ListViewItem)listSpecies.SelectedItem;
-                selectedSpecies = item.Content.ToString();
+                selectedSpecies = listSpecies.SelectedItem.ToString();
+                btnAddAnimal.IsEnabled = true;
             }
 
             // Toggle the visibility of the species views
             toggleVisibilty(selectedSpecies);
 
             // Set the category combo box to the selected species category
-            if (mammalList.Contains(selectedSpecies)) {
+            if (Enum.TryParse(selectedSpecies, out MammalSpecies mammalSpecies)) {
                 cmbCategory.SelectedItem = CategoryType.Mammal;
             }
             else
@@ -234,6 +337,49 @@ namespace WildlifeTracker
                 case "Penguin":
                     penguinView.Visibility = Visibility.Visible;
                     break;
+            }
+        }
+        
+        /// <summary>
+        /// Method to display an error message if the animal could not be created
+        /// </summary>
+        private void DisplayErrorMessage()
+        {
+            string errors = "The animal could not be created. \n";
+            // Set the error message info based on the number of errors
+            if (errorList.Count > 1)
+                errors += "The following errors occured: \n";
+            else
+                errors += "The following error occured: \n";
+            // Then loop through the error list and add the errors to the error message
+            foreach (string error in errorList)
+            {
+                errors += "- " + error + "\n";
+            }
+            // Display the error message
+            InputValidator.DisplayErrorMessage(errors);
+            // Clear the error list
+            errorList.Clear();
+        }
+
+        /// <summary>
+        /// Method to handle the add new animal button clicked event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void addNewAnimalClicked(object sender, RoutedEventArgs e)
+        {
+            Animal animal = ReadInput();
+            // Check if the animal object is null or if there are any errors
+            if (errorList.Count > 0 || animal == null)
+            {
+                DisplayErrorMessage();
+            }
+            else
+            { // Else the animal was created successfully
+                MessageBox.Show("Animal added");
+                // Set the data context of the animal view to the animal object to display the animal details
+                this.DataContext = animal;
             }
         }
     }

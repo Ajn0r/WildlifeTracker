@@ -92,7 +92,7 @@ namespace WildlifeTracker
         }
 
         // Chainded constructor that sets gender to unknown
-        public Animal(string typePrefix, string name, int age, bool isDomesticated,  CategoryType category, string color) : 
+        public Animal(string typePrefix, string name, int age, bool isDomesticated, CategoryType category, string color) :
             this(typePrefix, name, age, isDomesticated, GenderType.Unknown, category, color)
         {
         }

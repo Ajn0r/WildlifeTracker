@@ -18,13 +18,13 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Content="Breed" Target="{Binding ElementName=catBreed}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-            <TextBox Name="catBreed" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
-            <Label Content="Litter box trained" Target="{Binding BindingGroupName=LitterBox}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-            <RadioButton GroupName="LitterBox" Name="rdoLitterYes" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Yes" IsChecked="True"/>
-            <RadioButton GroupName="LitterBox" Name="rdoLitterNo" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="No" Margin="45, 0, 0, 0 " />
-            <Label Content="Favorite Toy" Target="{Binding ElementName=catToy}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-            <TextBox Name="catToy" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
+            <Label Content="Breed" Target="{Binding ElementName=txtCatBreed}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+            <TextBox Name="txtCatBreed" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
+            <Label Content="House trained" Target="{Binding BindingGroupName=HouseTrained}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+            <RadioButton GroupName="HouseTrained" Name="rdoLitterYes" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Yes" IsChecked="True"/>
+            <RadioButton GroupName="HouseTrained" Name="rdoLitterNo" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="No" Margin="45, 0, 0, 0 " />
+            <Label Content="Favorite Toy" Target="{Binding ElementName=txtCatToy}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+            <TextBox Name="txtCatToy" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
         </Grid>
     </GroupBox>
 

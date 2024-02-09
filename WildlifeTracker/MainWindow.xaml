@@ -164,7 +164,7 @@
         <penguins:PenguinView x:Name="penguinView" Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
 
         <!-- Add animal button -->
-        <Button Content="Add animal" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" MaxHeight="30" Width="150" Margin="10, 20"/>
+        <Button Content="Add animal" Grid.Column="0" x:Name="btnAddAnimal" Grid.ColumnSpan="2" Grid.Row="3" MaxHeight="30" Width="150" Margin="10, 20" Click="addNewAnimalClicked"/>
         
         <!-- View Animal Info -->
         <GroupBox Header="View Animal Info" Grid.Column="2" Grid.Row="2"  Margin="0, 0, 5, 0" Grid.RowSpan="2" Padding="5, 8, 5, 8">

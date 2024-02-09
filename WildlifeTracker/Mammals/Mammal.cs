@@ -20,11 +20,11 @@ namespace WildlifeTracker
 
         #region // Constructors //
         // Default constructor, pass the type of animal to the base class to use for ID
-        public Mammal() : base("M")
+        public Mammal(int numOfTeeth, bool hasFurOrHair) : base("M")
         {
             // Set the default values
-            numOfTeeth = 0;
-            hasFurOrHair = false;
+            this.numOfTeeth = numOfTeeth;
+            this.hasFurOrHair = hasFurOrHair;
         }
 
         // Constructor with all parameters

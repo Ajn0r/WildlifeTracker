@@ -41,8 +41,9 @@ namespace WildlifeTracker.Mammals.Cats
 
         #region // Constructors //
         // Default constructor
-        public Cat() : base()
+        public Cat(int numOfTeeth, bool hasFurOrHair) : base(numOfTeeth, hasFurOrHair)
         {
+
         }
 
         // Constructor with all parameters that calls the base constructor

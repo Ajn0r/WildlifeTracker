@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace WildlifeTracker.Helper_classes
 {
-    internal class InputValidator
+    public class InputValidator
     {
         public static bool IsStringValid(string input)
         {
