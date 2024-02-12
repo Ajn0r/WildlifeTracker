@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:WildlifeTracker" 
         xmlns:helper="clr-namespace:WildlifeTracker.Helper_classes"
         mc:Ignorable="d"
-        Title="AnimalInfoWindow" Height="400" Width="450">
+        Title="AnimalInfoWindow" Height="500" Width="550" ResizeMode="NoResize"> 
+        
     <Window.Resources>
         <helper:BooleanToYesNoConverter x:Key="BooleanToYesNoConverter"/>
     </Window.Resources>
@@ -17,7 +18,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <StackPanel x:Name="AnimalInfoStack">
+        <StackPanel x:Name="AnimalInfoStack" Margin="10">
             <StackPanel Orientation="Horizontal">
                 <Label Content="Id:" Width="75"/>
                 <TextBlock Name="idTextBlock" Text="{Binding Animal.ID}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -47,14 +48,17 @@
                 <TextBlock Name="ColorTextBlock" Text="{Binding Animal.Color}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Content="Domesticated:" Width="75"/>
+                <Label Content="Domesticated:" Width="120"/>
                 <!-- Convert the true or false value to yes or no with a booleantoyesnoconverter -->
                 <TextBlock Name="DomesticatedTextBlock" Text="{Binding Animal.IsDomesticated, Converter={StaticResource BooleanToYesNoConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
             
-        <!-- Column for the image if there is one -->
-        <Image Name="AnimalImage" Source="{Binding Animal.ImagePath}" Grid.Column="1" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <Button Name="CloseButton" Grid.Column="1" Content="Close" Width="75" Height="25" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="CloseButton_Click"/>
+        <!-- Column for the image if there is one, should add a default image if no available later -->
+        <Image Name="AnimalImage" Source="{Binding Animal.ImagePath}" Grid.Column="1" Width="250" Height="270" HorizontalAlignment="Center"  >
+
+        </Image>
+        
+        <Button Name="CloseButton" Grid.ColumnSpan="2" Margin="0, 0, 0, 10" Content="Close" Width="75" Height="25" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="CloseButton_Click"/>
     </Grid>
 </Window>

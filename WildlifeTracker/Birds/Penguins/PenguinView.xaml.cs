@@ -26,9 +26,10 @@ namespace WildlifeTracker.Birds.Penguins
             InitializeComponent();
         }
 
-        internal static void AddPenguinSpecificAttributes(Penguin animal, StackPanel animalInfoStack)
+        public static void AddPenguinSpecificAttributes(Penguin animal, StackPanel animalInfoStack)
         {
-            throw new NotImplementedException();
+            AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Can swim", animal.CanSwim ? "Yes" : "No");
+            AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Favorite fish", animal.FavoriteFish);
         }
 
         /// <summary>

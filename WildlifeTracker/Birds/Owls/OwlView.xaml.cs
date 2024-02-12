@@ -57,9 +57,10 @@ namespace WildlifeTracker.Birds.Owls
             chkNocturnal.IsChecked = false;
         }
 
-        internal static void AddOwlSpecificAttributes(Owl animal, StackPanel animalInfoStack)
+        public static void AddOwlSpecificAttributes(Owl animal, StackPanel animalInfoStack)
         {
-            throw new NotImplementedException();
+            AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Species", animal.Species);
+            AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Is Nocturnal", animal.IsNocturnal ? "Yes" : "No");
         }
     }
 }

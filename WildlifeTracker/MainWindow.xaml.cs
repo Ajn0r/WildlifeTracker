@@ -96,9 +96,11 @@ namespace WildlifeTracker
             {
                 case CategoryType.Mammal:
                     animal = CreateMammal();
+                    animal.CategoryType = CategoryType.Mammal;
                     break;
                 case CategoryType.Bird:
                     animal = CreateBird();
+                    // animal.CategoryType = CategoryType.Bird;
                     break;
             }
             if (animal != null)
@@ -412,23 +414,16 @@ namespace WildlifeTracker
             // Check that a item has been selected
             if (listSpecies.SelectedItem == null)
                 return;
-            else
-            {
-                selectedSpecies = listSpecies.SelectedItem.ToString();
-                btnAddAnimal.IsEnabled = true;
-            }
+            if (listSpecies.SelectedItem is MammalSpecies)
+                cmbCategory.SelectedItem = CategoryType.Mammal;
+            else if (listSpecies.SelectedItem is BirdSpecies)
+                cmbCategory.SelectedItem = CategoryType.Bird;
+
+            selectedSpecies = listSpecies.SelectedItem.ToString();
+            btnAddAnimal.IsEnabled = true; // Enable the add animal button
 
             // Toggle the visibility of the species views
             toggleVisibilty(selectedSpecies);
-
-            // Set the category combo box to the selected species category
-            if (Enum.TryParse(selectedSpecies, out MammalSpecies mammalSpecies)) {
-                cmbCategory.SelectedItem = CategoryType.Mammal;
-            }
-            else
-            {
-                cmbCategory.SelectedItem = CategoryType.Bird;
-            }
         }
 
         /// <summary>
@@ -529,25 +524,31 @@ namespace WildlifeTracker
             // Open the animalInfo window
             AnimalInfoWindow animalInfoWindow = new AnimalInfoWindow((Animal)this.DataContext);
             animalInfoWindow.Show();
-
         }
 
+        /// <summary>
+        /// Method to handle the add image button clicked event and save the image path
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addImage_Clicked(object sender, RoutedEventArgs e)
         {
             // Create a new open file dialog
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            Uri filePath = null; // Create a new Uri to hold the image path to convert to a bitmap image
             // Set the filter to only allow image files
             openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg";
-            // Show the open file dialog
+            // When the user selects a file and clicks ok
             if (openFileDialog.ShowDialog() == true)
             {
                 // Set the image path to the selected file path
                 imgPath = openFileDialog.FileName;
+                filePath = new Uri(imgPath); // Create a new Uri with the image path
             }
             // If the image path is not null or empty, set the image source of the image control to the image path
             if (!string.IsNullOrEmpty(imgPath))
-                imgAnimal.Source = new BitmapImage(new Uri(imgPath));
-
+                imgAnimal.Source = new BitmapImage(filePath); // Create a new bitmap image with the Uri converted image path
+           
         }
     }
 }

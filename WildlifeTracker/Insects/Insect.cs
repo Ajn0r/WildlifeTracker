@@ -5,13 +5,10 @@ using System.Text;
 
 namespace WildlifeTracker
 {
-    public class Insect : Animal
+    public class Insect
     {
 
         // Will be implemented in a future version
-        // Default constructor
-        public Insect() : base("I")
-        {
-        }
+        
     }
 }

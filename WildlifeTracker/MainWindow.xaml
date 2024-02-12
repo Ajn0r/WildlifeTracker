@@ -57,19 +57,19 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="Name:" Target="{Binding ElementName=txtName}"/>
+                <Label Grid.Row="0" Grid.Column="0" Content="Name:" />
                 <TextBox Grid.Row="0" Grid.Column="1" Name="txtName" VerticalAlignment="Center" Padding="3" />
-                <Label Grid.Row="1" Grid.Column="0" Content="Age:" Target="{Binding ElementName=txtAge}" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                <Label Grid.Row="1" Grid.Column="0" Content="Age:"  VerticalContentAlignment="Center" VerticalAlignment="Center"/>
                 <TextBox Grid.Row="1"  Grid.Column="1" Name="txtAge" VerticalAlignment="Center" Padding="3"/>
-                <Label Grid.Row="2" Grid.Column="0" Content="Color:" Target="{Binding ElementName=txtColor}" VerticalAlignment="Center"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Color:"  VerticalAlignment="Center"/>
                 <TextBox Grid.Row="2" Grid.Column="1" Name="txtColor" VerticalAlignment="Center" Padding="3"/>
-                <Label Grid.Row="3" Grid.Column="0" Content="Gender" Target="{Binding ElementName=cmbGender}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Label Grid.Row="3" Grid.Column="0" Content="Gender" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <ComboBox Grid.Row="3" Grid.Column="1" Name="cmbGender">
                 </ComboBox>
-                <Label Grid.Row="4" Content="Category:" Grid.Column="0" Target="{Binding ElementName=cmbCategory}" VerticalAlignment="Top"/>
+                <Label Grid.Row="4" Content="Category:" Target="{Binding ElementName=cmbCategory}" Grid.Column="0"  VerticalAlignment="Top"/>
                 <ComboBox Grid.Row="4" Grid.Column="1" Name="cmbCategory" SelectionChanged="cmbCategoryChanged">
                 </ComboBox>
-                <Label Grid.Row="5" Grid.Column="0" Content="Domesticated" Target="{Binding ElementName=chkDomesticated}"/>
+                <Label Grid.Row="5" Grid.Column="0" Content="Domesticated"/>
                 <CheckBox Grid.Row="5" Grid.Column="1" Name="chkDomesticated" VerticalAlignment="Center"/>
             </Grid>
         </GroupBox>
@@ -86,7 +86,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Content="Species:" Target="{Binding ElementName=listSpecies}" VerticalAlignment="Center"/>
+                <Label Grid.Row="0" Content="Species:" VerticalAlignment="Center"/>
                 <ScrollViewer Grid.Row="1" Name="scrollSpecies" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <ListView Name="listSpecies" SelectionMode="Single" d:ItemsSource="{d:SampleData ItemCount=5}" Height="110" SelectionChanged="speciesSelectedChanged"/>
                 </ScrollViewer>
@@ -115,7 +115,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Label Content="Number of teeth:" Target="{Binding ElementName=txtTeeth}" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
+                <Label Content="Number of teeth:" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
                 <TextBox Name="txtTeeth" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
                 <Label Content="Has fur or hair" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" />
                 <RadioButton GroupName="FurOrHair" Name="rdoMamYes" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Yes" IsChecked="True"/>
@@ -135,12 +135,12 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Label Content="Wing Span:" Target="{Binding ElementName=txtWingSpan}" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0 0 20 0"/>
+                <Label Content="Wing Span:"  VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0 0 20 0"/>
                 <TextBox Name="txtWingSpan" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
-                <Label Content="Can fly" Target="{Binding BindingGroupName=CanFly}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" />
+                <Label Content="Can fly" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" />
                 <RadioButton GroupName="CanFly" Name="rdoBirdYes" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Yes" IsChecked="True"/>
                 <RadioButton GroupName="CanFly" Name="rdoBirdNo" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="No" Margin="45, 0, 0, 0 " />
-                <Label Content="Sings" Target="{Binding ElementName=chkSings}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" />
+                <Label Content="Sings" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" />
                 <CheckBox Name="chkSings" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
             </Grid>
         </GroupBox>
