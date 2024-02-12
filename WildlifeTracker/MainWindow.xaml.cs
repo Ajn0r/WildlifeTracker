@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -30,6 +31,8 @@ namespace WildlifeTracker
     {
         // A list to store any errors that occur when creating an animal
         private List<string> errorList = new List<string>();
+        // Variable to hold the image path string, to be used when adding an image to the animal before an animal is created
+        string imgPath;
 
         public MainWindow()
         {
@@ -274,6 +277,7 @@ namespace WildlifeTracker
             else
                 animal.IsDomesticated = false;
             animal.Color = txtColor.Text;
+            animal.ImagePath = imgPath;
         }
 
         /// <summary>
@@ -525,6 +529,24 @@ namespace WildlifeTracker
             // Open the animalInfo window
             AnimalInfoWindow animalInfoWindow = new AnimalInfoWindow((Animal)this.DataContext);
             animalInfoWindow.Show();
+
+        }
+
+        private void addImage_Clicked(object sender, RoutedEventArgs e)
+        {
+            // Create a new open file dialog
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            // Set the filter to only allow image files
+            openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg";
+            // Show the open file dialog
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // Set the image path to the selected file path
+                imgPath = openFileDialog.FileName;
+            }
+            // If the image path is not null or empty, set the image source of the image control to the image path
+            if (!string.IsNullOrEmpty(imgPath))
+                imgAnimal.Source = new BitmapImage(new Uri(imgPath));
 
         }
     }

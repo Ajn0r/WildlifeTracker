@@ -15,6 +15,7 @@ namespace WildlifeTracker
         private CategoryType category;
         private string color;
         private string id;
+        private string imagePath;
         private static int nextIDNumber = 1; // Static variable to keep track of the next ID number
         #endregion
 
@@ -68,6 +69,9 @@ namespace WildlifeTracker
                     color = "Unknown";
             }
         }
+
+        // Property to get and set the image path of the animal
+        public string ImagePath { get => imagePath; set => imagePath = value; }
 
         // Property to get the ID of the animal, no set method because the ID is generated in the constructor and should not be changed
         public string ID { get => id; }

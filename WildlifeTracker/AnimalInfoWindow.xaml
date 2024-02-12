@@ -6,13 +6,17 @@
         xmlns:local="clr-namespace:WildlifeTracker" 
         xmlns:helper="clr-namespace:WildlifeTracker.Helper_classes"
         mc:Ignorable="d"
-        Title="AnimalInfoWindow" Height="500" Width="250">
+        Title="AnimalInfoWindow" Height="400" Width="450">
     <Window.Resources>
         <helper:BooleanToYesNoConverter x:Key="BooleanToYesNoConverter"/>
     </Window.Resources>
 
     <Grid Name="MainGrid">
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
         <StackPanel x:Name="AnimalInfoStack">
             <StackPanel Orientation="Horizontal">
                 <Label Content="Id:" Width="75"/>
@@ -49,5 +53,9 @@
                 <TextBlock Name="DomesticatedTextBlock" Text="{Binding Animal.IsDomesticated, Converter={StaticResource BooleanToYesNoConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
+            
+        <!-- Column for the image if there is one -->
+        <Image Name="AnimalImage" Source="{Binding Animal.ImagePath}" Grid.Column="1" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Button Name="CloseButton" Grid.Column="1" Content="Close" Width="75" Height="25" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="CloseButton_Click"/>
     </Grid>
 </Window>

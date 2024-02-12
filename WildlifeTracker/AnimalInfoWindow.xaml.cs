@@ -148,5 +148,11 @@ namespace WildlifeTracker
             // add the row stackpanel to the main stackpanel
             parentPanel.Children.Add(rowStackPanel);
         }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Close the window
+            this.Close();
+        }
     }
 }
