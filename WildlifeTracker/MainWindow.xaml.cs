@@ -109,17 +109,18 @@ namespace WildlifeTracker
         /// <returns></returns>
         private (int, bool) ReadMammalSpec()
         {
+            // local variables to store the number of teeth and if the mammal has fur or hair
             int numOfTeeth = 0;
             bool hasFurOrHair;
-            if (InputValidator.IsNumberValid(txtTeeth.Text))
-                numOfTeeth = int.Parse(txtTeeth.Text);
-            else
+            if (InputValidator.IsNumberValid(txtTeeth.Text)) // Validate the number of teeth with the input validator class
+                numOfTeeth = int.Parse(txtTeeth.Text); // If valid, parse the number of teeth to an integer
+            else // If not valid, add an error message to the error list
                 errorList.Add("Number of teeth is required and must be a number");
             if (rdoMamYes.IsChecked == true)
                 hasFurOrHair = true;
             else
                 hasFurOrHair = false;
-            return (numOfTeeth, hasFurOrHair);
+            return (numOfTeeth, hasFurOrHair); // Return the number of teeth and if the mammal has fur or hair
         }
 
         /// <summary>
@@ -128,15 +129,17 @@ namespace WildlifeTracker
         /// <returns></returns>
         private (bool, bool, int) ReadBirdSpec()
         {
-            bool sings = false;
+            // local variables to store if the bird sings, if it can fly and the wing span
+            // sings and canFly are set to false by default
+            bool sings = false; 
             bool canFly = false;
             int wingSpan = 0;
-            if (chkSings.IsChecked == true)
+            if (chkSings.IsChecked == true) // Check if the bird sings, if so, set the sings variable to true
                 sings = true;
-            if (rdoBirdYes.IsChecked == true)
+            if (rdoBirdYes.IsChecked == true) // Check if the bird can fly, if so, set the canFly variable to true
                 canFly = true;
-            if (InputValidator.IsNumberValid(txtWingSpan.Text))
-                wingSpan = int.Parse(txtWingSpan.Text);
+            if (InputValidator.IsNumberValid(txtWingSpan.Text)) // Validate the wing span with the input validator class
+                wingSpan = int.Parse(txtWingSpan.Text); // If valid, parse the wing span to an integer
             else
                 errorList.Add("Wing span is required and must be a number");
 
@@ -513,8 +516,16 @@ namespace WildlifeTracker
         /// </summary>
         private void UpdateAddAnimalButton()
         {
-            if (listSpecies.SelectedItem == null)
+            if (listSpecies.SelectedItem == null) // Check if a species is selected, if not, disable the add animal button
                 btnAddAnimal.IsEnabled = false;
+        }
+
+        private void ViewAnimalButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Open the animalInfo window
+            AnimalInfoWindow animalInfoWindow = new AnimalInfoWindow((Animal)this.DataContext);
+            animalInfoWindow.Show();
+
         }
     }
 }

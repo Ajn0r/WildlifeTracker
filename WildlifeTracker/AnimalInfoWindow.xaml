@@ -1,0 +1,53 @@
+﻿<Window x:Class="WildlifeTracker.AnimalInfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WildlifeTracker" 
+        xmlns:helper="clr-namespace:WildlifeTracker.Helper_classes"
+        mc:Ignorable="d"
+        Title="AnimalInfoWindow" Height="500" Width="250">
+    <Window.Resources>
+        <helper:BooleanToYesNoConverter x:Key="BooleanToYesNoConverter"/>
+    </Window.Resources>
+
+    <Grid Name="MainGrid">
+
+        <StackPanel x:Name="AnimalInfoStack">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Id:" Width="75"/>
+                <TextBlock Name="idTextBlock" Text="{Binding Animal.ID}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Category:" Width="75"/>
+                <TextBlock Name="CategoryTextBlock" Text="{Binding Animal.CategoryType}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Species:" Width="75"/>
+                <TextBlock Name="SpeciesTextBlock" Text="{Binding Animal.AnimalType}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Name:" Width="75"/>
+                <TextBlock Name="NameTextBolock" Text="{Binding Animal.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Age:" Width="75"/>
+                <TextBlock Name="AgeTextBlock" Text="{Binding Animal.Age}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Gender:" Width="75"/>
+                <TextBlock Name="GenderTextBlock" Text="{Binding Animal.GenderType}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Color:" Width="75"/>
+                <TextBlock Name="ColorTextBlock" Text="{Binding Animal.Color}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Domesticated:" Width="75"/>
+                <!-- Convert the true or false value to yes or no with a booleantoyesnoconverter -->
+                <TextBlock Name="DomesticatedTextBlock" Text="{Binding Animal.IsDomesticated, Converter={StaticResource BooleanToYesNoConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

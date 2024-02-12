@@ -115,6 +115,9 @@ namespace WildlifeTracker.Mammals.Dogs
             }
         }
 
+        /// <summary>
+        /// Method to clear the fields of the dog view
+        /// </summary>
         public void ClearFields()
         {
             txtDogBreed.Text = "";
@@ -123,6 +126,18 @@ namespace WildlifeTracker.Mammals.Dogs
             cmbTrainingType.SelectedItem = SpecialTrainingType.None;
             cmbTrainingType.IsEnabled = false;
         }
+
+        public static void AddDogSpecificAttributes(Dog dog, StackPanel parentPanel)
+        {
+            AnimalInfoWindow.AddAttributeRow(parentPanel, "Breed", dog.Breed);
+            AnimalInfoWindow.AddAttributeRow(parentPanel, "Tail Length", dog.TailLength.ToString());
+            AnimalInfoWindow.AddAttributeRow(parentPanel, "Special Trained", dog.IsSpecialTrained ? "Yes" : "No");
+            if (dog.IsSpecialTrained)
+            {
+                AnimalInfoWindow.AddAttributeRow(parentPanel, "Training Type", dog.SpecialTrainingType.ToString());
+            }
+        }
+
     }
 
 }

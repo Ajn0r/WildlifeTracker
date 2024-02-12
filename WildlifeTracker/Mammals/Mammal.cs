@@ -29,11 +29,7 @@ namespace WildlifeTracker
         #endregion
 
         #region // Methods //
-        public static string[] GetMammalTypes()
-        {
-            string[] mammalTypes = { "Cat", "Dog", "Donkey"};
-            return mammalTypes;
-        }
+
         #endregion
     }
 }

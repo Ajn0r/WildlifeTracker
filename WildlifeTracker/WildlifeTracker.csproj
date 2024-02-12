@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AnimalInfoWindow.xaml.cs">
+      <DependentUpon>AnimalInfoWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Birds\BirdFactory.cs" />
     <Compile Include="Birds\BirdSpecies.cs" />
     <Compile Include="Birds\Owls\OwlView.xaml.cs">
@@ -66,6 +69,7 @@
     <Compile Include="Birds\Penguins\PenguinView.xaml.cs">
       <DependentUpon>PenguinView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helper classes\BooleanToYesNoConverter.cs" />
     <Compile Include="Helper classes\InputValidator.cs" />
     <Compile Include="Mammals\MammalSpecies.cs" />
     <Compile Include="Mammals\Cats\CatView.xaml.cs">
@@ -87,6 +91,10 @@
     <Compile Include="Birds\Parrots\Parrot.cs" />
     <Compile Include="Birds\Penguins\Penguin.cs" />
     <Compile Include="Mammals\Dogs\SpecialTrainingType.cs" />
+    <Page Include="AnimalInfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Birds\Owls\OwlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

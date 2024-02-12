@@ -197,7 +197,8 @@
                 <TextBlock x:Name="categoryDisplay" Text="{Binding CategoryType}" Grid.Row="5" Grid.Column="1"/>
                 <Label Content="Species:" Grid.Row="6" Grid.Column="0" />
                 <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding AnimalType}" />
-                <Button Content="View animal" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" />
+                <Button Content="View animal" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Click="ViewAnimalButton_Click"/>
+                
             </Grid>
         </GroupBox>
 

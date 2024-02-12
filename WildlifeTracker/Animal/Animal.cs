@@ -19,7 +19,12 @@ namespace WildlifeTracker
         #endregion
 
         #region // Properties //
-        public string AnimalType => GetType().Name; // Property to get the type of animal
+
+        // Property to get the type/species of animal, I use this instead of the "GetAnimalSpecificData"
+        // method suggested in the help document with typeOf method.
+        // GetType() will return the type of the derived class and .Name will return the name of the class.
+        // I then use databinding to display the type of animal in the UI with the property.
+        public string AnimalType => GetType().Name; 
 
         // Property to get and set the gender of the animal
         public GenderType GenderType { get => gender; set => gender = value; }
