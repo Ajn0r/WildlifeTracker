@@ -26,6 +26,11 @@ namespace WildlifeTracker.Birds.Penguins
             InitializeComponent();
         }
 
+        internal static void AddPenguinSpecificAttributes(Penguin animal, StackPanel animalInfoStack)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Method that returns if the penguin can swim or not
         /// </summary>

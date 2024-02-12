@@ -56,5 +56,10 @@ namespace WildlifeTracker.Birds.Owls
             txtOwlSpecies.Text = "";
             chkNocturnal.IsChecked = false;
         }
+
+        internal static void AddOwlSpecificAttributes(Owl animal, StackPanel animalInfoStack)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

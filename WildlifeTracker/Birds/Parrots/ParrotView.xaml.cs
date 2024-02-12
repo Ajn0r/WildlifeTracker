@@ -104,5 +104,10 @@ namespace WildlifeTracker.Birds.Parrots
             lblFavvePhrase.Visibility = Visibility.Hidden;
             txtFavvePhrase.Text = "";
         }
+
+        internal static void AddParrotSpecificAttributes(Parrot animal, StackPanel animalInfoStack)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
