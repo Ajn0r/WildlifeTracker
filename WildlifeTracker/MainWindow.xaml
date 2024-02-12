@@ -61,7 +61,7 @@
                 <TextBox Grid.Row="0" Grid.Column="1" Name="txtName" VerticalAlignment="Center" Padding="3" />
                 <Label Grid.Row="1" Grid.Column="0" Content="Age:" Target="{Binding ElementName=txtAge}" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
                 <TextBox Grid.Row="1"  Grid.Column="1" Name="txtAge" VerticalAlignment="Center" Padding="3"/>
-                <Label Grid.Row="2" Grid.Column="0" Content="Color:" Target="{Binding ElementName=txtAge}" VerticalAlignment="Center"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Color:" Target="{Binding ElementName=txtColor}" VerticalAlignment="Center"/>
                 <TextBox Grid.Row="2" Grid.Column="1" Name="txtColor" VerticalAlignment="Center" Padding="3"/>
                 <Label Grid.Row="3" Grid.Column="0" Content="Gender" Target="{Binding ElementName=cmbGender}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <ComboBox Grid.Row="3" Grid.Column="1" Name="cmbGender">
@@ -183,22 +183,21 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Label Content="ID:" Grid.Row="0" Grid.Column="0" />
-                <TextBlock x:Name="idDisplay" Text="{Binding ID}" Grid.Row="0" Grid.Column="1"/>
-                <Label Content="Name:" Grid.Row="1" Grid.Column="0" />
-                <TextBlock x:Name="nameDisplay" Text="{Binding Name}" Grid.Row="1" Grid.Column="1"/>
-                <Label Content="Age:" Grid.Row="2" Grid.Column="0" />
-                <TextBlock x:Name="ageDisplay" Text="{Binding Age}" Grid.Row="2" Grid.Column="1"/>
-                <Label Content="Color:" Grid.Row="3" Grid.Column="0" />
-                <TextBlock x:Name="colorDisplay" Text="{Binding Color}" Grid.Row="3" Grid.Column="1"/>
-                <Label Content="Gender:" Grid.Row="4" Grid.Column="0" />
-                <TextBlock x:Name="genderDisplay" Text="{Binding GenderType}" Grid.Row="4" Grid.Column="1"/>
-                <Label Content="Category:" Grid.Row="5" Grid.Column="0" />
-                <TextBlock x:Name="categoryDisplay" Text="{Binding CategoryType}" Grid.Row="5" Grid.Column="1"/>
-                <Label Content="Species:" Grid.Row="6" Grid.Column="0" />
+                <Label Content="ID: " Grid.Row="0" Grid.Column="0" />
+                <TextBlock Name="idDisplay" Text="{Binding ID}" Grid.Row="0" Grid.Column="1"/>
+                <Label Content="Name: " Grid.Row="1" Grid.Column="0"/>
+                <TextBlock Name="nameDisplay" Text="{Binding Name}" Grid.Row="1" Grid.Column="1"/>
+                <Label Content="Age: " Grid.Row="2" Grid.Column="0" />
+                <TextBlock Name="ageDisplay" Text="{Binding Age}" Grid.Row="2" Grid.Column="1"/>
+                <Label Content="Color: " Grid.Row="3" Grid.Column="0" />
+                <TextBlock Name="colorDisplay" Text="{Binding Color}" Grid.Row="3" Grid.Column="1"/>
+                <Label Content="Gender: " Grid.Row="4" Grid.Column="0" />
+                <TextBlock Name="genderDisplay" Text="{Binding GenderType}" Grid.Row="4" Grid.Column="1"/>
+                <Label Content="Category: " Grid.Row="5" Grid.Column="0" />
+                <TextBlock Name="categoryDisplay" Text="{Binding CategoryType}" Grid.Row="5" Grid.Column="1"/>
+                <Label Content="Species: " Grid.Row="6" Grid.Column="0" />
                 <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding AnimalType}" />
                 <Button Content="View animal" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Click="ViewAnimalButton_Click"/>
-                
             </Grid>
         </GroupBox>
 

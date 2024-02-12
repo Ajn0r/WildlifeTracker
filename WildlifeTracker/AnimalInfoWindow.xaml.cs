@@ -66,7 +66,7 @@ namespace WildlifeTracker
             {
                 case "Cat":
                     { // If the animal is a cat, call the AddCatSpecificAttributes method in the CatView class
-                        CatView.AddCatSpecificAttributes((Cat)Animal, AnimalInfoStack);
+                        Cat.AddCatSpecificAttributes((Cat)Animal, AnimalInfoStack);
                         break;
                     }
                 case "Dog":

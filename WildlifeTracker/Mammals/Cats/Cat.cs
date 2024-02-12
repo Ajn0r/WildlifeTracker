@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Controls;
 
 namespace WildlifeTracker.Mammals.Cats
 {
@@ -46,6 +47,12 @@ namespace WildlifeTracker.Mammals.Cats
         #endregion
 
         #region // Methods //
+        public static void AddCatSpecificAttributes(Cat cat, StackPanel stackPanel)
+        {
+            AnimalInfoWindow.AddAttributeRow(stackPanel, "Breed:", cat.Breed.ToString());
+            AnimalInfoWindow.AddAttributeRow(stackPanel, "Favorite Toy:", cat.FavoriteToy.ToString());
+            AnimalInfoWindow.AddAttributeRow(stackPanel, "Is House Trained:", cat.IsHouseTrained ? "Yes" : "No");
+        }
         #endregion
     }
 }

@@ -83,16 +83,6 @@ namespace WildlifeTracker.Mammals.Cats
             txtCatToy.Text = "";
             rdoLitterYes.IsChecked = true;
         }
-        public static void AddCatSpecificAttributes(Cat cat, StackPanel stackPanel)
-        {
-            // Lägg till rad för Breed
-            AnimalInfoWindow.AddAttributeRow(stackPanel, "Breed:", cat.Breed);
 
-            // Lägg till rad för FavoriteToy
-            AnimalInfoWindow.AddAttributeRow(stackPanel, "Favorite Toy:", cat.FavoriteToy);
-
-            // Lägg till rad för IsHouseTrained
-            AnimalInfoWindow.AddAttributeRow(stackPanel, "Is House Trained:", cat.IsHouseTrained ? "Yes" : "No");
-        }
     }
 }

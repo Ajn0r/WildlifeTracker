@@ -19,7 +19,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Content="Breed" Target="{Binding ElementName=dogBreed}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0 0 40 0"/>
+            <Label Content="Breed" Target="{Binding ElementName=txtDogBreed}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0 0 40 0"/>
             <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3" Name="txtDogBreed"/>
             <Label Content="Tail length" Grid.Row="1" Grid.Column="0" Target="{Binding ElementName=txtTailLength}"/>
             <TextBox Name="txtTailLength" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>

@@ -14,7 +14,7 @@
     <Grid Name="MainGrid">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <StackPanel x:Name="AnimalInfoStack">
@@ -34,7 +34,6 @@
                 <Label Content="Name:" Width="75"/>
                 <TextBlock Name="NameTextBolock" Text="{Binding Animal.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" />
             </StackPanel>
-
             <StackPanel Orientation="Horizontal">
                 <Label Content="Age:" Width="75"/>
                 <TextBlock Name="AgeTextBlock" Text="{Binding Animal.Age}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
