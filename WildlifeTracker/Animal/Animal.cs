@@ -78,10 +78,12 @@ namespace WildlifeTracker
         #endregion
 
         #region // Constructors //
-        public Animal(string typePrefix)
+        public Animal(string typePrefix, CategoryType category)
         {
             // Generate the ID based on the type of animal, type is sent from the derived class constructor
             id = GenerateID(typePrefix);
+            // Set the category of the animal
+            this.category = category;
         }
         #endregion
 
