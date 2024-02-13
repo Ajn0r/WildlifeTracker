@@ -105,11 +105,6 @@ namespace WildlifeTracker.Birds.Parrots
             txtFavvePhrase.Text = "";
         }
 
-        public static void AddParrotSpecificAttributes(Parrot animal, StackPanel animalInfoStack)
-        {
-            AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Species", animal.Species);
-            AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Can Talk", animal.CanSpeak ? "Yes" : "No");
-            AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Favorite Phrase", animal.FavoritePhrase);
-        }
+
     }
 }

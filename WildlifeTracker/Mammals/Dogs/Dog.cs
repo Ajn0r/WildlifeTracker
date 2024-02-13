@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Controls;
 
 namespace WildlifeTracker.Mammals.Dogs
 {
@@ -34,9 +35,29 @@ namespace WildlifeTracker.Mammals.Dogs
         public Dog(int numOfTeeth, bool hasFurOrHair) : base(numOfTeeth, hasFurOrHair)
         {
         }
+
+        /// <summary>
+        /// Method to add the dog specific attributes to the AnimalInfoWindow stack panel, that displays the animal information
+        /// if the user clicks on the view animal button. Made it static so that it can be called from the AnimalInfoWindow class
+        /// without creating an instance of the DogView class
+        /// </summary>
+        /// <param name="dog"></param>
+        /// <param name="parentPanel"></param>
+
         #endregion
 
         #region // Methods //
+        public static void AddDogSpecificAttributes(Dog dog, StackPanel parentPanel)
+        {
+            // Add the dog specific attributes to the animal info window stack panel by calling the AddAttributeRow method from the AnimalInfoWindow class
+            AnimalInfoWindow.AddAttributeRow(parentPanel, "Breed", dog.Breed);
+            AnimalInfoWindow.AddAttributeRow(parentPanel, "Tail Length", dog.TailLength.ToString());
+            AnimalInfoWindow.AddAttributeRow(parentPanel, "Special Trained", dog.IsSpecialTrained ? "Yes" : "No");
+            if (dog.IsSpecialTrained) // Only add the special trained type if the dog is special trained
+            {
+                AnimalInfoWindow.AddAttributeRow(parentPanel, "Training Type", dog.SpecialTrainingType.ToString());
+            }
+        }
         #endregion
 
 

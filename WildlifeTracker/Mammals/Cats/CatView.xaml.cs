@@ -65,6 +65,7 @@ namespace WildlifeTracker.Mammals.Cats
             else
                 return false;
         }
+
         /// <summary>
         /// Returns the house trained status of the cat as a string
         /// </summary>

@@ -26,12 +26,6 @@ namespace WildlifeTracker.Birds.Penguins
             InitializeComponent();
         }
 
-        public static void AddPenguinSpecificAttributes(Penguin animal, StackPanel animalInfoStack)
-        {
-            AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Can swim", animal.CanSwim ? "Yes" : "No");
-            AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Favorite fish", animal.FavoriteFish);
-        }
-
         /// <summary>
         /// Method that returns if the penguin can swim or not
         /// </summary>

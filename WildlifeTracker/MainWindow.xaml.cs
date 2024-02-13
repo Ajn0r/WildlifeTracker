@@ -39,12 +39,18 @@ namespace WildlifeTracker
             InitializeComponent();
             PopulateComboBoxes();
             btnAddAnimal.IsEnabled = false; // Disable the add animal button until a species is selected
+            viewAnimalBtn.IsEnabled = false; // Disable the view animal button until an animal is created
+            this.Title += " by Ronja Sjögren"; // Add my name to the title of the window
+            this.Title += " - Version 1.0"; // add the version number
         }
 
         private void UpdateGUI()
         {
             ClearTextBoxes();
             UpdateAddAnimalButton();
+            // Enable the view animal button if the data context is not null
+            if (DataContext != null)
+                viewAnimalBtn.IsEnabled = true;
         }
 
         /// <summary>
@@ -521,9 +527,15 @@ namespace WildlifeTracker
 
         private void ViewAnimalButton_Click(object sender, RoutedEventArgs e)
         {
-            // Open the animalInfo window
-            AnimalInfoWindow animalInfoWindow = new AnimalInfoWindow((Animal)this.DataContext);
-            animalInfoWindow.Show();
+            // Open the animalInfo window if the data context is not null, extra check in case the button enable state is not updated
+            if (this.DataContext != null)
+            {
+                AnimalInfoWindow animalInfoWindow = new AnimalInfoWindow((Animal)this.DataContext);
+                animalInfoWindow.Show();
+            } else // If the data context is null, display an error message
+            {
+                MessageBox.Show("Error: No animal selected");
+            }
         }
 
         /// <summary>

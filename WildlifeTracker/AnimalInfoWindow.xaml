@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WildlifeTracker" 
         xmlns:helper="clr-namespace:WildlifeTracker.Helper_classes"
         mc:Ignorable="d"
-        Title="AnimalInfoWindow" Height="500" Width="550" ResizeMode="NoResize"> 
+        Title="AnimalInfoWindow" MinHeight="400" MaxHeight="550" Width="500" ResizeMode="NoResize" SizeToContent="WidthAndHeight"> 
         
     <Window.Resources>
         <helper:BooleanToYesNoConverter x:Key="BooleanToYesNoConverter"/>

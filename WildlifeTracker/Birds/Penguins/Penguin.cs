@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Controls;
 
 namespace WildlifeTracker
 {
@@ -24,6 +25,17 @@ namespace WildlifeTracker
         #endregion
 
         #region // Methods //
+
+        /// <summary>
+        /// Method to add the penguin specific information to the animal info window
+        /// </summary>
+        /// <param name="animal"></param>
+        /// <param name="animalInfoStack"></param>
+        public static void AddPenguinSpecificAttributes(Penguin animal, StackPanel animalInfoStack)
+        {
+            AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Can swim", animal.CanSwim ? "Yes" : "No");
+            AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Favorite fish", animal.FavoriteFish);
+        }
         #endregion
     }
 }

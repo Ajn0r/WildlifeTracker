@@ -65,33 +65,33 @@ namespace WildlifeTracker
             switch (Animal.AnimalType) // Switch based on the animal type
             {
                 case "Cat":
-                    { // If the animal is a cat, call the AddCatSpecificAttributes method in the CatView class
+                    { // If the animal is a cat, call the AddCatSpecificAttributes method in the Cat class
                         Cat.AddCatSpecificAttributes((Cat)Animal, AnimalInfoStack);
                         break;
                     }
                 case "Dog":
-                    { // If the animal is a dog, call the AddDogSpecificAttributes method in the DogView class
-                        DogView.AddDogSpecificAttributes((Dog)Animal, AnimalInfoStack);
+                    { // If the animal is a dog, call the AddDogSpecificAttributes method in the Dog class
+                        Dog.AddDogSpecificAttributes((Dog)Animal, AnimalInfoStack);
                         break;
                     }
                 case "Donkey":
-                    { // If the animal is a donkey, call the AddDonkeySpecificAttributes method in the DonkeyView class
-                        DonkeyView.AddDonkeySpecificAttributes((Donkey)Animal, AnimalInfoStack);
+                    { // If the animal is a donkey, call the AddDonkeySpecificAttributes method in the Donkey class
+                        Donkey.AddDonkeySpecificAttributes((Donkey)Animal, AnimalInfoStack);
                         break;
                     }
                 case "Parrot":
-                    { // If the animal is a parrot, call the AddParrotSpecificAttributes method in the ParrotView class
-                        ParrotView.AddParrotSpecificAttributes((Parrot)Animal, AnimalInfoStack);
+                    { // If the animal is a parrot, call the AddParrotSpecificAttributes method in the Parrot class
+                        Parrot.AddParrotSpecificAttributes((Parrot)Animal, AnimalInfoStack);
                         break;
                     }
                 case "Penguin":
-                    { // If the animal is a penguin, call the AddPenguinSpecificAttributes method in the PenguinView class
-                        PenguinView.AddPenguinSpecificAttributes((Penguin)Animal, AnimalInfoStack);
+                    { // If the animal is a penguin, call the AddPenguinSpecificAttributes method in the Penguin class
+                        Penguin.AddPenguinSpecificAttributes((Penguin)Animal, AnimalInfoStack);
                         break;
                     }
                 case "Owl":
-                    { // If the animal is an owl, call the AddOwlSpecificAttributes method in the OwlView class
-                        OwlView.AddOwlSpecificAttributes((Owl)Animal, AnimalInfoStack);
+                    { // If the animal is an owl, call the AddOwlSpecificAttributes method in the Owl class
+                        Owl.AddOwlSpecificAttributes((Owl)Animal, AnimalInfoStack);
                         break;
                     }
             }
