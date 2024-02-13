@@ -9,7 +9,11 @@ using System.Windows;
 
 namespace WildlifeTracker.Helper_classes
 {
-    internal class CategoryToVisibilityConverter : IValueConverter
+    /// <summary>
+    /// This class is used to convert the different categories to visibility for the different types of animal
+    /// It is not used in the current version of the application, and not finished
+    /// </summary>
+    public class CategoryToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

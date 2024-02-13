@@ -53,12 +53,13 @@
                 <TextBlock Name="DomesticatedTextBlock" Text="{Binding Animal.IsDomesticated, Converter={StaticResource BooleanToYesNoConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
-            
-        <!-- Column for the image if there is one, should add a default image if no available later -->
-        <Image Name="AnimalImage" Source="{Binding Animal.ImagePath}" Grid.Column="1" Width="250" Height="270" HorizontalAlignment="Center"  >
 
-        </Image>
-        
+        <!-- Column for the image if there is one, should add a default image if no available later -->
+
+        <Border Grid.Column="1" Width="250" Height="270" HorizontalAlignment="Center" CornerRadius="5" BorderBrush="Gray" BorderThickness="1" VerticalAlignment="Top" Margin="30" >
+            <Image Name="AnimalImage" Source="{Binding Animal.ImagePath}" Grid.Column="1" Width="250" Height="270" HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="Fill"/>
+        </Border>
+
         <Button Name="CloseButton" Grid.ColumnSpan="2" Margin="0, 0, 0, 10" Content="Close" Width="75" Height="25" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="CloseButton_Click"/>
     </Grid>
 </Window>
