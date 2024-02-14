@@ -44,6 +44,7 @@ namespace WildlifeTracker
             this.Title += " - Version 2.0"; // add the version number
         }
 
+
         private void UpdateGUI()
         {
             ClearTextBoxes();
@@ -102,11 +103,11 @@ namespace WildlifeTracker
             {
                 case CategoryType.Mammal:
                     animal = CreateMammal();
-                    animal.CategoryType = CategoryType.Mammal;
+                    animal.Category = CategoryType.Mammal;
                     break;
                 case CategoryType.Bird:
                     animal = CreateBird();
-                    // animal.CategoryType = CategoryType.Bird;
+                    // animal.Category = Category.Bird;
                     break;
             }
             if (animal != null)
@@ -175,7 +176,7 @@ namespace WildlifeTracker
             MammalSpecies species = (MammalSpecies)listSpecies.SelectedItem;
             // Create a new mammal object based on the selected species with the mammalfactory
             animal = MammalFactory.CreateMammal(species, numOfTeeth, hasFurOrHair);
-            animal.ID = "M"; // Set the ID to M for Mammal
+            animal.Id = "M"; // Set the id to M for Mammal
             // Read the different mammal specific values based on the species
             switch (species)
             {
@@ -206,7 +207,7 @@ namespace WildlifeTracker
             BirdSpecies species = (BirdSpecies)listSpecies.SelectedItem;
             // Create a new bird object based on the selected species with the birdfactory
             animal = BirdFactory.CreateBird(species, sings, canFly, wingSpan);
-            animal.ID = "B"; // Set the ID to B for Bird
+            animal.Id = "B"; // Set the id to B for Bird
 
             // Read the different bird specific values based on the species
             // Keeping them in this method for now, instead of seperate as it is for the mammals, might refactor later
@@ -279,9 +280,9 @@ namespace WildlifeTracker
             else
                 errorList.Add("Age is required and must be a positive number");
             if (cmbGender.SelectedItem != null)
-                animal.GenderType = (GenderType)cmbGender.SelectedIndex;
+                animal.Gender = (GenderType)cmbGender.SelectedIndex;
             else
-                animal.GenderType = GenderType.Unknown;
+                animal.Gender = GenderType.Unknown;
             if (chkDomesticated.IsChecked == true)
                 animal.IsDomesticated = true;
             else

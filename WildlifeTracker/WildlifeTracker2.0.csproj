@@ -58,6 +58,8 @@
     <Compile Include="AnimalInfoWindow.xaml.cs">
       <DependentUpon>AnimalInfoWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Food\FoodSchedule.cs" />
+    <Compile Include="Animal\IAnimal.cs" />
     <Compile Include="Birds\BirdFactory.cs" />
     <Compile Include="Birds\BirdSpecies.cs" />
     <Compile Include="Birds\Owls\OwlView.xaml.cs">

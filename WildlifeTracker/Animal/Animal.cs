@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WildlifeTracker
 {
-    public class Animal
+    public abstract class Animal : IAnimal
     {
         #region // Instance variables //
         private string name;
@@ -16,7 +16,7 @@ namespace WildlifeTracker
         private string color;
         private string id;
         private string imagePath;
-        private static int nextIDNumber = 1; // Static variable to keep track of the next ID number
+        private static int nextIDNumber = 1; // Static variable to keep track of the next id number
         #endregion
 
         #region // Properties //
@@ -28,10 +28,10 @@ namespace WildlifeTracker
         public string AnimalType => GetType().Name; 
 
         // Property to get and set the gender of the animal
-        public GenderType GenderType { get => gender; set => gender = value; }
+        public GenderType Gender { get => gender; set => gender = value; }
 
         // Property to get and set the category type of the animal
-        public CategoryType CategoryType { get => category; set => category = value; }
+        public CategoryType Category { get => category; set => category = value; }
 
         // Property to get and set the domesticated status of the animal
         public bool IsDomesticated { get => isDomesticated; set => isDomesticated = value; }
@@ -73,15 +73,15 @@ namespace WildlifeTracker
         // Property to get and set the image path of the animal
         public string ImagePath { get => imagePath; set => imagePath = value; }
 
-        // Property to get the ID of the animal, no set method because the ID is generated in the constructor and should not be changed
-        public string ID { get => id;
+        // Property to get the id of the animal, no set method because the id is generated in the constructor and should not be changed
+        public string Id { get => id;
             set
             { 
                 if (!string.IsNullOrEmpty(value))
                 {
-                    // Set the ID to the value and the next ID number with a 3 digit format
+                    // Set the id to the value and the next id number with a 3 digit format
                     id = $"{value}{nextIDNumber:D3}";
-                    // Increment the next ID number
+                    // Increment the next id number
                     nextIDNumber++;
                 }
             }
@@ -97,7 +97,12 @@ namespace WildlifeTracker
         #endregion
 
         #region // Methods //
+        public abstract FoodSchedule GetFoodSchedule();
 
+        public virtual string GetExtraInfo()
+        {
+            return "No extra info available";
+        }
         #endregion
     }
 }
