@@ -35,6 +35,11 @@ namespace WildlifeTracker
             AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Species", animal.Species);
             AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Is Nocturnal", animal.IsNocturnal ? "Yes" : "No");
         }
+
+        public override FoodSchedule GetFoodSchedule()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }
