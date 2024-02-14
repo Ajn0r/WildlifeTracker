@@ -4,7 +4,9 @@ WildlifeTracker is a simple application for tracking and managing information ab
 
 This project is part of the Programming in C# 2 course at Malmö University.
 
-## Features
+- The current version is v.1.0
+
+## Features version 1.0
 - Add Animals: Users can add new animals by specifying their name, age, gender, color, and other specific attributes of the animal.
 - View Animal Information: It is possible to view detailed information about a single animal, including its name, age, gender, color, and other attributes.
 - Animal Categorization: Animals can be categorized as mammals or birds, and specific properties can be loaded based on the selected category.
