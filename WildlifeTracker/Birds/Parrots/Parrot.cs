@@ -38,6 +38,10 @@ namespace WildlifeTracker
             AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Can Talk", animal.CanSpeak ? "Yes" : "No");
             AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Favorite Phrase", animal.FavoritePhrase);
         }
+        public override FoodSchedule GetFoodSchedule()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

@@ -58,6 +58,10 @@ namespace WildlifeTracker.Mammals.Dogs
                 AnimalInfoWindow.AddAttributeRow(parentPanel, "Training Type", dog.SpecialTrainingType.ToString());
             }
         }
+        public override FoodSchedule GetFoodSchedule()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
 

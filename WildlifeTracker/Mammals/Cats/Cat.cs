@@ -53,6 +53,10 @@ namespace WildlifeTracker.Mammals.Cats
             AnimalInfoWindow.AddAttributeRow(stackPanel, "Favorite Toy:", cat.FavoriteToy.ToString());
             AnimalInfoWindow.AddAttributeRow(stackPanel, "Is House Trained:", cat.IsHouseTrained ? "Yes" : "No");
         }
+        public override FoodSchedule GetFoodSchedule()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

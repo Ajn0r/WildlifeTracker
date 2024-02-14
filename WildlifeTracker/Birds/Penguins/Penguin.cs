@@ -36,6 +36,10 @@ namespace WildlifeTracker
             AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Can swim", animal.CanSwim ? "Yes" : "No");
             AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Favorite fish", animal.FavoriteFish);
         }
+        public override FoodSchedule GetFoodSchedule()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

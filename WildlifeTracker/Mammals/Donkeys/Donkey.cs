@@ -45,6 +45,10 @@ namespace WildlifeTracker.Mammals.Donkeys
             if (animal.IsUsedAsPackAnimal) // If the donkey is used as a pack animal, add the max load information
                 AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Max load", animal.MaxLoad.ToString());
         }
+        public override FoodSchedule GetFoodSchedule()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }
