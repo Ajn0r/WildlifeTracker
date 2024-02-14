@@ -33,6 +33,7 @@ namespace WildlifeTracker
         private List<string> errorList = new List<string>();
         // Variable to hold the image path string, to be used when adding an image to the animal before an animal is created
         string imgPath;
+        AnimalManager animalManager = new AnimalManager();
 
         public MainWindow()
         {
@@ -212,20 +213,47 @@ namespace WildlifeTracker
             switch (species)
             {
                 case BirdSpecies.Parrot:
-                    ((Parrot)animal).FavoritePhrase = parrotView.ReadFavoritePhrase();
-                    ((Parrot)animal).CanSpeak = parrotView.ReadCanSpeak();
-                    ((Parrot)animal).Species = parrotView.ReadSpecies(ref errorList);
+                    ReadParrotValues(ref animal);
                     break;
                 case BirdSpecies.Owl:
-                    ((Owl)animal).IsNocturnal = owlView.ReadIsNocturnal();
-                    ((Owl)animal).Species = owlView.ReadSpecies(ref errorList);
+                    ReadOwlValues(ref animal);
                     break;
                 case BirdSpecies.Penguin:
-                    ((Penguin)animal).CanSwim = penguinView.ReadCanSwim();
-                    ((Penguin)animal).FavoriteFish = penguinView.ReadFavoriteFish();
+                    ReadPenguinValues(ref animal);
                     break;
             }
             return animal;
+        }
+
+        /// <summary>
+        /// Method to read the penguin specific values from the UI
+        /// </summary>
+        /// <param name="animal"></param>
+        private void ReadPenguinValues(ref Animal animal)
+        {
+            ((Penguin)animal).CanSwim = penguinView.ReadCanSwim();
+            ((Penguin)animal).FavoriteFish = penguinView.ReadFavoriteFish();
+        }
+
+        /// <summary>
+        /// Method to read the owl specific values from the UI
+        /// </summary>
+        /// <param name="animal"></param>
+        private void ReadOwlValues(ref Animal animal)
+        {
+            ((Owl)animal).IsNocturnal = owlView.ReadIsNocturnal();
+            ((Owl)animal).Species = owlView.ReadSpecies(ref errorList);
+        }
+
+        /// <summary>
+        /// Method to read the parrot specific values from the UI
+        /// </summary>
+        /// <param name="animal"></param>
+        private void ReadParrotValues(ref Animal animal)
+        {
+            ((Parrot)animal).FavoritePhrase = parrotView.ReadFavoritePhrase();
+            ((Parrot)animal).CanSpeak = parrotView.ReadCanSpeak();
+            ((Parrot)animal).Species = parrotView.ReadSpecies(ref errorList);
         }
 
         /// <summary>
@@ -510,6 +538,7 @@ namespace WildlifeTracker
             else
             { // Else the animal was created successfully
                 MessageBox.Show("Animal added");
+                animalManager.Add(animal); // Add the animal to the animal manager to store it in the list
                 // Set the data context of the animal view to the animal object to display the animal details
                 this.DataContext = animal;
                 UpdateGUI(); // Update the GUI
