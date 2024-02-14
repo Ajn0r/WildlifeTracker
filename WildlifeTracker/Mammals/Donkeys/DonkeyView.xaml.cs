@@ -66,7 +66,7 @@ namespace WildlifeTracker.Mammals.Donkeys
                 return double.Parse(txtHeight.Text);
             else
             {
-                errorList.Add("Height is required and should be a number");
+                errorList.Add("Height is required and must be a positive number");
                 return 0;
             }
         }
@@ -78,12 +78,21 @@ namespace WildlifeTracker.Mammals.Donkeys
         /// <returns></returns>
         public double ReadWeight(ref List<string> errorList)
         {
-            if (InputValidator.IsDoubleValid(txtWeight.Text))
-                return double.Parse(txtWeight.Text);
-            else
+            string weight = txtWeight.Text;
+            if (!InputValidator.IsStringValid(weight)) // first check if the weight textbox is empty
             {
-                errorList.Add("Weight is required and should be a number");
+                errorList.Add("Weight is required");
                 return 0;
+            }
+            else
+            { // if it is not empty, check if it is a valid number
+                if (InputValidator.IsDoubleValid(weight))
+                    return double.Parse(weight); // if it is a valid number, return the value
+                else
+                { // if not valid, add an error message to the list that it should be a positive number
+                    errorList.Add("Weight must be a positive number");
+                    return 0;
+                }
             }
         }
 
@@ -102,15 +111,15 @@ namespace WildlifeTracker.Mammals.Donkeys
         /// </summary>
         /// <param name="errorList"></param>
         /// <returns></returns>
-        public int ReadMaxLoad(ref List<string> errorList)
+        public double ReadMaxLoad(ref List<string> errorList)
         {
             if (chkCarriesLoad.IsChecked == true)
             {
-                if (InputValidator.IsNumberValid(txtMaxLoad.Text))
-                    return int.Parse(txtMaxLoad.Text);
+                if (InputValidator.IsDoubleValid(txtMaxLoad.Text))
+                    return double.Parse(txtMaxLoad.Text);
                 else
                 {
-                    errorList.Add("Max load is required and should be a number");
+                    errorList.Add("Max load is required and must be a positive number");
                     return 0;
                 }
             }

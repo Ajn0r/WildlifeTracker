@@ -47,7 +47,7 @@ namespace WildlifeTracker.Birds.Penguins
             }
             else
             {
-                return "Loves all fish";
+                return "Unknown";
             }
         }
 

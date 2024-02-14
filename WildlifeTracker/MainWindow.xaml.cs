@@ -126,7 +126,7 @@ namespace WildlifeTracker
             if (InputValidator.IsNumberValid(txtTeeth.Text)) // Validate the number of teeth with the input validator class
                 numOfTeeth = int.Parse(txtTeeth.Text); // If valid, parse the number of teeth to an integer
             else // If not valid, add an error message to the error list
-                errorList.Add("Number of teeth is required and must be a number");
+                errorList.Add("Number of teeth is required and must be a positive number");
             if (rdoMamYes.IsChecked == true)
                 hasFurOrHair = true;
             else
@@ -145,6 +145,7 @@ namespace WildlifeTracker
             bool sings = false; 
             bool canFly = false;
             int wingSpan = 0;
+            
             if (chkSings.IsChecked == true) // Check if the bird sings, if so, set the sings variable to true
                 sings = true;
             if (rdoBirdYes.IsChecked == true) // Check if the bird can fly, if so, set the canFly variable to true
@@ -152,7 +153,7 @@ namespace WildlifeTracker
             if (InputValidator.IsNumberValid(txtWingSpan.Text)) // Validate the wing span with the input validator class
                 wingSpan = int.Parse(txtWingSpan.Text); // If valid, parse the wing span to an integer
             else
-                errorList.Add("Wing span is required and must be a number");
+                errorList.Add("Wing span is required and must be a positive number");
 
             return (sings, canFly, wingSpan);
         }
@@ -174,7 +175,7 @@ namespace WildlifeTracker
             MammalSpecies species = (MammalSpecies)listSpecies.SelectedItem;
             // Create a new mammal object based on the selected species with the mammalfactory
             animal = MammalFactory.CreateMammal(species, numOfTeeth, hasFurOrHair);
-
+            animal.ID = "M"; // Set the ID to M for Mammal
             // Read the different mammal specific values based on the species
             switch (species)
             {
@@ -205,6 +206,7 @@ namespace WildlifeTracker
             BirdSpecies species = (BirdSpecies)listSpecies.SelectedItem;
             // Create a new bird object based on the selected species with the birdfactory
             animal = BirdFactory.CreateBird(species, sings, canFly, wingSpan);
+            animal.ID = "B"; // Set the ID to B for Bird
 
             // Read the different bird specific values based on the species
             // Keeping them in this method for now, instead of seperate as it is for the mammals, might refactor later
@@ -275,7 +277,7 @@ namespace WildlifeTracker
             if (InputValidator.IsNumberValid(txtAge.Text))
                 animal.Age = int.Parse(txtAge.Text);
             else
-                errorList.Add("Age is required and must be a number");
+                errorList.Add("Age is required and must be a positive number");
             if (cmbGender.SelectedItem != null)
                 animal.GenderType = (GenderType)cmbGender.SelectedIndex;
             else

@@ -85,8 +85,8 @@ namespace WildlifeTracker.Mammals.Dogs
             }
             else
             {
-                errors.Add("Tail length is required and must be a number");
-                return 0;
+                errors.Add("Tail length is required and must be a positive number");
+                return -1;
             }
         }
 

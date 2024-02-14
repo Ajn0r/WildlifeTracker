@@ -74,30 +74,30 @@ namespace WildlifeTracker
         public string ImagePath { get => imagePath; set => imagePath = value; }
 
         // Property to get the ID of the animal, no set method because the ID is generated in the constructor and should not be changed
-        public string ID { get => id; }
+        public string ID { get => id;
+            set
+            { 
+                if (!string.IsNullOrEmpty(value))
+                {
+                    // Set the ID to the value and the next ID number with a 3 digit format
+                    id = $"{value}{nextIDNumber:D3}";
+                    // Increment the next ID number
+                    nextIDNumber++;
+                }
+            }
+        }
         #endregion
 
         #region // Constructors //
-        public Animal(string typePrefix, CategoryType category)
+        public Animal(CategoryType category)
         {
-            // Generate the ID based on the type of animal, type is sent from the derived class constructor
-            id = GenerateID(typePrefix);
             // Set the category of the animal
             this.category = category;
         }
         #endregion
 
         #region // Methods //
-        // Method to generate the ID for the animal based on the type of animal, might refactor and move to a utility class/ interface later
-        private string GenerateID(string typePrefix)
-        {
-            // Set the ID to the prefix and the next ID number with a 3 digit format
-            string id = $"{typePrefix}{nextIDNumber:D3}";
-            // Increment the next ID number 
-            nextIDNumber++;
-            // Return the ID
-            return id;
-        }
+
         #endregion
     }
 }

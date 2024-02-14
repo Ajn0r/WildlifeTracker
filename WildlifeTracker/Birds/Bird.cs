@@ -20,7 +20,7 @@ namespace WildlifeTracker
         #endregion
 
         #region // Constructor //
-        public Bird(bool sings, bool canFly, int wingSpan) : base("B", CategoryType.Bird)
+        public Bird(bool sings, bool canFly, int wingSpan) : base(CategoryType.Bird)
         {
             this.sings = sings;
             this.canFly = canFly;

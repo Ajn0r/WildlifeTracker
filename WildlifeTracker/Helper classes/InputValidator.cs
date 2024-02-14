@@ -17,12 +17,20 @@ namespace WildlifeTracker.Helper_classes
 
         public static bool IsNumberValid(string input)
         {
-            return int.TryParse(input, out int result);
+            bool okInt = int.TryParse(input, out int result);
+            if (result >= 0) // check that the number is greater than, or equal to 0
+                return okInt; // return the result of the parse
+            else // if the number is less than 0, return false no matter the result of the parse
+                return false;
         }
 
         public static bool IsDoubleValid(string input)
         {
-            return double.TryParse(input, out double result);
+            bool okDouble = double.TryParse(input, out double result);
+            if (result >= 0) // check that the number is greater than, or equal to 0
+                return okDouble; // return the result of the parse
+            else // if the number is less than 0, return false no matter the result of the parse
+                return false;
         }
 
         public static void DisplayErrorMessage(string message)

@@ -20,7 +20,7 @@ namespace WildlifeTracker
 
         #region // Constructors //
         // Default constructor, pass the type of animal to the base class to use for ID
-        public Mammal(int numOfTeeth, bool hasFurOrHair) : base("M", CategoryType.Mammal)
+        public Mammal(int numOfTeeth, bool hasFurOrHair) : base(CategoryType.Mammal)
         {
             // Set the default values
             this.numOfTeeth = numOfTeeth;
