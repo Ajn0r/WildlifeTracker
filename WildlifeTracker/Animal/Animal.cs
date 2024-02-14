@@ -74,18 +74,7 @@ namespace WildlifeTracker
         public string ImagePath { get => imagePath; set => imagePath = value; }
 
         // Property to get the id of the animal, no set method because the id is generated in the constructor and should not be changed
-        public string Id { get => id;
-            set
-            { 
-                if (!string.IsNullOrEmpty(value))
-                {
-                    // Set the id to the value and the next id number with a 3 digit format
-                    id = $"{value}{nextIDNumber:D3}";
-                    // Increment the next id number
-                    nextIDNumber++;
-                }
-            }
-        }
+        public string Id { get => id; set => id = value; }
         #endregion
 
         #region // Constructors //

@@ -6,7 +6,7 @@ namespace WildlifeTracker
 {
     public class FoodSchedule
     {
-        #region // Fields //
+        #region // Instance variables //
         private EaterType eaterType;
         private List<string> foodList;
         #endregion

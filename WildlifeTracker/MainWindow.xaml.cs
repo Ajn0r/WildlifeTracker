@@ -176,7 +176,6 @@ namespace WildlifeTracker
             MammalSpecies species = (MammalSpecies)listSpecies.SelectedItem;
             // Create a new mammal object based on the selected species with the mammalfactory
             animal = MammalFactory.CreateMammal(species, numOfTeeth, hasFurOrHair);
-            animal.Id = "M"; // Set the id to M for Mammal
             // Read the different mammal specific values based on the species
             switch (species)
             {
@@ -207,7 +206,6 @@ namespace WildlifeTracker
             BirdSpecies species = (BirdSpecies)listSpecies.SelectedItem;
             // Create a new bird object based on the selected species with the birdfactory
             animal = BirdFactory.CreateBird(species, sings, canFly, wingSpan);
-            animal.Id = "B"; // Set the id to B for Bird
 
             // Read the different bird specific values based on the species
             // Keeping them in this method for now, instead of seperate as it is for the mammals, might refactor later
