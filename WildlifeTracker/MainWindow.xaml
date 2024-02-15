@@ -212,9 +212,17 @@
             </Grid>
         </GroupBox>
         
-        <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="2" Header="List of registered animals" >
+        <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="2" Header="List of registered animals" Padding="5" >
+            
             <ListView>
-                
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding ID}"/>
+                        <GridViewColumn Header="Name" Width="100" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Age" Width="50" DisplayMemberBinding="{Binding Age}"/>
+                        <GridViewColumn Header="Color" Width="100" DisplayMemberBinding="{Binding Color}"/>
+                    </GridView>
+                </ListView.View>    
             </ListView>
             
             
