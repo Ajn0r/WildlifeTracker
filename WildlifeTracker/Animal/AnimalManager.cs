@@ -53,11 +53,11 @@ namespace WildlifeTracker
             string id = "";
             if (category == CategoryType.Bird)
             {
-                id = "B" + startID.ToString();
+                id = "B" + startID.ToString("D3");
             }
             else if (category == CategoryType.Mammal)
             {
-                id = "M" + startID.ToString();
+                id = "M" + startID.ToString("D3");
             }
             startID++;
             return id;
