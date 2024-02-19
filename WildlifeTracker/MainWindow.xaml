@@ -109,10 +109,10 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-            
+
         </GroupBox>
-       
-       
+
+
 
         <!-- Mammal specification -->
         <GroupBox Header="Mammal Specification" Name="mammalSpec" Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="2" Padding="0, 8, 5, 8" Visibility="Hidden">
@@ -164,19 +164,19 @@
 
         <!-- Donkey Specification -->
         <donkeys:DonkeyView x:Name="donkeyView" Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
-        
+
         <!-- Owl Specification -->
         <owls:OwlView x:Name="owlView" Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
 
         <!-- Parrot Specification -->
         <parrots:ParrotView x:Name="parrotView" Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
-        
+
         <!-- Penguin Specification -->
         <penguins:PenguinView x:Name="penguinView" Grid.Row="2" Grid.Column="1" Visibility="Hidden" />
 
         <!-- Add animal button -->
         <Button Content="Add animal" Grid.Column="0" x:Name="btnAddAnimal" Grid.ColumnSpan="2" Grid.Row="1" MaxHeight="30" Width="150" Margin="10, 20" Click="addNewAnimalClicked" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-        
+
         <!-- View Animal Info -->
         <GroupBox Header="View Animal Info" Grid.Column="3" Grid.Row="1"  Margin="5"  Padding="5">
             <Grid>
@@ -211,23 +211,34 @@
                 <Button Content="View animal" Name="viewAnimalBtn" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Click="ViewAnimalButton_Click"/>
             </Grid>
         </GroupBox>
-        
+
+        <!-- Animals in animal list -->
         <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="2" Header="List of registered animals" Padding="5" >
-            
-            <ListView ItemsSource="{Binding}" Name="animalListView" SelectionChanged="AnimalListView_SelectionChanged">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding Id}"/>
-                        <GridViewColumn Header="Name" Width="100" DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Header="Age" Width="50" DisplayMemberBinding="{Binding Age}"/>
-                        <GridViewColumn Header="Color" Width="100" DisplayMemberBinding="{Binding Color}"/>
-                        <GridViewColumn Header="Species" Width="100" DisplayMemberBinding="{Binding AnimalType}"/>
-                    </GridView>
-                </ListView.View>    
-            </ListView>
-            
-            
+            <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <ListView ItemsSource="{Binding}" Name="animalListView" SelectionChanged="AnimalListView_SelectionChanged" Height="90">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding Id}"/>
+                            <GridViewColumn Header="Name" Width="100" DisplayMemberBinding="{Binding Name}"/>
+                            <GridViewColumn Header="Age" Width="50" DisplayMemberBinding="{Binding Age}"/>
+                            <GridViewColumn Header="Color" Width="100" DisplayMemberBinding="{Binding Color}"/>
+                            <GridViewColumn Header="Species" Width="100" DisplayMemberBinding="{Binding AnimalType}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </ScrollViewer>
+
+
         </GroupBox>
 
-    </Grid> 
+        <GroupBox Grid.Row="3" Grid.Column="0" Header="Food schedule" Grid.ColumnSpan="2" Margin="5" Padding="5" >
+            <StackPanel>
+                <TextBlock Name="eaterHeader"/>
+                <ListBox d:ItemsSource="{d:SampleData ItemCount=5}">
+
+                </ListBox>
+            </StackPanel>
+        </GroupBox>
+
+    </Grid>
 </Window>

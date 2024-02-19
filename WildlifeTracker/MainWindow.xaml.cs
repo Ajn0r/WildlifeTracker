@@ -54,14 +54,31 @@ namespace WildlifeTracker
             if (DataContext != null)
                 viewAnimalBtn.IsEnabled = true;
             GetAnimalList();
+            // if animal is not null, set the data context of the animal view to the animal object to display the animal details
+            if (this.DataContext != null)
+            {
+                eaterHeader.Text = ((Animal)this.DataContext).GetFoodSchedule().Title();
+
+            }
         }
+
+        /// <summary>
+        /// Method that gets a copy of the animal list from the animal manager and populates the list view
+        /// with the animals, the list populates the given list view columns with the animals properties based on DisplayMemberBinding in the xaml
+        /// </summary>
         private void GetAnimalList()
         {
             animalListView.Items.Clear();
             List<Animal> animalsList = animalManager.GetAnimalListCopy();
-            foreach (Animal animal in animalsList)
+            // Check that the list is not null or empty
+            if (animalsList == null || animalsList.Count == 0)
+                return;
+            else
             {
-                animalListView.Items.Add(animal);
+                foreach (Animal animal in animalsList)
+                {
+                    animalListView.Items.Add(animal);
+                }
             }
         }
 
@@ -609,6 +626,7 @@ namespace WildlifeTracker
 
         /// <summary>
         /// Method to handle the listview item selection changed event
+        /// Sets the data context of the window to the selected animal to display the animal details
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -618,8 +636,8 @@ namespace WildlifeTracker
             // Check if an animal is selected in the list view
             if (listSpecies.SelectedItem == null)
                 return; 
-            Animal selectedAnimal = (Animal)animalListView.SelectedItem;
-            if (selectedAnimal != null)
+            Animal selectedAnimal = (Animal)animalListView.SelectedItem; // Get the selected animal
+            if (selectedAnimal != null) // If the selected animal is not null, set the data context of the window to the selected animal
             {
                 this.DataContext = selectedAnimal;
             }

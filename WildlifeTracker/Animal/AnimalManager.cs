@@ -103,6 +103,9 @@ namespace WildlifeTracker
 
         public List<Animal> GetAnimalListCopy()
         {
+            // Check that the animal list is not null
+            if (animalList == null)
+                return null; // if it is, return null
             // Return a copy of the animal list
             return new List<Animal>(animalList);
         }       
