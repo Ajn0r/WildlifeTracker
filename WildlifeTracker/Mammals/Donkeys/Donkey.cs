@@ -13,6 +13,7 @@ namespace WildlifeTracker.Mammals.Donkeys
         private bool isUsedAsPackAnimal;
         private double height;
         private double weight;
+        private FoodSchedule foodSchedule;
         #endregion
 
         #region // Properties //
@@ -25,6 +26,7 @@ namespace WildlifeTracker.Mammals.Donkeys
         #region // Constructor //
         public Donkey(int numOfTeeth, bool hasFurOrHair) : base(numOfTeeth, hasFurOrHair)
         {
+            SetFoodSchedule();
         }
 
         #endregion
@@ -47,8 +49,17 @@ namespace WildlifeTracker.Mammals.Donkeys
         }
         public override FoodSchedule GetFoodSchedule()
         {
-            throw new NotImplementedException();
+            return foodSchedule;
         }
+
+        private void SetFoodSchedule()
+        {
+            foodSchedule = new FoodSchedule();
+            foodSchedule.EaterType = EaterType.Herbivore;
+            foodSchedule.Add("Morning: Grass");
+            foodSchedule.Add("Lunch: Hay");
+            foodSchedule.Add("Evening: Grass");
+        }   
         #endregion
     }
 }
