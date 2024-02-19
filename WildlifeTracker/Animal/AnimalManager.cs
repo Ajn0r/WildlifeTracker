@@ -10,7 +10,7 @@ namespace WildlifeTracker
     {
         #region // Instance variables //
         private List<Animal> animalList;
-        private int startID = 0;
+        private int startID = 1;
         #endregion
 
         #region // Properties //
@@ -86,7 +86,8 @@ namespace WildlifeTracker
 
         /// <summary>
         /// Method that returns a string array of the animal info from the animals in the list
-        /// by calling their ToString method
+        /// by calling their ToString method. 
+        /// This method is currently not used, since the animal info is displayed in a listbox with the help of binding and the animallistcopy method
         /// </summary>
         /// <returns>A string array with the animal info</returns>
         public string[] GetAnimalInfoString()
@@ -101,6 +102,10 @@ namespace WildlifeTracker
 
         }
 
+        /// <summary>
+        /// Method that returns a copy of the animal list
+        /// </summary>
+        /// <returns></returns>
         public List<Animal> GetAnimalListCopy()
         {
             // Check that the animal list is not null

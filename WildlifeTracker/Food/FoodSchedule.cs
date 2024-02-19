@@ -87,7 +87,7 @@ namespace WildlifeTracker
         /// <returns></returns>
         public string Title()
         {
-            return $"Eater type {eaterType} Food Schedule"; // Return the title of the food schedule
+            return $"Eater type: \t{eaterType}"; // Return the title of the food schedule
         }
 
         public override string ToString()

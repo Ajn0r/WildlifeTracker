@@ -54,12 +54,7 @@ namespace WildlifeTracker
             if (DataContext != null)
                 viewAnimalBtn.IsEnabled = true;
             GetAnimalList();
-            // if animal is not null, set the data context of the animal view to the animal object to display the animal details
-            if (this.DataContext != null)
-            {
-                eaterHeader.Text = ((Animal)this.DataContext).GetFoodSchedule().Title();
-
-            }
+            FillFoodSchedule();
         }
 
         /// <summary>
@@ -68,17 +63,42 @@ namespace WildlifeTracker
         /// </summary>
         private void GetAnimalList()
         {
+            // Clear the list view
             animalListView.Items.Clear();
+            // Get a copy of the animal list from the animal manager
             List<Animal> animalsList = animalManager.GetAnimalListCopy();
             // Check that the list is not null or empty
             if (animalsList == null || animalsList.Count == 0)
                 return;
             else
-            {
+            { // If the list is not null or empty, loop through the list and add the animals to the list view
                 foreach (Animal animal in animalsList)
                 {
                     animalListView.Items.Add(animal);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Method to fill the food schedule listbox with the food schedule of the selected animal
+        /// </summary>
+        private void FillFoodSchedule()
+        {
+            // Check if the selected index of the animal list view is not -1 or if the data context is null, in that case, return because there is no animal to display
+            if (this.DataContext == null)
+                return;
+
+            Animal animal = (Animal)this.DataContext; // Set the animal
+ 
+            if (animal != null) // Check that the animal is not null
+            {
+                foodScheduleListBox.Items.Clear(); // clear the list box
+                eaterHeader.Text = ((Animal)this.DataContext).GetFoodSchedule().Title(); // set the title of the food schedule to the eater type of the animal
+                string[] foodList = animal.GetFoodSchedule().GetFoodListInfoStrings(); // get the food list from the animal
+                foreach (string food in foodList) // loop through the food list and add the food to the list box
+                {
+                    foodScheduleListBox.Items.Add(food);
+                }               
             }
         }
 
@@ -634,13 +654,14 @@ namespace WildlifeTracker
         {
 
             // Check if an animal is selected in the list view
-            if (listSpecies.SelectedItem == null)
+            if (animalListView.SelectedItem == null)
                 return; 
             Animal selectedAnimal = (Animal)animalListView.SelectedItem; // Get the selected animal
             if (selectedAnimal != null) // If the selected animal is not null, set the data context of the window to the selected animal
             {
                 this.DataContext = selectedAnimal;
             }
+            UpdateGUI(); // Update the GUI
         }
     }
 }
