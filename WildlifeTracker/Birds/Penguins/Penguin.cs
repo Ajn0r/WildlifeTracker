@@ -11,6 +11,7 @@ namespace WildlifeTracker
         #region // Instance variables //
         private string favoriteFish;
         private bool canSwim;
+        private FoodSchedule foodSchedule;
         #endregion
 
         #region // Properties //
@@ -21,6 +22,7 @@ namespace WildlifeTracker
         #region // Constructors //
         public Penguin(bool sings, bool canFly, int wingSpan) : base(sings, canFly, wingSpan)
         {
+            SetFoodSchedule();
         }
         #endregion
 
@@ -36,9 +38,29 @@ namespace WildlifeTracker
             AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Can swim", animal.CanSwim ? "Yes" : "No");
             AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Favorite fish", animal.FavoriteFish);
         }
+
+        /// <summary>
+        /// Method that returns the food schedule for the penguin
+        /// </summary>
+        /// <returns></returns>
         public override FoodSchedule GetFoodSchedule()
         {
-            throw new NotImplementedException();
+            return foodSchedule;
+        }
+
+        /// <summary>
+        /// Method to set the food schedule for the penguin
+        /// </summary>
+        private void SetFoodSchedule()
+        {
+            foodSchedule = new FoodSchedule();
+            foodSchedule.EaterType = EaterType.Carnivore;
+            foodSchedule.Add("Morning: Fish");
+            foodSchedule.Add("Lunch: Krill");
+            if (FavoriteFish != null) // if a favorite fish is set, add it to the food schedule
+                foodSchedule.Add($"Evening: {FavoriteFish}");
+            else // else, just add fish
+                foodSchedule.Add("Evening: Fish");
         }
         #endregion
     }
