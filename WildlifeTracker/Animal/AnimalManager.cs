@@ -100,6 +100,12 @@ namespace WildlifeTracker
             return animalInfo; // return the array
 
         }
+
+        public List<Animal> GetAnimalListCopy()
+        {
+            // Return a copy of the animal list
+            return new List<Animal>(animalList);
+        }       
         #endregion
     }
 }

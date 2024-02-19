@@ -195,7 +195,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Content="ID: " Grid.Row="0" Grid.Column="0" />
-                <TextBlock Name="idDisplay" Text="{Binding ID}" Grid.Row="0" Grid.Column="1"/>
+                <TextBlock Name="idDisplay" Text="{Binding Id}" Grid.Row="0" Grid.Column="1"/>
                 <Label Content="Name: " Grid.Row="1" Grid.Column="0"/>
                 <TextBlock Name="nameDisplay" Text="{Binding Name}" Grid.Row="1" Grid.Column="1"/>
                 <Label Content="Age: " Grid.Row="2" Grid.Column="0" />
@@ -203,9 +203,9 @@
                 <Label Content="Color: " Grid.Row="3" Grid.Column="0" />
                 <TextBlock Name="colorDisplay" Text="{Binding Color}" Grid.Row="3" Grid.Column="1"/>
                 <Label Content="Gender: " Grid.Row="4" Grid.Column="0" />
-                <TextBlock Name="genderDisplay" Text="{Binding GenderType}" Grid.Row="4" Grid.Column="1"/>
+                <TextBlock Name="genderDisplay" Text="{Binding Gender}" Grid.Row="4" Grid.Column="1"/>
                 <Label Content="Category: " Grid.Row="5" Grid.Column="0" />
-                <TextBlock Name="categoryDisplay" Text="{Binding CategoryType}" Grid.Row="5" Grid.Column="1"/>
+                <TextBlock Name="categoryDisplay" Text="{Binding Category}" Grid.Row="5" Grid.Column="1"/>
                 <Label Content="Species: " Grid.Row="6" Grid.Column="0" />
                 <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding AnimalType}" />
                 <Button Content="View animal" Name="viewAnimalBtn" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Click="ViewAnimalButton_Click"/>
@@ -214,13 +214,14 @@
         
         <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="2" Header="List of registered animals" Padding="5" >
             
-            <ListView>
+            <ListView ItemsSource="{Binding}" Name="animalListView" SelectionChanged="AnimalListView_SelectionChanged">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding ID}"/>
+                        <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding Id}"/>
                         <GridViewColumn Header="Name" Width="100" DisplayMemberBinding="{Binding Name}"/>
                         <GridViewColumn Header="Age" Width="50" DisplayMemberBinding="{Binding Age}"/>
                         <GridViewColumn Header="Color" Width="100" DisplayMemberBinding="{Binding Color}"/>
+                        <GridViewColumn Header="Species" Width="100" DisplayMemberBinding="{Binding AnimalType}"/>
                     </GridView>
                 </ListView.View>    
             </ListView>

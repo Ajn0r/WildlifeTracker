@@ -92,6 +92,11 @@ namespace WildlifeTracker
         {
             return "No extra info available";
         }
+
+        public override string ToString()
+        {
+            return $"{Id} {Name} {Age} {Color}";
+        }
         #endregion
     }
 }

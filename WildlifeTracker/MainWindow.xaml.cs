@@ -53,7 +53,19 @@ namespace WildlifeTracker
             // Enable the view animal button if the data context is not null
             if (DataContext != null)
                 viewAnimalBtn.IsEnabled = true;
+            GetAnimalList();
         }
+        private void GetAnimalList()
+        {
+            animalListView.Items.Clear();
+            List<Animal> animalsList = animalManager.GetAnimalListCopy();
+            foreach (Animal animal in animalsList)
+            {
+                animalListView.Items.Add(animal);
+            }
+        }
+
+
 
         /// <summary>
         /// MEthod to clear all the text boxes and reset the combo boxes once an animal has been added
@@ -68,6 +80,8 @@ namespace WildlifeTracker
             txtTeeth.Text = "";
             chkSings.IsChecked = false;
             txtWingSpan.Text = "";
+            imgAnimal.Source = null;
+            imgPath = "";
 
             // Clear the species views
             dogView.ClearFields();
@@ -591,6 +605,24 @@ namespace WildlifeTracker
             if (!string.IsNullOrEmpty(imgPath))
                 imgAnimal.Source = new BitmapImage(filePath); // Create a new bitmap image with the Uri converted image path
            
+        }
+
+        /// <summary>
+        /// Method to handle the listview item selection changed event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AnimalListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            // Check if an animal is selected in the list view
+            if (listSpecies.SelectedItem == null)
+                return; 
+            Animal selectedAnimal = (Animal)animalListView.SelectedItem;
+            if (selectedAnimal != null)
+            {
+                this.DataContext = selectedAnimal;
+            }
         }
     }
 }
