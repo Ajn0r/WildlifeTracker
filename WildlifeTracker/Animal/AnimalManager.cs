@@ -96,7 +96,7 @@ namespace WildlifeTracker
             string[] animalInfo = new string[animalList.Count];
             for (int i = 0; i < animalList.Count; i++) // loop trough the animal list
             {
-                animalInfo[i] = animalList[i].ToString(); // for each index, call the ToString method of the animal and set it to the array
+                animalInfo[i] = animalList[i].GetExtraInfo(); // for each index, call the ToString method of the animal and set it to the array
             }
             return animalInfo; // return the array
 
@@ -113,7 +113,45 @@ namespace WildlifeTracker
                 return null; // if it is, return null
             // Return a copy of the animal list
             return new List<Animal>(animalList);
-        }       
+        }
+
+        /// <summary>
+        /// Method that sorts the list by the given parameter, using the sort method of the list
+        /// and lambda expressions. Inspired by this solution: https://www.dotnetperls.com/sort-list
+        /// </summary>
+        /// <param name="sortBy"></param>
+        public void SortList(string sortBy)
+        {
+            // Sort the list by the given parameter
+            if (sortBy == "Id")
+                animalList.Sort((x, y) => x.Id.CompareTo(y.Id));
+            else if (sortBy == "Name")
+                animalList.Sort((x, y) => x.Name.CompareTo(y.Name));
+            else if (sortBy == "Age")
+                animalList.Sort((x, y) => x.Age.CompareTo(y.Age));
+            else if (sortBy == "Color")
+                animalList.Sort((x, y) => x.Color.CompareTo(y.Color));
+            else if (sortBy == "Species")
+                animalList.Sort((x, y) => x.AnimalType.CompareTo(y.AnimalType));
+        }
+
+        /// <summary>
+        ///  Method that sorts the list in descending order by the given parameter
+        /// </summary>
+        /// <param name="sortBy"></param>
+        internal void SortListDesc(string sortBy)
+        {
+            if (sortBy == "Id")
+                animalList.Sort((x, y) => y.Id.CompareTo(x.Id));
+            else if (sortBy == "Name")
+                animalList.Sort((x, y) => y.Name.CompareTo(x.Name));
+            else if (sortBy == "Age")
+                animalList.Sort((x, y) => y.Age.CompareTo(x.Age));
+            else if (sortBy == "Color")
+                animalList.Sort((x, y) => y.Color.CompareTo(x.Color));
+            else if (sortBy == "Species")
+                animalList.Sort((x, y) => y.AnimalType.CompareTo(x.AnimalType));
+        }
         #endregion
     }
 }

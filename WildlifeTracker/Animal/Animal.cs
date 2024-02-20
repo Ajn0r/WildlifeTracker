@@ -16,7 +16,6 @@ namespace WildlifeTracker
         private string color;
         private string id;
         private string imagePath;
-        private static int nextIDNumber = 1; // Static variable to keep track of the next id number
         #endregion
 
         #region // Properties //
@@ -89,11 +88,6 @@ namespace WildlifeTracker
         public abstract FoodSchedule GetFoodSchedule();
 
         public virtual string GetExtraInfo()
-        {
-            return "No extra info available";
-        }
-
-        public override string ToString()
         {
             return $"{Id} {Name} {Age} {Color}";
         }

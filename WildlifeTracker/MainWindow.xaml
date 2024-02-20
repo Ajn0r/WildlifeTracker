@@ -218,11 +218,21 @@
                 <ListView ItemsSource="{Binding}" Name="animalListView" SelectionChanged="AnimalListView_SelectionChanged" Height="90">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding Id}"/>
-                            <GridViewColumn Header="Name" Width="100" DisplayMemberBinding="{Binding Name}"/>
-                            <GridViewColumn Header="Age" Width="50" DisplayMemberBinding="{Binding Age}"/>
-                            <GridViewColumn Header="Color" Width="100" DisplayMemberBinding="{Binding Color}"/>
-                            <GridViewColumn Header="Species" Width="100" DisplayMemberBinding="{Binding AnimalType}"/>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding Id}">
+                                <GridViewColumnHeader Content="ID" Click="SortByColumnHeaderId_Click" Tag="Id"/>
+                            </GridViewColumn>
+                            <GridViewColumn Width="100" DisplayMemberBinding="{Binding Name}">
+                                <GridViewColumnHeader Content="Name" Click="SortByColumnHeaderName_Click" Tag="Name"/>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding Age}">
+                                <GridViewColumnHeader Content="Age" Click="SortByColumnHeaderAge_Click" Tag="Age"/>
+                            </GridViewColumn>
+                            <GridViewColumn Width="100" DisplayMemberBinding="{Binding Color}">
+                                <GridViewColumnHeader Content="Color" Click="SortByColumnHeaderColor_Click" Tag="Color"/>
+                            </GridViewColumn>
+                            <GridViewColumn Width="100" DisplayMemberBinding="{Binding AnimalType}">
+                                <GridViewColumnHeader Content="Species" Click="SortByColumnHeaderSpecies_Click" Tag="Species"/>
+                            </GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>

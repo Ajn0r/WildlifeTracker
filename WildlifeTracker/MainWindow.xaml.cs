@@ -1,19 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WildlifeTracker.Birds;
 using WildlifeTracker.Helper_classes;
 using WildlifeTracker.Mammals;
@@ -34,6 +24,13 @@ namespace WildlifeTracker
         // Variable to hold the image path string, to be used when adding an image to the animal before an animal is created
         string imgPath;
         AnimalManager animalManager = new AnimalManager();
+
+        // Variables to hold the click count for each of the column headers for sorting, to sort in ascending or descending order
+        int idClick = 0;
+        int ageClick = 0;
+        int nameClick = 0;
+        int colorClick = 0;
+        int speciesCliked = 0;
 
         public MainWindow()
         {
@@ -663,5 +660,99 @@ namespace WildlifeTracker
             }
             UpdateGUI(); // Update the GUI
         }
+
+        /// <summary>
+        /// Method to sort the list, not used currently, want to refactor this later to only have one method for sorting
+        /// and not one for each column header...
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SortByColumnHeader_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the coloumn header that was clicked
+            GridViewColumnHeader column = (sender as GridViewColumnHeader); // sender is the column header that was clicked and cast it to a GridViewColumnHeader
+            string sortBy = column.Tag.ToString(); // Get the tag of the column header, which is the same property name of the animal object
+
+
+            animalManager.SortList(sortBy); // Call the sort list method of the animal manager to sort the list based on the property name
+            GetAnimalList(); // Update the list view with the sorted list
+        }
+
+        /// <summary>
+        /// Method to handle the id column header clicked event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SortByColumnHeaderId_Click(object sender, RoutedEventArgs e)
+        {
+            idClick++; // Increment the click count
+            // If the click count is even, sort the list in descending order
+            if (idClick % 2 == 0)
+                animalManager.SortListDesc("Id");
+            else // If the click count is odd, sort the list in ascending order
+                animalManager.SortList("Id");
+            GetAnimalList(); // Update the list view with the sorted list
+        } 
+
+        /// <summary>
+        /// Method to handle the age column header clicked event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SortByColumnHeaderAge_Click(object sender, RoutedEventArgs e)
+        {
+            ageClick++; // Increment the click count
+            // If the click count is even, sort the list in descending order
+            if (ageClick % 2 == 0)
+                animalManager.SortListDesc("Age");
+            else // If the click count is odd, sort the list in ascending order
+                animalManager.SortList("Age");
+            GetAnimalList(); // Update the list view with the sorted list
+        }
+
+        private void SortByColumnHeaderName_Click(object sender, RoutedEventArgs e)
+        {
+            nameClick++; // Increment the click count
+            // If the click count is even, sort the list in descending order
+            if (nameClick % 2 == 0)
+                animalManager.SortListDesc("Name");
+            else // If the click count is odd, sort the list in ascending order
+                animalManager.SortList("Name");
+            GetAnimalList(); // Update the list view with the sorted list
+        }
+
+        /// <summary>
+        /// Method to handle the color column header clicked event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SortByColumnHeaderColor_Click(object sender, RoutedEventArgs e)
+        {
+            colorClick++; // Increment the click count
+            // If the click count is even, sort the list in descending order
+            if (colorClick % 2 == 0)
+                animalManager.SortListDesc("Color");
+            else // If the click count is odd, sort the list in ascending order
+                animalManager.SortList("Color");
+            GetAnimalList(); // Update the list view with the sorted list
+        }
+
+        /// <summary>
+        /// Method to handle the species column header clicked event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SortByColumnHeaderSpecies_Click(object sender, RoutedEventArgs e)
+        {
+            speciesCliked++; // Increment the click count
+            // If the click count is even, sort the list in descending order
+            if (speciesCliked % 2 == 0)
+                animalManager.SortListDesc("Species");
+            else // If the click count is odd, sort the list in ascending order
+                animalManager.SortList("Species");
+            GetAnimalList(); // Update the list view with the sorted list
+        }
     }
+
+
 }
