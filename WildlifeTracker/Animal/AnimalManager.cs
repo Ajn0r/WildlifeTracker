@@ -103,19 +103,6 @@ namespace WildlifeTracker
         }
 
         /// <summary>
-        /// Method that returns a copy of the animal list
-        /// </summary>
-        /// <returns></returns>
-        public List<Animal> GetAnimalListCopy()
-        {
-            // Check that the animal list is not null
-            if (animalList == null)
-                return null; // if it is, return null
-            // Return a copy of the animal list
-            return new List<Animal>(animalList);
-        }
-
-        /// <summary>
         /// Method that sorts the list by the given parameter, using the sort method of the list
         /// and lambda expressions. Inspired by this solution: https://www.dotnetperls.com/sort-list
         /// </summary>

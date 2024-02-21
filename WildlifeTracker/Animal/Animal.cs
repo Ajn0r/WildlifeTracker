@@ -89,7 +89,7 @@ namespace WildlifeTracker
 
         public virtual string GetExtraInfo()
         {
-            return $"{Id} {Name} {Age} {Color}";
+            return $"{Id}, {Name}, {Age}, {Color}, {AnimalType}";
         }
         #endregion
     }

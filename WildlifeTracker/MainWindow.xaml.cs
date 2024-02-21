@@ -50,31 +50,34 @@ namespace WildlifeTracker
             // Enable the view animal button if the data context is not null
             if (DataContext != null)
                 viewAnimalBtn.IsEnabled = true;
-            GetAnimalList();
+            FillAnimalList();
             FillFoodSchedule();
+        }
+
+        /// <summary>
+        /// Method to fill the animal list view with the animals from the animal manager, based on the animal info string
+        /// </summary>
+        private void FillAnimalList()
+        {
+            // Get the animal info string array from the animal manager, containing the animal info
+            string[] animalList = animalManager.GetAnimalInfoString();
+
+            // Clear the list view
+            animalListView.Items.Clear();
+
+            // Loop through the animal list and add the animals to the list view, seperating the strings by the comma
+            foreach (string animal in animalList)
+            {
+                animalListView.Items.Add(animal.Split(','));
+            }
+
         }
 
         /// <summary>
         /// Method that gets a copy of the animal list from the animal manager and populates the list view
         /// with the animals, the list populates the given list view columns with the animals properties based on DisplayMemberBinding in the xaml
         /// </summary>
-        private void GetAnimalList()
-        {
-            // Clear the list view
-            animalListView.Items.Clear();
-            // Get a copy of the animal list from the animal manager
-            List<Animal> animalsList = animalManager.GetAnimalListCopy();
-            // Check that the list is not null or empty
-            if (animalsList == null || animalsList.Count == 0)
-                return;
-            else
-            { // If the list is not null or empty, loop through the list and add the animals to the list view
-                foreach (Animal animal in animalsList)
-                {
-                    animalListView.Items.Add(animal);
-                }
-            }
-        }
+       
 
         /// <summary>
         /// Method to fill the food schedule listbox with the food schedule of the selected animal
@@ -649,11 +652,13 @@ namespace WildlifeTracker
         /// <param name="e"></param>
         private void AnimalListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             // Check if an animal is selected in the list view
-            if (animalListView.SelectedItem == null)
+            if (animalListView.SelectedIndex == -1)
                 return; 
-            Animal selectedAnimal = (Animal)animalListView.SelectedItem; // Get the selected animal
+            // Get the index of the selected animal in the list view
+            int index = animalListView.SelectedIndex;
+            // Get the selected animal from the animal manager based on the index
+            Animal selectedAnimal = animalManager.GetAnimalAt(index);
             if (selectedAnimal != null) // If the selected animal is not null, set the data context of the window to the selected animal
             {
                 this.DataContext = selectedAnimal;
@@ -675,7 +680,7 @@ namespace WildlifeTracker
 
 
             animalManager.SortList(sortBy); // Call the sort list method of the animal manager to sort the list based on the property name
-            GetAnimalList(); // Update the list view with the sorted list
+            FillAnimalList(); // Update the list view with the sorted list
         }
 
         /// <summary>
@@ -691,7 +696,7 @@ namespace WildlifeTracker
                 animalManager.SortListDesc("Id");
             else // If the click count is odd, sort the list in ascending order
                 animalManager.SortList("Id");
-            GetAnimalList(); // Update the list view with the sorted list
+            UpdateGUI(); // Update the list view with the sorted list
         } 
 
         /// <summary>
@@ -707,9 +712,14 @@ namespace WildlifeTracker
                 animalManager.SortListDesc("Age");
             else // If the click count is odd, sort the list in ascending order
                 animalManager.SortList("Age");
-            GetAnimalList(); // Update the list view with the sorted list
+            UpdateGUI(); // Update the list view with the sorted list
         }
 
+        /// <summary>
+        /// Method to handle the name column header clicked event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SortByColumnHeaderName_Click(object sender, RoutedEventArgs e)
         {
             nameClick++; // Increment the click count
@@ -718,7 +728,7 @@ namespace WildlifeTracker
                 animalManager.SortListDesc("Name");
             else // If the click count is odd, sort the list in ascending order
                 animalManager.SortList("Name");
-            GetAnimalList(); // Update the list view with the sorted list
+            UpdateGUI(); // Update the list view with the sorted list
         }
 
         /// <summary>
@@ -734,7 +744,7 @@ namespace WildlifeTracker
                 animalManager.SortListDesc("Color");
             else // If the click count is odd, sort the list in ascending order
                 animalManager.SortList("Color");
-            GetAnimalList(); // Update the list view with the sorted list
+            UpdateGUI(); // Update the list view with the sorted list
         }
 
         /// <summary>
@@ -750,7 +760,7 @@ namespace WildlifeTracker
                 animalManager.SortListDesc("Species");
             else // If the click count is odd, sort the list in ascending order
                 animalManager.SortList("Species");
-            GetAnimalList(); // Update the list view with the sorted list
+            UpdateGUI(); // Update the list view with the sorted list
         }
     }
 
