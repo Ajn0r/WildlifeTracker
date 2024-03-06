@@ -39,7 +39,7 @@ namespace WildlifeTracker
             btnAddAnimal.IsEnabled = false; // Disable the add animal button until a species is selected
             viewAnimalBtn.IsEnabled = false; // Disable the view animal button until an animal is created
             this.Title += " by Ronja Sjögren"; // Add my name to the title of the window
-            this.Title += " - Version 2.0"; // add the version number
+            this.Title += " - Version 3.0"; // add the version number
         }
 
 
