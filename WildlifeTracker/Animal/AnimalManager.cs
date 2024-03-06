@@ -26,7 +26,7 @@ namespace WildlifeTracker
         /// Method to add animal with id
         /// </summary>
         /// <param name="animal"></param>
-        private void AddAnimalWithID(Animal animal)
+        public void AddAnimalWithID(Animal animal)
         {
             animal.Id = GetNewID(animal.Category);
             Add(animal);
@@ -50,6 +50,14 @@ namespace WildlifeTracker
             }
             startID++;
             return id;
+        }
+        public void SortList(string sortBy)
+        {
+            throw new NotImplementedException();
+        }
+        public void SortListDesc(string sortBy)
+        {
+            throw new NotImplementedException();
         }
 
         /*

@@ -59,7 +59,10 @@
       <DependentUpon>AnimalInfoWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Animal\AnimalManager.cs" />
+    <Compile Include="Animal\IListManager.cs" />
+    <Compile Include="Animal\ListManager.cs" />
     <Compile Include="Food\EaterType.cs" />
+    <Compile Include="Food\FoodItem.cs" />
     <Compile Include="Food\FoodSchedule.cs" />
     <Compile Include="Animal\IAnimal.cs" />
     <Compile Include="Birds\BirdFactory.cs" />

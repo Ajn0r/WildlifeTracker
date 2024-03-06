@@ -60,7 +60,7 @@ namespace WildlifeTracker
         private void FillAnimalList()
         {
             // Get the animal info string array from the animal manager, containing the animal info
-            string[] animalList = animalManager.GetAnimalInfoString();
+            string[] animalList = animalManager.ToStringArray();
 
             // Clear the list view
             animalListView.Items.Clear();
@@ -589,7 +589,7 @@ namespace WildlifeTracker
             else
             { // Else the animal was created successfully
                 MessageBox.Show("Animal added");
-                animalManager.Add(animal); // Add the animal to the animal manager to store it in the list
+                animalManager.AddAnimalWithID(animal); // Add the animal to the animal manager to store it in the list
                 // Set the data context of the animal view to the animal object to display the animal details
                 this.DataContext = animal;
                 UpdateGUI(); // Update the GUI
@@ -658,7 +658,7 @@ namespace WildlifeTracker
             // Get the index of the selected animal in the list view
             int index = animalListView.SelectedIndex;
             // Get the selected animal from the animal manager based on the index
-            Animal selectedAnimal = animalManager.GetAnimalAt(index);
+            Animal selectedAnimal = animalManager.GetAt(index);
             if (selectedAnimal != null) // If the selected animal is not null, set the data context of the window to the selected animal
             {
                 this.DataContext = selectedAnimal;
@@ -761,6 +761,21 @@ namespace WildlifeTracker
             else // If the click count is odd, sort the list in ascending order
                 animalManager.SortList("Species");
             UpdateGUI(); // Update the list view with the sorted list
+        }
+
+        private void changeAnimalClicked(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void deleteAnimalClicked(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AddFoodButton_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 

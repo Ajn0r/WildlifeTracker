@@ -91,6 +91,10 @@ namespace WildlifeTracker
         {
             return $"{Id}, {Name}, {Age}, {Color}, {AnimalType}";
         }
+        public override string ToString()
+        {
+            return $"{Id}, {Name}, {Age}, {Color}, {AnimalType}";
+        }
         #endregion
     }
 }
