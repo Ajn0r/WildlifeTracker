@@ -19,12 +19,12 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Label Content="Breed" Target="{Binding ElementName=txtCatBreed}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-            <TextBox Name="txtCatBreed" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
-            <Label Content="House trained" Target="{Binding BindingGroupName=HouseTrained}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-            <RadioButton GroupName="HouseTrained" Name="rdoLitterYes" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Yes" IsChecked="True"/>
-            <RadioButton GroupName="HouseTrained" Name="rdoLitterNo" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="No" Margin="45, 0, 0, 0 " />
+            <TextBox Name="txtCatBreed" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3" Text="{Binding Breed}"/>
             <Label Content="Favorite Toy" Target="{Binding ElementName=txtCatToy}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-            <TextBox Name="txtCatToy" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
+            <TextBox Name="txtCatToy" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Padding="3" Text="{Binding FavoriteToy}"/>
+            <Label Content="House trained" Target="{Binding BindingGroupName=HouseTrained}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+            <RadioButton GroupName="HouseTrained" Name="rdoLitterYes" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Yes" IsChecked="{Binding IsHouseTrained}"/>
+            <RadioButton GroupName="HouseTrained" Name="rdoLitterNo" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="No" Margin="45, 0, 0, 0 "  />
         </Grid>
     </GroupBox>
 

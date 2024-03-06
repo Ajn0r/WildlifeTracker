@@ -66,19 +66,19 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Content="Name:" />
-                        <TextBox Grid.Row="0" Grid.Column="1" Name="txtName" VerticalAlignment="Center" Padding="3" Text="{Binding Name, Mode=OneWay}" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Name="txtName" VerticalAlignment="Center" Padding="3" Text="{Binding Name}" />
                         <Label Grid.Row="1" Grid.Column="0" Content="Age:"  VerticalContentAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBox Grid.Row="1"  Grid.Column="1" Name="txtAge" VerticalAlignment="Center" Padding="3" Text="{Binding Age, Mode=OneWay}"/>
+                        <TextBox Grid.Row="1"  Grid.Column="1" Name="txtAge" VerticalAlignment="Center" Padding="3" Text="{Binding Age}"/>
                         <Label Grid.Row="2" Grid.Column="0" Content="Color:"  VerticalAlignment="Center"/>
-                        <TextBox Grid.Row="2" Grid.Column="1" Name="txtColor" VerticalAlignment="Center" Padding="3" Text="{Binding Color, Mode=OneWay}"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Name="txtColor" VerticalAlignment="Center" Padding="3" Text="{Binding Color}"/>
                         <Label Grid.Row="3" Grid.Column="0" Content="Gender" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <ComboBox Grid.Row="3" Grid.Column="1" Name="cmbGender" SelectedItem="{Binding Gender, Mode=OneWay}">
+                        <ComboBox Grid.Row="3" Grid.Column="1" Name="cmbGender" SelectedItem="{Binding Gender}">
                         </ComboBox>
                         <Label Grid.Row="4" Content="Category:" Grid.Column="0"  VerticalAlignment="Top"/>
                         <ComboBox Grid.Row="4" Grid.Column="1" Name="cmbCategory" SelectionChanged="cmbCategoryChanged" SelectedItem="{Binding Category}">
                         </ComboBox>
                         <Label Grid.Row="5" Grid.Column="0" Content="Domesticated"/>
-                        <CheckBox Grid.Row="5" Grid.Column="1" Name="chkDomesticated" VerticalAlignment="Center" IsChecked="{Binding IsDomesticated, Mode=OneWay}" />
+                        <CheckBox Grid.Row="5" Grid.Column="1" Name="chkDomesticated" VerticalAlignment="Center" IsChecked="{Binding IsDomesticated}" />
                     </Grid>
                 </Grid>
                 <Grid Grid.Column="1" Margin="5">
@@ -127,9 +127,9 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Label Content="Number of teeth:" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Name="txtTeeth" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
+                    <TextBox Name="txtTeeth" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3" Text="{Binding NumOfTeeth}"/>
                     <Label Content="Has fur or hair" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" />
-                    <RadioButton GroupName="FurOrHair" Name="rdoMamYes" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Yes" IsChecked="True"/>
+                    <RadioButton GroupName="FurOrHair" Name="rdoMamYes" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Yes" IsChecked="{Binding HasFurOrHair}" />
                     <RadioButton GroupName="FurOrHair" Name="rdoMamNo" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="No" Margin="45, 0, 0, 0 " />
                 </Grid>
             </GroupBox>

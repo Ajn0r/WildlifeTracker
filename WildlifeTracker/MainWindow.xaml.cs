@@ -156,7 +156,7 @@ namespace WildlifeTracker
                     break;
                 case CategoryType.Bird:
                     animal = CreateBird();
-                    // animal.Category = Category.Bird;
+                    animal.Category = CategoryType.Bird;
                     break;
             }
             if (animal != null)
@@ -382,6 +382,8 @@ namespace WildlifeTracker
         /// <param name="e"></param>
         private void cmbCategoryChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (cmbCategory.SelectedItem == null)
+                return;
             // First, get the selected category
             CategoryType selectedCategory = (CategoryType)cmbCategory.SelectedItem;
             // Check if the selected category is Mammal
@@ -762,9 +764,36 @@ namespace WildlifeTracker
             UpdateGUI(); // Update the list view with the sorted list
         }
 
+        /// <summary>
+        /// Method to handle the change animal button clicked event, changes the selected animal
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void changeAnimalClicked(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            // Get and check the index of the selected animal in the list view
+            int index = animalListView.SelectedIndex;
+            if (index >= 0)
+            {
+                // Get the selected animal from the data context
+                Animal animal = (Animal)this.DataContext;
+                // Validate the name and age input
+                if (!InputValidator.IsStringValid(txtName.Text))
+                    errorList.Add("Name is required");
+                if (!InputValidator.IsNumberValid(txtAge.Text))
+                    errorList.Add("Age is required and must be a positive number");
+                // Check if the animal object is null or if there are any errors
+                if (errorList.Count > 0 || animal == null)
+                {
+                    DisplayErrorMessage();
+                }
+                else // if the animal is not null and there are no errors, change the animal in the list with the new values
+                {
+                    animalManager.ChangeAt(index, animal);
+                    FillAnimalList();
+                    UpdateGUI();
+                }
+            }
         }
 
         /// <summary>
@@ -778,8 +807,8 @@ namespace WildlifeTracker
             // Get the index of the selected animal in the list view
             int index = animalListView.SelectedIndex;
             Animal animal = (Animal)this.DataContext;
-            // Check if the animal is not null
-            if (index >= 0)
+            // Check the index and that the animal is not null
+            if (index >= 0 && animal != null)
             {
                 // Ask the user if they are sure they want to delete the animal
                 MessageBoxResult result = MessageBox.Show("Are you sure you want to delete " + animal.Name + "?", "Delete animal", MessageBoxButton.YesNo);
@@ -797,6 +826,10 @@ namespace WildlifeTracker
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Method to add some test animals to the list
+        /// </summary>
         private void Test()
         {
             // test animal 1
