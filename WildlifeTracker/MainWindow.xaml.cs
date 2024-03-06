@@ -34,23 +34,23 @@ namespace WildlifeTracker
 
         public MainWindow()
         {
+            Test(); // Call the test method to add some test animals to the list
             InitializeComponent();
             PopulateComboBoxes();
             btnAddAnimal.IsEnabled = false; // Disable the add animal button until a species is selected
             viewAnimalBtn.IsEnabled = false; // Disable the view animal button until an animal is created
             this.Title += " by Ronja Sjögren"; // Add my name to the title of the window
             this.Title += " - Version 3.0"; // add the version number
+            FillAnimalList();
         }
 
 
         private void UpdateGUI()
         {
-            ClearTextBoxes();
             UpdateAddAnimalButton();
             // Enable the view animal button if the data context is not null
             if (DataContext != null)
                 viewAnimalBtn.IsEnabled = true;
-            FillAnimalList();
             FillFoodSchedule();
         }
 
@@ -102,8 +102,6 @@ namespace WildlifeTracker
             }
         }
 
-
-
         /// <summary>
         /// MEthod to clear all the text boxes and reset the combo boxes once an animal has been added
         /// </summary>
@@ -136,7 +134,6 @@ namespace WildlifeTracker
         {
             // Populate the combo box with the categories
             cmbCategory.ItemsSource = Enum.GetValues(typeof(CategoryType));
-            // Set the default value of the category combo box to Mammal
             cmbCategory.SelectedItem = CategoryType.Mammal;
             // Populate the gender combo box with the gender types
             cmbGender.ItemsSource = Enum.GetValues(typeof(GenderType));
@@ -445,7 +442,7 @@ namespace WildlifeTracker
             // Loop through the enum of bird species
             foreach (BirdSpecies species in Enum.GetValues(typeof(BirdSpecies)))
             {
-                listSpecies.Items.Add(species);
+                listSpecies.Items.Add(species.ToString());
             }
         }
 
@@ -456,7 +453,7 @@ namespace WildlifeTracker
             // Loop through the ENUM of Mammal species
             foreach (MammalSpecies species in Enum.GetValues(typeof(MammalSpecies)))
             {
-                listSpecies.Items.Add(species);
+                listSpecies.Items.Add(species.ToString());
             }
         }
 
@@ -592,6 +589,8 @@ namespace WildlifeTracker
                 animalManager.AddAnimalWithID(animal); // Add the animal to the animal manager to store it in the list
                 // Set the data context of the animal view to the animal object to display the animal details
                 this.DataContext = animal;
+                ClearTextBoxes(); // Clear the text boxes
+                FillAnimalList(); // Update the list view with the new animal
                 UpdateGUI(); // Update the GUI
             }
         }
@@ -768,14 +767,76 @@ namespace WildlifeTracker
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Method that deletes the selected animal from the list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
         private void deleteAnimalClicked(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            // Get the index of the selected animal in the list view
+            int index = animalListView.SelectedIndex;
+            Animal animal = (Animal)this.DataContext;
+            // Check if the animal is not null
+            if (index >= 0)
+            {
+                // Ask the user if they are sure they want to delete the animal
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to delete " + animal.Name + "?", "Delete animal", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes) // If the user clicks yes, delete the animal
+                {
+                    animalManager.DeleteAt(index);// Call the delete animal method of the animal manager
+                    this.DataContext = null; // Set the data context to null
+                    UpdateGUI(); // Update the GUI
+                    FillAnimalList();
+                }
+            }
         }
 
         private void AddFoodButton_Click(object sender, RoutedEventArgs e)
         {
             throw new NotImplementedException();
+        }
+        private void Test()
+        {
+            // test animal 1
+            Animal testAnimal = new Cat(21, true);
+            testAnimal.Name = "Test";
+            testAnimal.Age = 5;
+            testAnimal.Color = "Black";
+            testAnimal.Gender = GenderType.Female;
+            testAnimal.Category = CategoryType.Mammal;
+            testAnimal.IsDomesticated = true;
+            ((Cat)testAnimal).Breed = "Siamese";
+            ((Cat)testAnimal).FavoriteToy = "Mouse";
+            ((Cat)testAnimal).IsHouseTrained = true;
+            animalManager.AddAnimalWithID(testAnimal);
+            
+            // test animal 2
+            Animal testAnimal2 = new Dog(22, true);
+            testAnimal2.Name = "Test2";
+            testAnimal2.Age = 3;
+            testAnimal2.Color = "White";
+            testAnimal2.Gender = GenderType.Male;
+            testAnimal2.Category = CategoryType.Mammal;
+            testAnimal2.IsDomesticated = true;
+            ((Dog)testAnimal2).Breed = "Golden Retriever";
+            ((Dog)testAnimal2).TailLength = 30;
+            ((Dog)testAnimal2).IsSpecialTrained = true;
+            ((Dog)testAnimal2).SpecialTrainingType = SpecialTrainingType.Guide;
+            animalManager.AddAnimalWithID(testAnimal2);
+
+            // test animal 3
+            Animal testAnimal3 = new Penguin(false, false, 23);
+            testAnimal3.Name = "Test3";
+            testAnimal3.Age = 2;
+            testAnimal3.Color = "Black and white";
+            testAnimal3.Category = CategoryType.Bird;
+            testAnimal3.Gender = GenderType.Male;
+            testAnimal3.IsDomesticated = false;
+            ((Penguin)testAnimal3).CanSwim = true;
+            ((Penguin)testAnimal3).FavoriteFish = "Herring";
+            animalManager.AddAnimalWithID(testAnimal3);
         }
     }
 

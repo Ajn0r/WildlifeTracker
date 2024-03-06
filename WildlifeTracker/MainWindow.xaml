@@ -66,19 +66,19 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Content="Name:" />
-                        <TextBox Grid.Row="0" Grid.Column="1" Name="txtName" VerticalAlignment="Center" Padding="3" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Name="txtName" VerticalAlignment="Center" Padding="3" Text="{Binding Name, Mode=OneWay}" />
                         <Label Grid.Row="1" Grid.Column="0" Content="Age:"  VerticalContentAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBox Grid.Row="1"  Grid.Column="1" Name="txtAge" VerticalAlignment="Center" Padding="3"/>
+                        <TextBox Grid.Row="1"  Grid.Column="1" Name="txtAge" VerticalAlignment="Center" Padding="3" Text="{Binding Age, Mode=OneWay}"/>
                         <Label Grid.Row="2" Grid.Column="0" Content="Color:"  VerticalAlignment="Center"/>
-                        <TextBox Grid.Row="2" Grid.Column="1" Name="txtColor" VerticalAlignment="Center" Padding="3"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Name="txtColor" VerticalAlignment="Center" Padding="3" Text="{Binding Color, Mode=OneWay}"/>
                         <Label Grid.Row="3" Grid.Column="0" Content="Gender" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <ComboBox Grid.Row="3" Grid.Column="1" Name="cmbGender">
+                        <ComboBox Grid.Row="3" Grid.Column="1" Name="cmbGender" SelectedItem="{Binding Gender, Mode=OneWay}">
                         </ComboBox>
-                        <Label Grid.Row="4" Content="Category:" Target="{Binding ElementName=cmbCategory}" Grid.Column="0"  VerticalAlignment="Top"/>
-                        <ComboBox Grid.Row="4" Grid.Column="1" Name="cmbCategory" SelectionChanged="cmbCategoryChanged">
+                        <Label Grid.Row="4" Content="Category:" Grid.Column="0"  VerticalAlignment="Top"/>
+                        <ComboBox Grid.Row="4" Grid.Column="1" Name="cmbCategory" SelectionChanged="cmbCategoryChanged" SelectedItem="{Binding Category}">
                         </ComboBox>
                         <Label Grid.Row="5" Grid.Column="0" Content="Domesticated"/>
-                        <CheckBox Grid.Row="5" Grid.Column="1" Name="chkDomesticated" VerticalAlignment="Center"/>
+                        <CheckBox Grid.Row="5" Grid.Column="1" Name="chkDomesticated" VerticalAlignment="Center" IsChecked="{Binding IsDomesticated, Mode=OneWay}" />
                     </Grid>
                 </Grid>
                 <Grid Grid.Column="1" Margin="5">
@@ -94,7 +94,7 @@
 
                         <Label Grid.Row="0" Content="Species:" VerticalAlignment="Center"/>
                         <ScrollViewer Grid.Row="1" Name="scrollSpecies" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                            <ListView Name="listSpecies" SelectionMode="Single" d:ItemsSource="{d:SampleData ItemCount=5}" Height="110" SelectionChanged="speciesSelectedChanged"/>
+                            <ListView Name="listSpecies" SelectionMode="Single" Height="110" SelectionChanged="speciesSelectedChanged" SelectedItem="{Binding AnimalType, Mode=OneWay}"/>
                         </ScrollViewer>
                         <Label Content="Show all animals" Grid.Row="2"  Margin="15, 0, 0, 0"/>
                         <CheckBox Name="chkShowAll" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Checked="chkShowAllChecked" Unchecked="chkShowAllUnchecked"/>
@@ -105,7 +105,7 @@
 
         </GroupBox>
 
-
+        <!-- Mammal specification -->
         <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -147,12 +147,12 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Label Content="Wing Span:"  VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0 0 20 0"/>
-                    <TextBox Name="txtWingSpan" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
+                    <TextBox Name="txtWingSpan" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3" Text="{Binding WingSpan}"/>
                     <Label Content="Can fly" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" />
                     <RadioButton GroupName="CanFly" Name="rdoBirdYes" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Yes" IsChecked="True"/>
                     <RadioButton GroupName="CanFly" Name="rdoBirdNo" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="No" Margin="45, 0, 0, 0 " />
                     <Label Content="Sings" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" />
-                    <CheckBox Name="chkSings" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
+                    <CheckBox Name="chkSings" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding Sings}"/>
                 </Grid>
             </GroupBox>
 
@@ -178,9 +178,6 @@
             <Button Content="Add animal" Grid.Column="0" Grid.ColumnSpan="4" Name="btnAddAnimal" Grid.Row="1" Width="250"  Padding="10" Click="addNewAnimalClicked" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
 
-        <!-- Mammal specification -->
-       
-
        <!-- Animal image -->
         <GroupBox Grid.Column="2" Grid.Row="2" Margin="5" Padding="5" Header="Image">
             <StackPanel Grid.Row="1" Grid.Column="2"  Margin="0, 0, 5, 0">
@@ -190,9 +187,6 @@
                 <Button Name="btnAddImage" Content="Add Image" Width="100" Height="25" Click="addImage_Clicked"/>
             </StackPanel>
         </GroupBox>
-
-        
-       
 
         <!-- View Animal Info -->
         <GroupBox Header="View Animal Info" Grid.Column="3" Grid.Row="2"  Margin="5"  Padding="5">
