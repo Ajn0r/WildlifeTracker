@@ -19,14 +19,14 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Content="Height" Target="{Binding ElementName=txtHeight}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-            <TextBox Name="txtHeight" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
-            <Label Content="Weight" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Target="{Binding ElementName=txtWeight}"/>
-            <TextBox Name="txtWeight" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
+            <Label Content="Height" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+            <TextBox Name="txtHeight" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3" Text="{Binding Height}"/>
+            <Label Content="Weight" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" />
+            <TextBox Name="txtWeight" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Padding="3" Text="{Binding Weight}"/>
             <Label Content="Carries load" Target="{Binding ElementName=chkCarriesLoad}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-            <CheckBox Name="chkCarriesLoad" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Unchecked="checkBClicked" Checked="checkBClicked" HorizontalAlignment="Left" />
+            <CheckBox Name="chkCarriesLoad" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Unchecked="checkBClicked" Checked="checkBClicked" HorizontalAlignment="Left"  IsChecked="{Binding IsUsedAsPackAnimal}"/>
             <Label Content="Max load capacity" Target="{Binding ElementName=txtMaxLoad}" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Name="lblMaxLoad" Visibility="Hidden"/>
-            <TextBox Name="txtMaxLoad" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Padding="3" Visibility="Hidden" />
+            <TextBox Name="txtMaxLoad" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Padding="3" Visibility="Hidden" Text="{Binding MaxLoad}" />
         </Grid>
     </GroupBox>
 </UserControl>

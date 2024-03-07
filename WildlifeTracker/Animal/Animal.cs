@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
 namespace WildlifeTracker
 {
-    public abstract class Animal : IAnimal
+    public abstract class Animal : IAnimal, INotifyPropertyChanged
     {
         #region // Instance variables //
         private string name;
@@ -16,6 +17,8 @@ namespace WildlifeTracker
         private string color;
         private string id;
         private string imagePath;
+
+        public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
         #region // Properties //
@@ -30,7 +33,17 @@ namespace WildlifeTracker
         public GenderType Gender { get => gender; set => gender = value; }
 
         // Property to get and set the category type of the animal
-        public CategoryType Category { get => category; set => category = value; }
+        public CategoryType Category { 
+            get => category;
+            set
+            { 
+                if (category != value)
+                {
+                    category = value;
+                    OnPropertyChanged(nameof(Category));
+                }
+            }
+        }
 
         // Property to get and set the domesticated status of the animal
         public bool IsDomesticated { get => isDomesticated; set => isDomesticated = value; }
@@ -94,6 +107,11 @@ namespace WildlifeTracker
         public override string ToString()
         {
             return $"{Id}, {Name}, {Age}, {Color}, {AnimalType}";
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
     }

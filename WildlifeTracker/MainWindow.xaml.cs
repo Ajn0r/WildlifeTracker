@@ -44,7 +44,6 @@ namespace WildlifeTracker
             FillAnimalList();
         }
 
-
         private void UpdateGUI()
         {
             UpdateAddAnimalButton();
@@ -72,13 +71,7 @@ namespace WildlifeTracker
             }
 
         }
-
-        /// <summary>
-        /// Method that gets a copy of the animal list from the animal manager and populates the list view
-        /// with the animals, the list populates the given list view columns with the animals properties based on DisplayMemberBinding in the xaml
-        /// </summary>
        
-
         /// <summary>
         /// Method to fill the food schedule listbox with the food schedule of the selected animal
         /// </summary>
@@ -145,7 +138,13 @@ namespace WildlifeTracker
         /// 
         private Animal ReadInput()
         {
-            CategoryType selectedCategory = ReadCategory();
+            CategoryType selectedCategory;
+            if (cmbCategory.SelectedItem == null)
+            {
+                errorList.Add("Category is required");
+                return null;
+            } else 
+                selectedCategory = ReadCategory();
 
             Animal animal = null;
             switch (selectedCategory)
@@ -221,8 +220,16 @@ namespace WildlifeTracker
             bool hasFurOrHair;
             // Read the common mammal specific values
             (numOfTeeth, hasFurOrHair) = ReadMammalSpec();
+            // Check that a species is selected
+            if (listSpecies.SelectedItem == null)
+            {
+                errorList.Add("Species is required");
+            } 
             // Get the selected species from the list view
-            MammalSpecies species = (MammalSpecies)listSpecies.SelectedItem;
+            string strSpecies = listSpecies.SelectedItem.ToString();
+            // Convert the string to a MammalSpecies enum
+            MammalSpecies species = (MammalSpecies)Enum.Parse(typeof(MammalSpecies), strSpecies);
+
             // Create a new mammal object based on the selected species with the mammalfactory
             animal = MammalFactory.CreateMammal(species, numOfTeeth, hasFurOrHair);
             // Read the different mammal specific values based on the species
@@ -251,8 +258,10 @@ namespace WildlifeTracker
 
             // Read the common bird specific values
             (bool sings, bool canFly, int wingSpan) = ReadBirdSpec();
-            // Get the selected species from the list view
-            BirdSpecies species = (BirdSpecies)listSpecies.SelectedItem;
+            // Get the selected species from the list view as a string
+            string strSpecies = listSpecies.SelectedItem.ToString();
+            // convert to the enum
+            BirdSpecies species = (BirdSpecies)Enum.Parse(typeof(BirdSpecies), strSpecies);
             // Create a new bird object based on the selected species with the birdfactory
             animal = BirdFactory.CreateBird(species, sings, canFly, wingSpan);
 
@@ -371,6 +380,10 @@ namespace WildlifeTracker
         /// <returns></returns>
         private CategoryType ReadCategory()
         {
+            if (cmbCategory.SelectedItem == null)
+            {
+                errorList.Add("Category is required");
+            }
             return (CategoryType)cmbCategory.SelectedItem;
         }
 
@@ -380,6 +393,7 @@ namespace WildlifeTracker
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// 
         private void cmbCategoryChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cmbCategory.SelectedItem == null)
@@ -405,6 +419,7 @@ namespace WildlifeTracker
             if (chkShowAll.IsChecked == false)
                 fillListView(selectedCategory);
         }
+ 
 
         /// <summary>
         /// A method to fill the list view with the species of the selected category
@@ -498,13 +513,18 @@ namespace WildlifeTracker
             string selectedSpecies;
             // Check that a item has been selected
             if (listSpecies.SelectedItem == null)
+            {
+                btnAddAnimal.IsEnabled = false; // Disable the add animal button if no species is selected
                 return;
-            if (listSpecies.SelectedItem is MammalSpecies)
-                cmbCategory.SelectedItem = CategoryType.Mammal;
-            else if (listSpecies.SelectedItem is BirdSpecies)
+            }
+            // Check if the selected species is a mammal based on the selected item, since it is handled as a string now, i use the Enum.IsDefined method to check if the string is a valid enum value
+            if (Enum.IsDefined(typeof(MammalSpecies), listSpecies.SelectedItem.ToString()))
+                cmbCategory.SelectedItem = CategoryType.Mammal; // Set the category to Mammal
+            else if (Enum.IsDefined(typeof(BirdSpecies), listSpecies.SelectedItem.ToString())) // Do the same check for the bird species
                 cmbCategory.SelectedItem = CategoryType.Bird;
 
-            selectedSpecies = listSpecies.SelectedItem.ToString();
+            // Set the selected species to the selected item in the list view cast to a string to be able to use it in the switch statement and make it work with the AnimalType property
+            selectedSpecies = (string)listSpecies.SelectedItem;
             btnAddAnimal.IsEnabled = true; // Enable the add animal button
 
             // Toggle the visibility of the species views
@@ -603,7 +623,7 @@ namespace WildlifeTracker
         /// </summary>
         private void UpdateAddAnimalButton()
         {
-            if (listSpecies.SelectedItem == null) // Check if a species is selected, if not, disable the add animal button
+            if (listSpecies.SelectedItem == null || animalListView.SelectedItem != null) // Check if a species is selected, if not, disable the add animal button
                 btnAddAnimal.IsEnabled = false;
         }
 
@@ -656,6 +676,8 @@ namespace WildlifeTracker
             // Check if an animal is selected in the list view
             if (animalListView.SelectedIndex == -1)
                 return; 
+            // Set the add animal button to disabled to prevent users from adding a new animal when an animal is selected
+            btnAddAnimal.IsEnabled = false;
             // Get the index of the selected animal in the list view
             int index = animalListView.SelectedIndex;
             // Get the selected animal from the animal manager based on the index
@@ -663,6 +685,7 @@ namespace WildlifeTracker
             if (selectedAnimal != null) // If the selected animal is not null, set the data context of the window to the selected animal
             {
                 this.DataContext = selectedAnimal;
+                cmbCategory.SelectedItem = (CategoryType)selectedAnimal.Category; // Manually set the category combo box to the category of the selected animal
             }
             UpdateGUI(); // Update the GUI
         }
@@ -775,6 +798,7 @@ namespace WildlifeTracker
             int index = animalListView.SelectedIndex;
             if (index >= 0)
             {
+                Animal newAnimal = ReadInput();
                 // Get the selected animal from the data context
                 Animal animal = (Animal)this.DataContext;
                 // Validate the name and age input
@@ -783,16 +807,20 @@ namespace WildlifeTracker
                 if (!InputValidator.IsNumberValid(txtAge.Text))
                     errorList.Add("Age is required and must be a positive number");
                 // Check if the animal object is null or if there are any errors
-                if (errorList.Count > 0 || animal == null)
+                if (errorList.Count > 0 || newAnimal == null)
                 {
                     DisplayErrorMessage();
                 }
                 else // if the animal is not null and there are no errors, change the animal in the list with the new values
                 {
-                    animalManager.ChangeAt(index, animal);
+                    newAnimal.Id = animal.Id;
+                    animalManager.ChangeAt(index, newAnimal);
                     FillAnimalList();
                     UpdateGUI();
                 }
+            } else
+            {
+                InputValidator.DisplayErrorMessage("You must select a animal first");
             }
         }
 
@@ -819,6 +847,10 @@ namespace WildlifeTracker
                     UpdateGUI(); // Update the GUI
                     FillAnimalList();
                 }
+            }
+            else
+            {
+                InputValidator.DisplayErrorMessage("You must select a animal to delete first");
             }
         }
 
@@ -870,6 +902,18 @@ namespace WildlifeTracker
             ((Penguin)testAnimal3).CanSwim = true;
             ((Penguin)testAnimal3).FavoriteFish = "Herring";
             animalManager.AddAnimalWithID(testAnimal3);
+        }
+
+        /// <summary>
+        /// Method that handles the new animal button clicked event, clears the text boxes and sets the data context to null to be able to add a new animal
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void newAnimalClicked(object sender, RoutedEventArgs e)
+        {
+            ClearTextBoxes();
+            this.DataContext = null;
+            animalListView.SelectedIndex = -1;
         }
     }
 
