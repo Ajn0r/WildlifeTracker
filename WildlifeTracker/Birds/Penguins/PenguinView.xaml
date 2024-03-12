@@ -16,8 +16,8 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Content="Favorite fish:" Target="{Binding ElementName=txtFavveFish}" />
-            <TextBox Grid.Row="0" Grid.Column="1" Name="txtFavveFish" Padding="3"/>
+            <Label Grid.Row="0" Grid.Column="0" Content="Favorite fish:"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="txtFavveFish" Padding="3" Text="{Binding FavoriteFish}"/>
             <Label Grid.Row="1" Grid.Column="0" Content="Can swim:" Target="{Binding ElementName=chkCanSwim}" />
             <CheckBox Grid.Row="1" Grid.Column="1" Name="chkCanSwim" Padding="3" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         </Grid>

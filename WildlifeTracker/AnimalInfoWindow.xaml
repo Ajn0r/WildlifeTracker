@@ -21,11 +21,11 @@
         <StackPanel x:Name="AnimalInfoStack" Margin="10">
             <StackPanel Orientation="Horizontal">
                 <Label Content="Id:" Width="75"/>
-                <TextBlock Name="idTextBlock" Text="{Binding Animal.ID}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Name="idTextBlock" Text="{Binding Animal.Id}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Category:" Width="75"/>
-                <TextBlock Name="CategoryTextBlock" Text="{Binding Animal.CategoryType}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Name="CategoryTextBlock" Text="{Binding Animal.Category}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Species:" Width="75"/>
@@ -41,7 +41,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Gender:" Width="75"/>
-                <TextBlock Name="GenderTextBlock" Text="{Binding Animal.GenderType}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Name="GenderTextBlock" Text="{Binding Animal.Gender}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Color:" Width="75"/>

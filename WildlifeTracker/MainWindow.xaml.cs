@@ -1,20 +1,11 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WildlifeTracker.Birds;
+using WildlifeTracker.Food;
 using WildlifeTracker.Helper_classes;
 using WildlifeTracker.Mammals;
 using WildlifeTracker.Mammals.Cats;
@@ -33,24 +24,76 @@ namespace WildlifeTracker
         private List<string> errorList = new List<string>();
         // Variable to hold the image path string, to be used when adding an image to the animal before an animal is created
         string imgPath;
+        AnimalManager animalManager = new AnimalManager();
+
+        // Variables to hold the click count for each of the column headers for sorting, to sort in ascending or descending order
+        int idClick = 0;
+        int ageClick = 0;
+        int nameClick = 0;
+        int colorClick = 0;
+        int speciesCliked = 0;
 
         public MainWindow()
         {
+            Test(); // Call the test method to add some test animals to the list
             InitializeComponent();
             PopulateComboBoxes();
             btnAddAnimal.IsEnabled = false; // Disable the add animal button until a species is selected
             viewAnimalBtn.IsEnabled = false; // Disable the view animal button until an animal is created
             this.Title += " by Ronja Sjögren"; // Add my name to the title of the window
-            this.Title += " - Version 2.0"; // add the version number
+            this.Title += " - Version 3.0"; // add the version number
+            FillAnimalList();
         }
 
         private void UpdateGUI()
         {
-            ClearTextBoxes();
             UpdateAddAnimalButton();
             // Enable the view animal button if the data context is not null
             if (DataContext != null)
                 viewAnimalBtn.IsEnabled = true;
+            FillFoodSchedule();
+        }
+
+        /// <summary>
+        /// Method to fill the animal list view with the animals from the animal manager, based on the animal info string
+        /// </summary>
+        private void FillAnimalList()
+        {
+            // Get the animal info string array from the animal manager, containing the animal info
+            string[] animalList = animalManager.ToStringArray();
+
+            // Clear the list view
+            animalListView.Items.Clear();
+
+            // Loop through the animal list and add the animals to the list view, seperating the strings by the comma
+            foreach (string animal in animalList)
+            {
+                animalListView.Items.Add(animal.Split(','));
+            }
+
+        }
+       
+        /// <summary>
+        /// Method to fill the food schedule listbox with the food schedule of the selected animal
+        /// </summary>
+        private void FillFoodSchedule()
+        {
+            // Check if the selected index of the animal list view is not -1 or if the data context is null, in that case, return because there is no animal to display
+            if (this.DataContext == null)
+                return;
+
+            Animal animal = (Animal)this.DataContext; // Set the animal
+ 
+            if (animal != null) // Check that the animal is not null
+            {
+                foodScheduleListBox.Items.Clear(); // clear the list box
+                eaterHeader.Text = ((Animal)this.DataContext).GetFoodSchedule().Title(); // set the title of the food schedule to the eater type of the animal
+                string[] foodList = animal.GetFoodSchedule().GetFoodListInfoStrings(); // get the food list from the animal
+                foreach (string food in foodList) // loop through the food list and add the food to the list box
+                {
+                    foodScheduleListBox.Items.Add(food);
+                }               
+            }
         }
 
         /// <summary>
@@ -66,6 +109,8 @@ namespace WildlifeTracker
             txtTeeth.Text = "";
             chkSings.IsChecked = false;
             txtWingSpan.Text = "";
+            imgAnimal.Source = null;
+            imgPath = "";
 
             // Clear the species views
             dogView.ClearFields();
@@ -83,7 +128,6 @@ namespace WildlifeTracker
         {
             // Populate the combo box with the categories
             cmbCategory.ItemsSource = Enum.GetValues(typeof(CategoryType));
-            // Set the default value of the category combo box to Mammal
             cmbCategory.SelectedItem = CategoryType.Mammal;
             // Populate the gender combo box with the gender types
             cmbGender.ItemsSource = Enum.GetValues(typeof(GenderType));
@@ -95,18 +139,24 @@ namespace WildlifeTracker
         /// 
         private Animal ReadInput()
         {
-            CategoryType selectedCategory = ReadCategory();
+            CategoryType selectedCategory;
+            if (cmbCategory.SelectedItem == null)
+            {
+                errorList.Add("Category is required");
+                return null;
+            } else 
+                selectedCategory = ReadCategory();
 
             Animal animal = null;
             switch (selectedCategory)
             {
                 case CategoryType.Mammal:
                     animal = CreateMammal();
-                    animal.CategoryType = CategoryType.Mammal;
+                    animal.Category = CategoryType.Mammal;
                     break;
                 case CategoryType.Bird:
                     animal = CreateBird();
-                    // animal.CategoryType = CategoryType.Bird;
+                    animal.Category = CategoryType.Bird;
                     break;
             }
             if (animal != null)
@@ -171,11 +221,18 @@ namespace WildlifeTracker
             bool hasFurOrHair;
             // Read the common mammal specific values
             (numOfTeeth, hasFurOrHair) = ReadMammalSpec();
+            // Check that a species is selected
+            if (listSpecies.SelectedItem == null)
+            {
+                errorList.Add("Species is required");
+            } 
             // Get the selected species from the list view
-            MammalSpecies species = (MammalSpecies)listSpecies.SelectedItem;
+            string strSpecies = listSpecies.SelectedItem.ToString();
+            // Convert the string to a MammalSpecies enum
+            MammalSpecies species = (MammalSpecies)Enum.Parse(typeof(MammalSpecies), strSpecies);
+
             // Create a new mammal object based on the selected species with the mammalfactory
             animal = MammalFactory.CreateMammal(species, numOfTeeth, hasFurOrHair);
-            animal.ID = "M"; // Set the ID to M for Mammal
             // Read the different mammal specific values based on the species
             switch (species)
             {
@@ -202,31 +259,59 @@ namespace WildlifeTracker
 
             // Read the common bird specific values
             (bool sings, bool canFly, int wingSpan) = ReadBirdSpec();
-            // Get the selected species from the list view
-            BirdSpecies species = (BirdSpecies)listSpecies.SelectedItem;
+            // Get the selected species from the list view as a string
+            string strSpecies = listSpecies.SelectedItem.ToString();
+            // convert to the enum
+            BirdSpecies species = (BirdSpecies)Enum.Parse(typeof(BirdSpecies), strSpecies);
             // Create a new bird object based on the selected species with the birdfactory
             animal = BirdFactory.CreateBird(species, sings, canFly, wingSpan);
-            animal.ID = "B"; // Set the ID to B for Bird
 
             // Read the different bird specific values based on the species
             // Keeping them in this method for now, instead of seperate as it is for the mammals, might refactor later
             switch (species)
             {
                 case BirdSpecies.Parrot:
-                    ((Parrot)animal).FavoritePhrase = parrotView.ReadFavoritePhrase();
-                    ((Parrot)animal).CanSpeak = parrotView.ReadCanSpeak();
-                    ((Parrot)animal).Species = parrotView.ReadSpecies(ref errorList);
+                    ReadParrotValues(ref animal);
                     break;
                 case BirdSpecies.Owl:
-                    ((Owl)animal).IsNocturnal = owlView.ReadIsNocturnal();
-                    ((Owl)animal).Species = owlView.ReadSpecies(ref errorList);
+                    ReadOwlValues(ref animal);
                     break;
                 case BirdSpecies.Penguin:
-                    ((Penguin)animal).CanSwim = penguinView.ReadCanSwim();
-                    ((Penguin)animal).FavoriteFish = penguinView.ReadFavoriteFish();
+                    ReadPenguinValues(ref animal);
                     break;
             }
             return animal;
+        }
+
+        /// <summary>
+        /// Method to read the penguin specific values from the UI
+        /// </summary>
+        /// <param name="animal"></param>
+        private void ReadPenguinValues(ref Animal animal)
+        {
+            ((Penguin)animal).CanSwim = penguinView.ReadCanSwim();
+            ((Penguin)animal).FavoriteFish = penguinView.ReadFavoriteFish();
+        }
+
+        /// <summary>
+        /// Method to read the owl specific values from the UI
+        /// </summary>
+        /// <param name="animal"></param>
+        private void ReadOwlValues(ref Animal animal)
+        {
+            ((Owl)animal).IsNocturnal = owlView.ReadIsNocturnal();
+            ((Owl)animal).Species = owlView.ReadSpecies(ref errorList);
+        }
+
+        /// <summary>
+        /// Method to read the parrot specific values from the UI
+        /// </summary>
+        /// <param name="animal"></param>
+        private void ReadParrotValues(ref Animal animal)
+        {
+            ((Parrot)animal).FavoritePhrase = parrotView.ReadFavoritePhrase();
+            ((Parrot)animal).CanSpeak = parrotView.ReadCanSpeak();
+            ((Parrot)animal).Species = parrotView.ReadSpecies(ref errorList);
         }
 
         /// <summary>
@@ -279,9 +364,9 @@ namespace WildlifeTracker
             else
                 errorList.Add("Age is required and must be a positive number");
             if (cmbGender.SelectedItem != null)
-                animal.GenderType = (GenderType)cmbGender.SelectedIndex;
+                animal.Gender = (GenderType)cmbGender.SelectedIndex;
             else
-                animal.GenderType = GenderType.Unknown;
+                animal.Gender = GenderType.Unknown;
             if (chkDomesticated.IsChecked == true)
                 animal.IsDomesticated = true;
             else
@@ -296,6 +381,10 @@ namespace WildlifeTracker
         /// <returns></returns>
         private CategoryType ReadCategory()
         {
+            if (cmbCategory.SelectedItem == null)
+            {
+                errorList.Add("Category is required");
+            }
             return (CategoryType)cmbCategory.SelectedItem;
         }
 
@@ -305,8 +394,11 @@ namespace WildlifeTracker
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// 
         private void cmbCategoryChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (cmbCategory.SelectedItem == null)
+                return;
             // First, get the selected category
             CategoryType selectedCategory = (CategoryType)cmbCategory.SelectedItem;
             // Check if the selected category is Mammal
@@ -328,6 +420,7 @@ namespace WildlifeTracker
             if (chkShowAll.IsChecked == false)
                 fillListView(selectedCategory);
         }
+ 
 
         /// <summary>
         /// A method to fill the list view with the species of the selected category
@@ -367,7 +460,7 @@ namespace WildlifeTracker
             // Loop through the enum of bird species
             foreach (BirdSpecies species in Enum.GetValues(typeof(BirdSpecies)))
             {
-                listSpecies.Items.Add(species);
+                listSpecies.Items.Add(species.ToString());
             }
         }
 
@@ -378,7 +471,7 @@ namespace WildlifeTracker
             // Loop through the ENUM of Mammal species
             foreach (MammalSpecies species in Enum.GetValues(typeof(MammalSpecies)))
             {
-                listSpecies.Items.Add(species);
+                listSpecies.Items.Add(species.ToString());
             }
         }
 
@@ -421,13 +514,18 @@ namespace WildlifeTracker
             string selectedSpecies;
             // Check that a item has been selected
             if (listSpecies.SelectedItem == null)
+            {
+                btnAddAnimal.IsEnabled = false; // Disable the add animal button if no species is selected
                 return;
-            if (listSpecies.SelectedItem is MammalSpecies)
-                cmbCategory.SelectedItem = CategoryType.Mammal;
-            else if (listSpecies.SelectedItem is BirdSpecies)
+            }
+            // Check if the selected species is a mammal based on the selected item, since it is handled as a string now, i use the Enum.IsDefined method to check if the string is a valid enum value
+            if (Enum.IsDefined(typeof(MammalSpecies), listSpecies.SelectedItem.ToString()))
+                cmbCategory.SelectedItem = CategoryType.Mammal; // Set the category to Mammal
+            else if (Enum.IsDefined(typeof(BirdSpecies), listSpecies.SelectedItem.ToString())) // Do the same check for the bird species
                 cmbCategory.SelectedItem = CategoryType.Bird;
 
-            selectedSpecies = listSpecies.SelectedItem.ToString();
+            // Set the selected species to the selected item in the list view cast to a string to be able to use it in the switch statement and make it work with the AnimalType property
+            selectedSpecies = (string)listSpecies.SelectedItem;
             btnAddAnimal.IsEnabled = true; // Enable the add animal button
 
             // Toggle the visibility of the species views
@@ -511,8 +609,11 @@ namespace WildlifeTracker
             else
             { // Else the animal was created successfully
                 MessageBox.Show("Animal added");
+                animalManager.AddAnimalWithID(animal); // Add the animal to the animal manager to store it in the list
                 // Set the data context of the animal view to the animal object to display the animal details
                 this.DataContext = animal;
+                ClearTextBoxes(); // Clear the text boxes
+                FillAnimalList(); // Update the list view with the new animal
                 UpdateGUI(); // Update the GUI
             }
         }
@@ -523,7 +624,7 @@ namespace WildlifeTracker
         /// </summary>
         private void UpdateAddAnimalButton()
         {
-            if (listSpecies.SelectedItem == null) // Check if a species is selected, if not, disable the add animal button
+            if (listSpecies.SelectedItem == null || animalListView.SelectedItem != null) // Check if a species is selected, if not, disable the add animal button
                 btnAddAnimal.IsEnabled = false;
         }
 
@@ -564,5 +665,260 @@ namespace WildlifeTracker
                 imgAnimal.Source = new BitmapImage(filePath); // Create a new bitmap image with the Uri converted image path
            
         }
+
+        /// <summary>
+        /// Method to handle the listview item selection changed event
+        /// Sets the data context of the window to the selected animal to display the animal details
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AnimalListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Check if an animal is selected in the list view
+            if (animalListView.SelectedIndex == -1)
+                return; 
+            // Set the add animal button to disabled to prevent users from adding a new animal when an animal is selected
+            btnAddAnimal.IsEnabled = false;
+            // Get the index of the selected animal in the list view
+            int index = animalListView.SelectedIndex;
+            // Get the selected animal from the animal manager based on the index
+            Animal selectedAnimal = animalManager.GetAt(index);
+            if (selectedAnimal != null) // If the selected animal is not null, set the data context of the window to the selected animal
+            {
+                this.DataContext = selectedAnimal;
+                cmbCategory.SelectedItem = (CategoryType)selectedAnimal.Category; // Manually set the category combo box to the category of the selected animal
+            }
+            UpdateGUI(); // Update the GUI
+        }
+
+        /// <summary>
+        /// Method to sort the list, not used currently, want to refactor this later to only have one method for sorting
+        /// and not one for each column header...
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SortByColumnHeader_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the coloumn header that was clicked
+            GridViewColumnHeader column = (sender as GridViewColumnHeader); // sender is the column header that was clicked and cast it to a GridViewColumnHeader
+            string sortBy = column.Tag.ToString(); // Get the tag of the column header, which is the same property name of the animal object
+
+
+            animalManager.SortList(sortBy); // Call the sort list method of the animal manager to sort the list based on the property name
+            FillAnimalList(); // Update the list view with the sorted list
+        }
+
+        /// <summary>
+        /// Method to handle the id column header clicked event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SortByColumnHeaderId_Click(object sender, RoutedEventArgs e)
+        {
+            idClick++; // Increment the click count
+            // If the click count is even, sort the list in descending order
+            if (idClick % 2 == 0)
+                animalManager.SortListDesc("Id");
+            else // If the click count is odd, sort the list in ascending order
+                animalManager.SortList("Id");
+            UpdateGUI(); // Update the list view with the sorted list
+        } 
+
+        /// <summary>
+        /// Method to handle the age column header clicked event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SortByColumnHeaderAge_Click(object sender, RoutedEventArgs e)
+        {
+            ageClick++; // Increment the click count
+            // If the click count is even, sort the list in descending order
+            if (ageClick % 2 == 0)
+                animalManager.SortListDesc("Age");
+            else // If the click count is odd, sort the list in ascending order
+                animalManager.SortList("Age");
+            UpdateGUI(); // Update the list view with the sorted list
+        }
+
+        /// <summary>
+        /// Method to handle the name column header clicked event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SortByColumnHeaderName_Click(object sender, RoutedEventArgs e)
+        {
+            nameClick++; // Increment the click count
+            // If the click count is even, sort the list in descending order
+            if (nameClick % 2 == 0)
+                animalManager.SortListDesc("Name");
+            else // If the click count is odd, sort the list in ascending order
+                animalManager.SortList("Name");
+            UpdateGUI(); // Update the list view with the sorted list
+        }
+
+        /// <summary>
+        /// Method to handle the color column header clicked event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SortByColumnHeaderColor_Click(object sender, RoutedEventArgs e)
+        {
+            colorClick++; // Increment the click count
+            // If the click count is even, sort the list in descending order
+            if (colorClick % 2 == 0)
+                animalManager.SortListDesc("Color");
+            else // If the click count is odd, sort the list in ascending order
+                animalManager.SortList("Color");
+            UpdateGUI(); // Update the list view with the sorted list
+        }
+
+        /// <summary>
+        /// Method to handle the species column header clicked event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SortByColumnHeaderSpecies_Click(object sender, RoutedEventArgs e)
+        {
+            speciesCliked++; // Increment the click count
+            // If the click count is even, sort the list in descending order
+            if (speciesCliked % 2 == 0)
+                animalManager.SortListDesc("Species");
+            else // If the click count is odd, sort the list in ascending order
+                animalManager.SortList("Species");
+            UpdateGUI(); // Update the list view with the sorted list
+        }
+
+        /// <summary>
+        /// Method to handle the change animal button clicked event, changes the selected animal
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void changeAnimalClicked(object sender, RoutedEventArgs e)
+        {
+            // Get and check the index of the selected animal in the list view
+            int index = animalListView.SelectedIndex;
+            if (index >= 0)
+            {
+                Animal newAnimal = ReadInput();
+                // Get the selected animal from the data context
+                Animal animal = (Animal)this.DataContext;
+                // Validate the name and age input
+                if (!InputValidator.IsStringValid(txtName.Text))
+                    errorList.Add("Name is required");
+                if (!InputValidator.IsNumberValid(txtAge.Text))
+                    errorList.Add("Age is required and must be a positive number");
+                // Check if the animal object is null or if there are any errors
+                if (errorList.Count > 0 || newAnimal == null)
+                {
+                    DisplayErrorMessage();
+                }
+                else // if the animal is not null and there are no errors, change the animal in the list with the new values
+                {
+                    newAnimal.Id = animal.Id;
+                    animalManager.ChangeAt(index, newAnimal);
+                    FillAnimalList();
+                    UpdateGUI();
+                }
+            } else
+            {
+                InputValidator.DisplayErrorMessage("You must select a animal first");
+            }
+        }
+
+        /// <summary>
+        /// Method that deletes the selected animal from the list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void deleteAnimalClicked(object sender, RoutedEventArgs e)
+        {
+            // Get the index of the selected animal in the list view
+            int index = animalListView.SelectedIndex;
+            Animal animal = (Animal)this.DataContext;
+            // Check the index and that the animal is not null
+            if (index >= 0 && animal != null)
+            {
+                // Ask the user if they are sure they want to delete the animal
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to delete " + animal.Name + "?", "Delete animal", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes) // If the user clicks yes, delete the animal
+                {
+                    animalManager.DeleteAt(index);// Call the delete animal method of the animal manager
+                    this.DataContext = null; // Set the data context to null
+                    UpdateGUI(); // Update the GUI
+                    FillAnimalList();
+                }
+            }
+            else
+            {
+                InputValidator.DisplayErrorMessage("You must select a animal to delete first");
+            }
+        }
+
+        private void AddFoodButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Open the FoodForm window
+            FoodForm foodForm = new FoodForm();
+            foodForm.Show();
+        }
+
+        /// <summary>
+        /// Method to add some test animals to the list
+        /// </summary>
+        private void Test()
+        {
+            // test animal 1
+            Animal testAnimal = new Cat(21, true);
+            testAnimal.Name = "Test";
+            testAnimal.Age = 5;
+            testAnimal.Color = "Black";
+            testAnimal.Gender = GenderType.Female;
+            testAnimal.Category = CategoryType.Mammal;
+            testAnimal.IsDomesticated = true;
+            ((Cat)testAnimal).Breed = "Siamese";
+            ((Cat)testAnimal).FavoriteToy = "Mouse";
+            ((Cat)testAnimal).IsHouseTrained = true;
+            animalManager.AddAnimalWithID(testAnimal);
+            
+            // test animal 2
+            Animal testAnimal2 = new Dog(22, true);
+            testAnimal2.Name = "Test2";
+            testAnimal2.Age = 3;
+            testAnimal2.Color = "White";
+            testAnimal2.Gender = GenderType.Male;
+            testAnimal2.Category = CategoryType.Mammal;
+            testAnimal2.IsDomesticated = true;
+            ((Dog)testAnimal2).Breed = "Golden Retriever";
+            ((Dog)testAnimal2).TailLength = 30;
+            ((Dog)testAnimal2).IsSpecialTrained = true;
+            ((Dog)testAnimal2).SpecialTrainingType = SpecialTrainingType.Guide;
+            animalManager.AddAnimalWithID(testAnimal2);
+
+            // test animal 3
+            Animal testAnimal3 = new Penguin(false, false, 23);
+            testAnimal3.Name = "Test3";
+            testAnimal3.Age = 2;
+            testAnimal3.Color = "Black and white";
+            testAnimal3.Category = CategoryType.Bird;
+            testAnimal3.Gender = GenderType.Male;
+            testAnimal3.IsDomesticated = false;
+            ((Penguin)testAnimal3).CanSwim = true;
+            ((Penguin)testAnimal3).FavoriteFish = "Herring";
+            animalManager.AddAnimalWithID(testAnimal3);
+        }
+
+        /// <summary>
+        /// Method that handles the new animal button clicked event, clears the text boxes and sets the data context to null to be able to add a new animal
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void newAnimalClicked(object sender, RoutedEventArgs e)
+        {
+            ClearTextBoxes();
+            this.DataContext = null;
+            animalListView.SelectedIndex = -1;
+        }
     }
+
+
 }

@@ -18,11 +18,11 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Label Content="Species: " Target="{Binding ElementName=txtParrotSpecies}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-            <TextBox Name="txtParrotSpecies" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3"/>
+            <TextBox Name="txtParrotSpecies" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Padding="3" Text="{Binding Species}"/>
             <Label Content="Can talk" Target="{Binding ElementName=chkCanTalk}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-            <CheckBox Name="chkCanTalk" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Checked="canTalkChecked" Unchecked="chkCanTalkUnchecked" />
+            <CheckBox Name="chkCanTalk" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Checked="canTalkChecked" Unchecked="chkCanTalkUnchecked" IsChecked="{Binding canSpeak}"/>
             <Label Content="Favorite phrase:" Name="lblFavvePhrase" Target="{Binding ElementName=txtFavvePhrase}" Grid.Row="2" Grid.Column="0" Visibility="Hidden" VerticalAlignment="Center"/>
-            <TextBox Name="txtFavvePhrase" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Visibility="Hidden" Padding="3"/>
+            <TextBox Name="txtFavvePhrase" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Visibility="Hidden" Padding="3" Text="{Binding FavoritePhrase}"/>
         </Grid>
     </GroupBox>
 </UserControl>

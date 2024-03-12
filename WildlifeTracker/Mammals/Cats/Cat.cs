@@ -13,6 +13,7 @@ namespace WildlifeTracker.Mammals.Cats
         private string breed;
         private bool isHouseTrained;
         private string favoriteToy;
+        private FoodSchedule foodSchedule;
         #endregion
 
         #region // Properties //
@@ -43,6 +44,7 @@ namespace WildlifeTracker.Mammals.Cats
         #region // Constructor //
         public Cat(int numOfTeeth, bool hasFurOrHair) : base(numOfTeeth, hasFurOrHair)
         {
+            SetFoodSchedule();
         }
         #endregion
 
@@ -52,6 +54,18 @@ namespace WildlifeTracker.Mammals.Cats
             AnimalInfoWindow.AddAttributeRow(stackPanel, "Breed:", cat.Breed.ToString());
             AnimalInfoWindow.AddAttributeRow(stackPanel, "Favorite Toy:", cat.FavoriteToy.ToString());
             AnimalInfoWindow.AddAttributeRow(stackPanel, "Is House Trained:", cat.IsHouseTrained ? "Yes" : "No");
+        }
+        private void SetFoodSchedule()
+        {
+            foodSchedule = new FoodSchedule();
+            foodSchedule.EaterType = EaterType.Carnivore;
+            foodSchedule.Add("Morning: Whiskas");
+            foodSchedule.Add("Lunch: Boiled fish");
+            foodSchedule.Add("Evening: Milk and dry food");
+        }
+        public override FoodSchedule GetFoodSchedule()
+        {
+            return foodSchedule;
         }
         #endregion
     }

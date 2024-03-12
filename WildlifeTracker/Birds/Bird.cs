@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WildlifeTracker
 {
-    public class Bird : Animal
+    public abstract class Bird : Animal
     {
         #region // Instance variables //
         private bool sings;
@@ -30,6 +30,10 @@ namespace WildlifeTracker
         #endregion
 
         #region // Methods //
+        public override string GetExtraInfo()
+        {
+            return $"Sings: {(sings ? "Yes" : "No")}, Can Fly: {(canFly ? "Yes" : "No" )}, Wing Span: {wingSpan}";
+        }
         #endregion
 
     }

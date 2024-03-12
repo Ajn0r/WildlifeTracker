@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
 namespace WildlifeTracker
 {
-    public class Animal
+    public abstract class Animal : IAnimal, INotifyPropertyChanged
     {
         #region // Instance variables //
         private string name;
@@ -16,7 +17,8 @@ namespace WildlifeTracker
         private string color;
         private string id;
         private string imagePath;
-        private static int nextIDNumber = 1; // Static variable to keep track of the next ID number
+
+        public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
         #region // Properties //
@@ -28,10 +30,20 @@ namespace WildlifeTracker
         public string AnimalType => GetType().Name; 
 
         // Property to get and set the gender of the animal
-        public GenderType GenderType { get => gender; set => gender = value; }
+        public GenderType Gender { get => gender; set => gender = value; }
 
         // Property to get and set the category type of the animal
-        public CategoryType CategoryType { get => category; set => category = value; }
+        public CategoryType Category { 
+            get => category;
+            set
+            { 
+                if (category != value)
+                {
+                    category = value;
+                    OnPropertyChanged(nameof(Category));
+                }
+            }
+        }
 
         // Property to get and set the domesticated status of the animal
         public bool IsDomesticated { get => isDomesticated; set => isDomesticated = value; }
@@ -73,19 +85,8 @@ namespace WildlifeTracker
         // Property to get and set the image path of the animal
         public string ImagePath { get => imagePath; set => imagePath = value; }
 
-        // Property to get the ID of the animal, no set method because the ID is generated in the constructor and should not be changed
-        public string ID { get => id;
-            set
-            { 
-                if (!string.IsNullOrEmpty(value))
-                {
-                    // Set the ID to the value and the next ID number with a 3 digit format
-                    id = $"{value}{nextIDNumber:D3}";
-                    // Increment the next ID number
-                    nextIDNumber++;
-                }
-            }
-        }
+        // Property to get the id of the animal, no set method because the id is generated in the constructor and should not be changed
+        public string Id { get => id; set => id = value; }
         #endregion
 
         #region // Constructors //
@@ -97,7 +98,21 @@ namespace WildlifeTracker
         #endregion
 
         #region // Methods //
+        public abstract FoodSchedule GetFoodSchedule();
 
+        public virtual string GetExtraInfo()
+        {
+            return $"{Id}, {Name}, {Age}, {Color}, {AnimalType}";
+        }
+        public override string ToString()
+        {
+            return $"{Id}, {Name}, {Age}, {Color}, {AnimalType}";
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         #endregion
     }
 }

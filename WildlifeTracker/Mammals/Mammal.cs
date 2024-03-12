@@ -6,7 +6,7 @@ using WildlifeTracker.Mammals.Cats;
 
 namespace WildlifeTracker
 {
-    public class Mammal : Animal
+    public abstract class Mammal : Animal
     {
         #region // Instance variables //
         private int numOfTeeth;
@@ -19,7 +19,7 @@ namespace WildlifeTracker
         #endregion
 
         #region // Constructors //
-        // Default constructor, pass the type of animal to the base class to use for ID
+        // Default constructor, pass the type of animal to the base class to use for id
         public Mammal(int numOfTeeth, bool hasFurOrHair) : base(CategoryType.Mammal)
         {
             // Set the default values
