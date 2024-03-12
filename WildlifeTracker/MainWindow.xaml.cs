@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using WildlifeTracker.Birds;
+using WildlifeTracker.Food;
 using WildlifeTracker.Helper_classes;
 using WildlifeTracker.Mammals;
 using WildlifeTracker.Mammals.Cats;
@@ -856,7 +857,9 @@ namespace WildlifeTracker
 
         private void AddFoodButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            // Open the FoodForm window
+            FoodForm foodForm = new FoodForm();
+            foodForm.Show();
         }
 
         /// <summary>
