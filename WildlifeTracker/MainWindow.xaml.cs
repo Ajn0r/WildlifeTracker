@@ -24,7 +24,10 @@ namespace WildlifeTracker
         private List<string> errorList = new List<string>();
         // Variable to hold the image path string, to be used when adding an image to the animal before an animal is created
         string imgPath;
+        // Create a new animal manager to manage the animals
         AnimalManager animalManager = new AnimalManager();
+        // A list to hold the food items
+        ListManager<FoodItem> foodItems = new ListManager<FoodItem>();
 
         // Variables to hold the click count for each of the column headers for sorting, to sort in ascending or descending order
         int idClick = 0;
@@ -857,9 +860,14 @@ namespace WildlifeTracker
 
         private void AddFoodButton_Click(object sender, RoutedEventArgs e)
         {
-            // Open the FoodForm window
+            // Create a new and open the FoodForm window
             FoodForm foodForm = new FoodForm();
-            foodForm.Show();
+            foodForm.ShowDialog();
+            // if the user clicks ok, add the food item to the list
+            if (foodForm.DialogResult == true)
+            {
+                foodItemList.Items.Add(foodForm.FoodItem.ToString());
+            }
         }
 
         /// <summary>
