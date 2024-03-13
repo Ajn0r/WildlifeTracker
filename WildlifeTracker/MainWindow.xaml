@@ -10,7 +10,7 @@
         xmlns:parrots="clr-namespace:WildlifeTracker.Birds.Parrots"
         xmlns:owls="clr-namespace:WildlifeTracker.Birds.Owls"
         xmlns:penguins="clr-namespace:WildlifeTracker.Birds.Penguins"
-        mc:Ignorable="d"        Title="Wildlife Tracker" Height="730" Width="920" ResizeMode="NoResize" >
+        mc:Ignorable="d"        Title="Wildlife Tracker" Height="730" Width="930" ResizeMode="NoResize" >
     <Grid>
 
         <!-- Main grid layout -->
@@ -294,9 +294,9 @@
                     
                 </ListView>
                 <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
-                    <Button Content="Add food" Margin="5"  MaxHeight="30" Width="150"  Padding="3" Click="AddFoodButton_Click"/>
+                    <Button Content="Add food" Margin="5"  MaxHeight="30" Width="80"  Padding="3" Click="AddFoodButton_Click"/>
                     <Button Content="Add food to animal" Margin="5"  MaxHeight="30" Width="150"  Padding="3" Click="ConnectFoodBtn_Clicked"/>
-
+                    <Button Content="View animals with the food" Margin="5"  MaxHeight="30" Width="160"  Padding="3" Click="ViewAnimalsWithFoodItem_Clicked"/>
                 </StackPanel>
                 
             </Grid>

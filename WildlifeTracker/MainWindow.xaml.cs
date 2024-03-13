@@ -938,13 +938,11 @@ namespace WildlifeTracker
             if (this.DataContext == null)
             {
                 errorList.Add("You must select a animal first");
-                return;
             }
             // Check that a food item is chosen
             if (foodItemList.SelectedItem == null)
             {
                 errorList.Add("You must select a food item first");
-                return;
             }
             if (errorList.Count > 0)
             {
@@ -955,6 +953,27 @@ namespace WildlifeTracker
             Animal animal = (Animal)this.DataContext;
             // Get the selected food item from the list view
             string foodItem = foodItemList.SelectedItem.ToString();
+
+            // Check if the animal is already connected to one food item
+            bool animalInDict = CheckIfAnimalIsInDict(animal);
+            // If it is
+            if (animalInDict) 
+            { // Ask the user if they want to change the food item
+                AskToChangeFoodItem(foodItem, animal);
+            }
+            else // If it is not, add it to the dictionary with the selected food item
+            {
+                AddToFoodItemsDict(foodItem, animal);
+            }
+        }
+
+        /// <summary>
+        /// Methood that hanldes adding fooditems and animals to a dictionary
+        /// </summary>
+        /// <param name="foodItem"></param>
+        /// <param name="animal"></param>
+        private void AddToFoodItemsDict(string foodItem, Animal animal)
+        {
             if (!foodItemsDict.ContainsKey(foodItem)) // Check if the food item is not already in the dictionary
             {
                 // If it is not, create a new list manager and add the animal to the list
@@ -962,25 +981,41 @@ namespace WildlifeTracker
                 anmList.Add(animal);
                 foodItemsDict.Add(foodItem, anmList);
             }
-            else if (foodItemsDict.ContainsKey(foodItem)) // If the food item is already in the dictionary
+            else // If the food item is already in the dictionary
             {
                 // Get the list manager from the dictionary and add the animal to the list
                 ListManager<Animal> anmList = foodItemsDict[foodItem];
-                // Check if the animal is not already in the list
-                if (!anmList.Contains(animal))
-                    anmList.Add(animal); // If it is not, add to the list
-                else
-                {
-                    // Call the ask to change food item method to ask the user if they want to change the food item
-                    AskToChangeFoodItem(foodItem, animal);
-                }
+
             }
         }
 
+        /// <summary>
+        /// MEthod that checks if the selected animal is already connected to a food item
+        /// </summary>
+        /// <param name="animal"></param>
+        /// <returns></returns>
+        private bool CheckIfAnimalIsInDict(Animal animal)
+        {
+            foreach (KeyValuePair<string, ListManager<Animal>> entry in foodItemsDict)
+            {
+                ListManager<Animal> anmList = entry.Value;
+                if (anmList.Contains(animal))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// MEthod that asks the user if they want to change the food item the animal is connected to
+        /// </summary>
+        /// <param name="foodItem"></param>
+        /// <param name="animal"></param>
         private void AskToChangeFoodItem(string foodItem, Animal animal)
         {
             // Create a message box to ask the user if they want to connect the animal to the fooditem, and thereby removing it from the other fooditem
-            MessageBoxResult result = MessageBox.Show("The animal is already connected to the food item, do you want to connect it to this food item instead?", "Connect animal to food item", MessageBoxButton.YesNo);
+            MessageBoxResult result = MessageBox.Show("The animal is already connected to a food item, do you want to connect it to this food item instead?", "Connect animal to food item", MessageBoxButton.YesNo);
             // If the user clicks yes, remove the animal from the other food item and connect it to the new food item
             if (result == MessageBoxResult.Yes)
             {
@@ -998,8 +1033,13 @@ namespace WildlifeTracker
                             // Get the index of the animal in the list
                             int index = anmList.IndexOf(animal);
                             anmList.DeleteAt(index); // If it is, remove the animal from the list
+                            AddToFoodItemsDict(foodItem, animal); // Add the animal to the new food item
                             break;
                         }
+                    }
+                    else // If the food item is the same as the selected food item, let the user know that the animal is already connected to the food item
+                    {
+                        MessageBox.Show("The animal is already connected to this food item");
                     }
                 }
             }
@@ -1007,6 +1047,25 @@ namespace WildlifeTracker
             {
                 return;
             }
+        }
+        private void CheckFoodItems()
+        {
+            if (foodItemList.SelectedIndex == -1)
+            {
+                return;
+            }
+            // Get the selected food item from the list view
+            string foodItem = foodItemList.SelectedItem.ToString();
+            // Open a new window with the list of animals connected to the selected food item
+            FoodItemWindow foodItemWindow = new FoodItemWindow(foodItemsDict[foodItem]);
+            foodItemWindow.Show();
+
+
+        }
+
+        private void ViewAnimalsWithFoodItem_Clicked(object sender, RoutedEventArgs e)
+        {
+            CheckFoodItems();
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WildlifeTracker
 {
-    public class ListManager <T> : IListManager<T>
+    public class ListManager <T> : IListManager<T>, IEnumerable<T>
     {
         private List<T> list;
 
@@ -140,6 +141,16 @@ namespace WildlifeTracker
             int index = list.IndexOf(type);
             return index;
             
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return list.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }   
 
