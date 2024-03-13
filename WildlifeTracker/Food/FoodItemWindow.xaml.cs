@@ -22,25 +22,8 @@ namespace WildlifeTracker.Food
         public FoodItemWindow(ListManager<Animal> animals)
         {
             InitializeComponent();
-            StackPanel sp;
-            int row = 0;
-            foreach (Animal animal in animals)
-            {
-                MainGrid.RowDefinitions.Add(new RowDefinition());
-                
-                // for each animal, create a stackpanel with the info to the grid
-                sp = new StackPanel();
-                sp.Orientation = Orientation.Horizontal;
-                sp.Children.Add(new TextBlock() { Text = animal.Name });
-                sp.Children.Add(new TextBlock() { Text = animal.AnimalType });
-                // Set the row of the stackpanel
-                Grid.SetRow(sp, row++);
-                // Add the stackpanel to the grid
-
-                MainGrid.Children.Add(sp); 
-
-            }
-
+            FoodItemListView.ItemsSource = animals;
         }
+
     }
 }

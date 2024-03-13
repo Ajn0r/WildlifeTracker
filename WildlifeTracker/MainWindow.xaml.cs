@@ -963,8 +963,10 @@ namespace WildlifeTracker
             }
             else // If it is not, add it to the dictionary with the selected food item
             {
-                AddToFoodItemsDict(foodItem, animal);
+                if(AddToFoodItemsDict(foodItem, animal))
+                    MessageBox.Show(animal.Name + " connected to " + foodItem);
             }
+            UpdateGUI(); // Update the GUI
         }
 
         /// <summary>
@@ -972,21 +974,25 @@ namespace WildlifeTracker
         /// </summary>
         /// <param name="foodItem"></param>
         /// <param name="animal"></param>
-        private void AddToFoodItemsDict(string foodItem, Animal animal)
+        private bool AddToFoodItemsDict(string foodItem, Animal animal)
         {
+            bool ok = false;
             if (!foodItemsDict.ContainsKey(foodItem)) // Check if the food item is not already in the dictionary
             {
                 // If it is not, create a new list manager and add the animal to the list
                 ListManager<Animal> anmList = new ListManager<Animal>();
                 anmList.Add(animal);
                 foodItemsDict.Add(foodItem, anmList);
+                ok = true;
             }
             else // If the food item is already in the dictionary
             {
                 // Get the list manager from the dictionary and add the animal to the list
                 ListManager<Animal> anmList = foodItemsDict[foodItem];
-
+                anmList.Add(animal);
+                ok = true;
             }
+            return ok;
         }
 
         /// <summary>

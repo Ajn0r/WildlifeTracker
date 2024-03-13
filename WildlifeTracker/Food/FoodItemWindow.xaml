@@ -5,9 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WildlifeTracker.Food"
         mc:Ignorable="d"
-        Title="FoodItemWindow" Height="450" Width="800">
+        Title="FoodItemWindow" Height="350" Width="450">
     <Grid Name="MainGrid">
-
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>  
+        <TextBlock Grid.Row="0" Text="{Binding Name}" HorizontalAlignment="Center" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <ListView Grid.Row="1" Name="FoodItemListView" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="400">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" Width="100" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Species" Width="300" DisplayMemberBinding="{Binding AnimalType}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
