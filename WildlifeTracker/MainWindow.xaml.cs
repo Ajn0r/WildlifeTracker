@@ -26,8 +26,8 @@ namespace WildlifeTracker
         string imgPath;
         // Create a new animal manager to manage the animals
         AnimalManager animalManager = new AnimalManager();
-        // A list to hold the food items
-        ListManager<FoodItem> foodItems = new ListManager<FoodItem>();
+        // A dictionary to hold the different fooditems and animals
+        Dictionary<string, ListManager<Animal>> foodItemsDict = new Dictionary<string, ListManager<Animal>>();
 
         // Variables to hold the click count for each of the column headers for sorting, to sort in ascending or descending order
         int idClick = 0;
@@ -925,6 +925,88 @@ namespace WildlifeTracker
             ClearTextBoxes();
             this.DataContext = null;
             animalListView.SelectedIndex = -1;
+        }
+
+        /// <summary>
+        /// Method to handle the connect food button clicked event, that conncets to fooditem to the animal in a dictionary
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ConnectFoodBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            // Check that a animal is chosen
+            if (this.DataContext == null)
+            {
+                errorList.Add("You must select a animal first");
+                return;
+            }
+            // Check that a food item is chosen
+            if (foodItemList.SelectedItem == null)
+            {
+                errorList.Add("You must select a food item first");
+                return;
+            }
+            if (errorList.Count > 0)
+            {
+                DisplayErrorMessage();
+                return;
+            }
+            // Get the selected animal from the data context
+            Animal animal = (Animal)this.DataContext;
+            // Get the selected food item from the list view
+            string foodItem = foodItemList.SelectedItem.ToString();
+            if (!foodItemsDict.ContainsKey(foodItem)) // Check if the food item is not already in the dictionary
+            {
+                // If it is not, create a new list manager and add the animal to the list
+                ListManager<Animal> anmList = new ListManager<Animal>();
+                anmList.Add(animal);
+                foodItemsDict.Add(foodItem, anmList);
+            }
+            else if (foodItemsDict.ContainsKey(foodItem)) // If the food item is already in the dictionary
+            {
+                // Get the list manager from the dictionary and add the animal to the list
+                ListManager<Animal> anmList = foodItemsDict[foodItem];
+                // Check if the animal is not already in the list
+                if (!anmList.Contains(animal))
+                    anmList.Add(animal); // If it is not, add to the list
+                else
+                {
+                    // Call the ask to change food item method to ask the user if they want to change the food item
+                    AskToChangeFoodItem(foodItem, animal);
+                }
+            }
+        }
+
+        private void AskToChangeFoodItem(string foodItem, Animal animal)
+        {
+            // Create a message box to ask the user if they want to connect the animal to the fooditem, and thereby removing it from the other fooditem
+            MessageBoxResult result = MessageBox.Show("The animal is already connected to the food item, do you want to connect it to this food item instead?", "Connect animal to food item", MessageBoxButton.YesNo);
+            // If the user clicks yes, remove the animal from the other food item and connect it to the new food item
+            if (result == MessageBoxResult.Yes)
+            {
+                // Loop through the dictionary
+                foreach (KeyValuePair<string, ListManager<Animal>> entry in foodItemsDict)
+                {
+                    // If the food item is not the same as the selected food item
+                    if (entry.Key != foodItem)
+                    {
+                        // Get the list manager from the dictionary
+                        ListManager<Animal> anmList = entry.Value;
+                        // Check if the animal is in the list
+                        if (anmList.Contains(animal))
+                        {
+                            // Get the index of the animal in the list
+                            int index = anmList.IndexOf(animal);
+                            anmList.DeleteAt(index); // If it is, remove the animal from the list
+                            break;
+                        }
+                    }
+                }
+            }
+            else // If the user clicks no, do nothing
+            {
+                return;
+            }
         }
     }
 

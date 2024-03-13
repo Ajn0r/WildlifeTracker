@@ -32,6 +32,10 @@ namespace WildlifeTracker
             list.Add(type);
             return true;
         }
+        public bool Contains(T type)
+        {
+            return list.Contains(type);
+        }
 
         /// <summary>
         /// Method that changes an item at the index passed
@@ -131,6 +135,12 @@ namespace WildlifeTracker
             throw new NotImplementedException();
         }
 
+        internal int IndexOf(T type)
+        {
+            int index = list.IndexOf(type);
+            return index;
+            
+        }
     }   
 
 }
