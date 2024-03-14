@@ -706,7 +706,6 @@ namespace WildlifeTracker
             GridViewColumnHeader column = (sender as GridViewColumnHeader); // sender is the column header that was clicked and cast it to a GridViewColumnHeader
             string sortBy = column.Tag.ToString(); // Get the tag of the column header, which is the same property name of the animal object
 
-
             animalManager.SortList(sortBy); // Call the sort list method of the animal manager to sort the list based on the property name
             FillAnimalList(); // Update the list view with the sorted list
         }
@@ -718,13 +717,9 @@ namespace WildlifeTracker
         /// <param name="e"></param>
         private void SortByColumnHeaderId_Click(object sender, RoutedEventArgs e)
         {
-            idClick++; // Increment the click count
-            // If the click count is even, sort the list in descending order
-            if (idClick % 2 == 0)
-                animalManager.SortListDesc("Id");
-            else // If the click count is odd, sort the list in ascending order
-                animalManager.SortList("Id");
+            animalManager.SortList("Id");
             UpdateGUI(); // Update the list view with the sorted list
+            FillAnimalList();
         } 
 
         /// <summary>
@@ -741,6 +736,7 @@ namespace WildlifeTracker
             else // If the click count is odd, sort the list in ascending order
                 animalManager.SortList("Age");
             UpdateGUI(); // Update the list view with the sorted list
+            FillAnimalList();
         }
 
         /// <summary>
@@ -757,6 +753,7 @@ namespace WildlifeTracker
             else // If the click count is odd, sort the list in ascending order
                 animalManager.SortList("Name");
             UpdateGUI(); // Update the list view with the sorted list
+            FillAnimalList();
         }
 
         /// <summary>
@@ -773,6 +770,7 @@ namespace WildlifeTracker
             else // If the click count is odd, sort the list in ascending order
                 animalManager.SortList("Color");
             UpdateGUI(); // Update the list view with the sorted list
+            FillAnimalList();
         }
 
         /// <summary>
@@ -789,6 +787,7 @@ namespace WildlifeTracker
             else // If the click count is odd, sort the list in ascending order
                 animalManager.SortList("Species");
             UpdateGUI(); // Update the list view with the sorted list
+            FillAnimalList();
         }
 
         /// <summary>
@@ -1065,8 +1064,6 @@ namespace WildlifeTracker
             // Open a new window with the list of animals connected to the selected food item
             FoodItemWindow foodItemWindow = new FoodItemWindow(foodItemsDict[foodItem]);
             foodItemWindow.Show();
-
-
         }
 
         private void ViewAnimalsWithFoodItem_Clicked(object sender, RoutedEventArgs e)
