@@ -241,19 +241,19 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="50" DisplayMemberBinding="{Binding [0]}">
-                                <GridViewColumnHeader Content="ID" Click="SortByColumnHeaderId_Click" Tag="Id"/>
+                            <GridViewColumnHeader Content="ID" Click="SortByColumnHeader_Click" Tag="Id"/>
                             </GridViewColumn>
                             <GridViewColumn Width="100" DisplayMemberBinding="{Binding [1]}">
-                                <GridViewColumnHeader Content="Name" Click="SortByColumnHeaderName_Click" Tag="Name"/>
+                                    <GridViewColumnHeader Content="Name" Click="SortByColumnHeader_Click" Tag="Name"/>
                             </GridViewColumn>
                             <GridViewColumn Width="50" DisplayMemberBinding="{Binding [2]}">
-                                <GridViewColumnHeader Content="Age" Click="SortByColumnHeaderAge_Click" Tag="Age"/>
+                                    <GridViewColumnHeader Content="Age" Click="SortByColumnHeader_Click" Tag="Age"/>
                             </GridViewColumn>
                             <GridViewColumn Width="100" DisplayMemberBinding="{Binding [3]}">
-                                <GridViewColumnHeader Content="Color" Click="SortByColumnHeaderColor_Click" Tag="Color"/>
+                                <GridViewColumnHeader Content="Color" Click="SortByColumnHeader_Click" Tag="Color"/>
                             </GridViewColumn>
                             <GridViewColumn Width="100" DisplayMemberBinding="{Binding [4]}">
-                                <GridViewColumnHeader Content="Species" Click="SortByColumnHeaderSpecies_Click" Tag="Species"/>
+                                <GridViewColumnHeader Content="Species" Click="SortByColumnHeader_Click" Tag="Species"/>
                             </GridViewColumn>
                         </GridView>
                     </ListView.View>

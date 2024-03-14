@@ -35,6 +35,8 @@ namespace WildlifeTracker
         int nameClick = 0;
         int colorClick = 0;
         int speciesCliked = 0;
+        // A Dictionary to keep track of the click count for each column header
+        Dictionary<string, int> clickCountDict = new Dictionary<string, int>();
 
         public MainWindow()
         {
@@ -695,8 +697,9 @@ namespace WildlifeTracker
         }
 
         /// <summary>
-        /// Method to sort the list, not used currently, want to refactor this later to only have one method for sorting
-        /// and not one for each column header...
+        /// Method to sort the list of registered animals by the column header that was clicked. 
+        /// The method will sort the list in ascending order if the click count is odd, and in descending order if the click count is even.
+        /// A dictionary is used to keep track of the click count for each column header where the key is the property name of the animal object and the value is the click count.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -705,89 +708,17 @@ namespace WildlifeTracker
             // Get the coloumn header that was clicked
             GridViewColumnHeader column = (sender as GridViewColumnHeader); // sender is the column header that was clicked and cast it to a GridViewColumnHeader
             string sortBy = column.Tag.ToString(); // Get the tag of the column header, which is the same property name of the animal object
-
-            animalManager.SortList(sortBy); // Call the sort list method of the animal manager to sort the list based on the property name
+            // Check if the click count dictionary contains the property name
+            if (!clickCountDict.ContainsKey(sortBy))
+                clickCountDict.Add(sortBy, 0); // If not, add the property name to the dictionary with a click count of 0
+            int clickCount = clickCountDict[sortBy]; // Get the click count from the dictionary based on the property name and store it in a variable
+            clickCount++; // Increment the click count
+            clickCountDict[sortBy] = clickCount; // Set the click count in the dictionary to the new click count
+            if (clickCount % 2 == 0) // If the click count is even, sort the list in descending order
+                animalManager.SortListDesc(sortBy); // Call the sortlistdesc method to sort the list in descending order based on the property name
+            else // If the click count is odd, sort the list in ascending order
+                animalManager.SortList(sortBy); // Call the sort list method to sort the list in ascending order based on the property name
             FillAnimalList(); // Update the list view with the sorted list
-        }
-
-        /// <summary>
-        /// Method to handle the id column header clicked event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SortByColumnHeaderId_Click(object sender, RoutedEventArgs e)
-        {
-            animalManager.SortList("Id");
-            UpdateGUI(); // Update the list view with the sorted list
-            FillAnimalList();
-        } 
-
-        /// <summary>
-        /// Method to handle the age column header clicked event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SortByColumnHeaderAge_Click(object sender, RoutedEventArgs e)
-        {
-            ageClick++; // Increment the click count
-            // If the click count is even, sort the list in descending order
-            if (ageClick % 2 == 0)
-                animalManager.SortListDesc("Age");
-            else // If the click count is odd, sort the list in ascending order
-                animalManager.SortList("Age");
-            UpdateGUI(); // Update the list view with the sorted list
-            FillAnimalList();
-        }
-
-        /// <summary>
-        /// Method to handle the name column header clicked event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SortByColumnHeaderName_Click(object sender, RoutedEventArgs e)
-        {
-            nameClick++; // Increment the click count
-            // If the click count is even, sort the list in descending order
-            if (nameClick % 2 == 0)
-                animalManager.SortListDesc("Name");
-            else // If the click count is odd, sort the list in ascending order
-                animalManager.SortList("Name");
-            UpdateGUI(); // Update the list view with the sorted list
-            FillAnimalList();
-        }
-
-        /// <summary>
-        /// Method to handle the color column header clicked event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SortByColumnHeaderColor_Click(object sender, RoutedEventArgs e)
-        {
-            colorClick++; // Increment the click count
-            // If the click count is even, sort the list in descending order
-            if (colorClick % 2 == 0)
-                animalManager.SortListDesc("Color");
-            else // If the click count is odd, sort the list in ascending order
-                animalManager.SortList("Color");
-            UpdateGUI(); // Update the list view with the sorted list
-            FillAnimalList();
-        }
-
-        /// <summary>
-        /// Method to handle the species column header clicked event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SortByColumnHeaderSpecies_Click(object sender, RoutedEventArgs e)
-        {
-            speciesCliked++; // Increment the click count
-            // If the click count is even, sort the list in descending order
-            if (speciesCliked % 2 == 0)
-                animalManager.SortListDesc("Species");
-            else // If the click count is odd, sort the list in ascending order
-                animalManager.SortList("Species");
-            UpdateGUI(); // Update the list view with the sorted list
-            FillAnimalList();
         }
 
         /// <summary>

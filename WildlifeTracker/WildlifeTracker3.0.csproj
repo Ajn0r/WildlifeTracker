@@ -82,7 +82,6 @@
     <Compile Include="Birds\Penguins\PenguinView.xaml.cs">
       <DependentUpon>PenguinView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helper classes\AnimalComparer.cs" />
     <Compile Include="Helper classes\BooleanToYesNoConverter.cs" />
     <Compile Include="Helper classes\InputValidator.cs" />
     <Compile Include="Mammals\MammalSpecies.cs" />
