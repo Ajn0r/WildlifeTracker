@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Documents;
+using WildlifeTracker.Food;
 
 
 namespace WildlifeTracker
@@ -7,6 +9,7 @@ namespace WildlifeTracker
     public class FoodSchedule
     {
         #region // Instance variables //
+        private string scheduleTitle;
         private EaterType eaterType;
         private List<string> foodList;
         #endregion
@@ -14,6 +17,7 @@ namespace WildlifeTracker
         #region // Properties //
         public EaterType EaterType { get => eaterType; set => eaterType = value; }
         public int Count { get => foodList.Count; } // Get the number of items in the list
+        public string ScheduleTitle { get => scheduleTitle; set => scheduleTitle = value; }
 
         #endregion
 
@@ -94,6 +98,7 @@ namespace WildlifeTracker
         {
             return $"Eater type: {eaterType}"; // Return the eater type
         }
+
         #endregion
     }
 }

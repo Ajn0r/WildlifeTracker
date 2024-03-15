@@ -1,15 +1,14 @@
 ﻿<Window x:Class="WildlifeTracker.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WildlifeTracker"
+        xmlns:owls="clr-namespace:WildlifeTracker.Birds.Owls"
+        xmlns:parrots="clr-namespace:WildlifeTracker.Birds.Parrots"
+        xmlns:penguins="clr-namespace:WildlifeTracker.Birds.Penguins"
+        xmlns:cats="clr-namespace:WildlifeTracker.Mammals.Cats"
         xmlns:dogs="clr-namespace:WildlifeTracker.Mammals.Dogs"
         xmlns:donkeys="clr-namespace:WildlifeTracker.Mammals.Donkeys"
-        xmlns:cats="clr-namespace:WildlifeTracker.Mammals.Cats"
-        xmlns:parrots="clr-namespace:WildlifeTracker.Birds.Parrots"
-        xmlns:owls="clr-namespace:WildlifeTracker.Birds.Owls"
-        xmlns:penguins="clr-namespace:WildlifeTracker.Birds.Penguins"
         mc:Ignorable="d"        Title="Wildlife Tracker" Height="730" Width="930" ResizeMode="NoResize" >
     <Grid>
 
@@ -273,8 +272,10 @@
         <GroupBox Grid.Row="3" Grid.Column="0" Header="Food schedule" Grid.ColumnSpan="2" Margin="5" Padding="5" >
             <StackPanel>
                 <TextBlock Name="eaterHeader" Margin="0, 0, 0, 5"/>
-                <ListBox Name="foodScheduleListBox" MinHeight="100">
+                <ComboBox Name="scheduleComboBox" SelectionChanged="scheduleComboBox_SelectionChanged" MinHeight="30" Margin="5"/>
+                <ListBox Name="foodScheduleListBox" MinHeight="100" Margin="5">
                 </ListBox>
+                <Button Content="Add schedule to animal"  Margin="5"  MaxHeight="30" Width="150"  Padding="3" Click="ConnectScheduleAndAnimal_Clicked" />
             </StackPanel>
         </GroupBox>
         
