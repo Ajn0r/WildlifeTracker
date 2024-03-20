@@ -13,7 +13,6 @@ namespace WildlifeTracker.Mammals.Cats
         private string breed;
         private bool isHouseTrained;
         private string favoriteToy;
-        private FoodSchedule foodSchedule;
         #endregion
 
         #region // Properties //
@@ -54,10 +53,7 @@ namespace WildlifeTracker.Mammals.Cats
             AnimalInfoWindow.AddAttributeRow(stackPanel, "Favorite Toy:", cat.FavoriteToy.ToString());
             AnimalInfoWindow.AddAttributeRow(stackPanel, "Is House Trained:", cat.IsHouseTrained ? "Yes" : "No");
         }
-        public override FoodSchedule GetFoodSchedule()
-        {
-            return foodSchedule;
-        }
+
         #endregion
     }
 }

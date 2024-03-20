@@ -13,7 +13,6 @@ namespace WildlifeTracker.Mammals.Donkeys
         private bool isUsedAsPackAnimal;
         private double height;
         private double weight;
-        private FoodSchedule foodSchedule;
         #endregion
 
         #region // Properties //
@@ -26,7 +25,6 @@ namespace WildlifeTracker.Mammals.Donkeys
         #region // Constructor //
         public Donkey(int numOfTeeth, bool hasFurOrHair) : base(numOfTeeth, hasFurOrHair)
         {
-            SetFoodSchedule();
         }
 
         #endregion
@@ -46,20 +44,7 @@ namespace WildlifeTracker.Mammals.Donkeys
             AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Used as pack animal", animal.IsUsedAsPackAnimal ? "Yes" : "No");
             if (animal.IsUsedAsPackAnimal) // If the donkey is used as a pack animal, add the max load information
                 AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Max load", animal.MaxLoad.ToString());
-        }
-        public override FoodSchedule GetFoodSchedule()
-        {
-            return foodSchedule;
-        }
-
-        private void SetFoodSchedule()
-        {
-            foodSchedule = new FoodSchedule();
-            foodSchedule.EaterType = EaterType.Herbivore;
-            foodSchedule.Add("Morning: Grass");
-            foodSchedule.Add("Lunch: Hay");
-            foodSchedule.Add("Evening: Grass");
-        }   
+        } 
         #endregion
     }
 }

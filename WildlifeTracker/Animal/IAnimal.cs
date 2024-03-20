@@ -13,7 +13,6 @@ namespace WildlifeTracker
         GenderType Gender { get; set; }
         CategoryType Category { get; set; }
 
-        FoodSchedule GetFoodSchedule();
         string GetExtraInfo();
     }
 }

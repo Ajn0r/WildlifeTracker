@@ -52,7 +52,7 @@ namespace WildlifeTracker
             this.Title += " by Ronja Sjögren"; // Add my name to the title of the window
             this.Title += " - Version 3.0"; // add the version number
             FillAnimalList();
-            PopulateScheduleList();
+            PopulateScheduleListCombo();
         }
 
         private void UpdateGUI()
@@ -821,7 +821,7 @@ namespace WildlifeTracker
         }
 
         /// <summary>
-        /// Method to add some test animals to the list
+        /// Method to add some test animals and food schedules to the list
         /// </summary>
         private void Test()
         {
@@ -878,10 +878,35 @@ namespace WildlifeTracker
             dogFoodSchedule.Add("Lunch: Water and wet food");
             dogFoodSchedule.Add("Dinner: Water and dry food");
 
+            // Create a food schedule for carnivores
+            FoodSchedule carnivoreFoodSchedule = new FoodSchedule();
+            carnivoreFoodSchedule.ScheduleTitle = "Basic carnivore food schedule";
+            carnivoreFoodSchedule.Add("Breakfast: Meat");
+            carnivoreFoodSchedule.Add("Lunch: Chicken");
+            carnivoreFoodSchedule.Add("Dinner: Meat");
+
+            // Create a food schedule for herbivores
+            FoodSchedule herbivoreFoodSchedule = new FoodSchedule();
+            herbivoreFoodSchedule.ScheduleTitle = "Basic herbivore food schedule";
+            herbivoreFoodSchedule.Add("Breakfast: Water and Grass");
+            herbivoreFoodSchedule.Add("Lunch: Water and leaves");
+            herbivoreFoodSchedule.Add("Dinner: Grass");
+
+            // Create a food schedule for omnivores
+            FoodSchedule omnivoreFoodSchedule = new FoodSchedule();
+            omnivoreFoodSchedule.ScheduleTitle = "Basic omnivore food schedule";
+            omnivoreFoodSchedule.Add("Breakfast: Water and meat");
+            omnivoreFoodSchedule.Add("Lunch: Water and vegetables");
+            omnivoreFoodSchedule.Add("Dinner: Fish and vegetables");
+
 
             // Add food schedules to the food schedule dictionary
             foodScheduleManager.AddFoodSchedule(catFoodSchedule);
             foodScheduleManager.AddFoodSchedule(dogFoodSchedule);
+            foodScheduleManager.AddFoodSchedule(carnivoreFoodSchedule);
+            foodScheduleManager.AddFoodSchedule(herbivoreFoodSchedule);
+            foodScheduleManager.AddFoodSchedule(omnivoreFoodSchedule);
+
         }
 
         /// <summary>
@@ -1049,26 +1074,13 @@ namespace WildlifeTracker
             }
             DisplayAnimalsWithFoodItem();
         }
-
-        /// <summary>
-        /// Method to add food to the schedule
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AddFoodToScheduleButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void AddFoodItemToScheduleButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Get the selected food item from the list view
-            string foodItem = foodItemList.SelectedItem.ToString();
-            // Add the food item to the schedule list
-            foodSchedule.Add(foodItem);
-            UpdateGUI();
-        }
         
+        /// <summary>
+        /// Method to handle the new food schedule button clicked event, is not implemented yet
+        /// </summary>
+        /// <param name="foodSchedule"></param>
+        /// <param name="animal"></param>
+        /// <returns></returns>
         private bool AddScheduleToDict(FoodSchedule foodSchedule, Animal animal)
         {
             bool ok = false;
@@ -1090,6 +1102,11 @@ namespace WildlifeTracker
             return ok;
         }
 
+        /// <summary>
+        /// Method to handle when the user clicks the connect schedule and animal button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ConnectScheduleAndAnimal_Clicked(object sender, RoutedEventArgs e)
         {
             if (this.DataContext == null)
@@ -1100,30 +1117,40 @@ namespace WildlifeTracker
             // Get the animal
             Animal animal = (Animal)this.DataContext;
             // Get the selected food schedule from the combo box
-            FoodSchedule foodSchedule;
-            if (scheduleComboBox.SelectedItem != null)
+            FoodSchedule foodSchedule; // variable to store the selected food schedule
+            if (scheduleComboBox.SelectedItem != null) // check if a food schedule is selected
+                // Set the foodschedule variable to the selected food schedule
                 foodSchedule = foodScheduleManager.GetSelectedFoodSchedule(scheduleComboBox.SelectedItem.ToString());
             else
-            {
+            { // If not, display an error message
                 InputValidator.DisplayErrorMessage("You must select a food schedule first");
                 return;
             }
-            foodScheduleManager.AddFoodSchedule(foodSchedule);
-            foodScheduleManager.AddAnimalToFoodSchedule(animal, foodSchedule);
-            MessageBox.Show(animal.Name + " connected to " + foodSchedule.ToString());
-            UpdateGUI();
+            // Add the animal to the food schedule dictionary in the food schedule manager
+            if (foodScheduleManager.AddAnimalToFoodSchedule(animal, foodSchedule))
+                // Display a message to let the user know that the animal is connected to the food schedule if it was successful
+                MessageBox.Show(animal.Name + " connected to " + foodSchedule.ToString());
+            UpdateGUI(); // update gui
         }
-        private void PopulateScheduleList()
+
+        /// <summary>
+        /// Method to populate the combo box with the food schedules
+        /// </summary>
+        private void PopulateScheduleListCombo()
         {
+            // Get the food schedules as a list
             ListManager<FoodSchedule> list = foodScheduleManager.GetFoodScheduleAsList();
-            foreach (FoodSchedule foodSchedule in list)
+            foreach (FoodSchedule foodSchedule in list) // for each list, add the food schedule to the combo box
             {
                 scheduleComboBox.Items.Add(foodSchedule.ScheduleTitle);
             }
         }
 
-
-
+        /// <summary>
+        /// Method to handle when the user selects a food schedule from the combo box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void scheduleComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Fill the list view with the details of the food schedule, eg the strings in the list

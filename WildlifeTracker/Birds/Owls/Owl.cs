@@ -22,7 +22,6 @@ namespace WildlifeTracker
         #region // Constructors //
         public Owl(bool sings, bool canFly, int wingSpan) : base(sings, canFly, wingSpan)
         {
-            SetFoodSchedule();
         }
         #endregion
 
@@ -36,27 +35,6 @@ namespace WildlifeTracker
         {
             AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Species", animal.Species);
             AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Is Nocturnal", animal.IsNocturnal ? "Yes" : "No");
-        }
-
-        /// <summary>
-        /// Method that returns the food schedule for the owl
-        /// </summary>
-        /// <returns></returns>
-        public override FoodSchedule GetFoodSchedule()
-        {
-            return foodSchedule;
-        }
-
-        /// <summary>
-        /// Method to set the food schedule for the owl
-        /// </summary>
-        private void SetFoodSchedule()
-        {
-            foodSchedule = new FoodSchedule();
-            foodSchedule.EaterType = EaterType.Carnivore;
-            foodSchedule.Add("Morning: Mice");
-            foodSchedule.Add("Lunch: Mice");
-            foodSchedule.Add("Dinner: Mice");
         }
         #endregion
     }

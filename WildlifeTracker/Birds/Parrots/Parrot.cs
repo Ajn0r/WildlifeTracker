@@ -24,7 +24,7 @@ namespace WildlifeTracker
         #region // Constructors //
         public Parrot(bool sings, bool canFly, int wingSpan) : base(sings, canFly, wingSpan)
         {
-            SetFoodSchedule();
+           
         }
         #endregion
 
@@ -41,26 +41,6 @@ namespace WildlifeTracker
             AnimalInfoWindow.AddAttributeRow(animalInfoStack, "Favorite Phrase", animal.FavoritePhrase);
         }
 
-        /// <summary>
-        /// Method that returns the food schedule for the parrot
-        /// </summary>
-        /// <returns></returns>
-        public override FoodSchedule GetFoodSchedule()
-        {
-            return foodSchedule;
-        }
-
-        /// <summary>
-        /// Method to set the food schedule for the parrot
-        /// </summary>
-        private void SetFoodSchedule()
-        {
-            foodSchedule = new FoodSchedule();
-            foodSchedule.EaterType = EaterType.Herbivore;
-            foodSchedule.Add("Morning: Seeds");
-            foodSchedule.Add("Lunch: Fruits");
-            foodSchedule.Add("Evening: Nuts");
-        }
         #endregion
     }
 }

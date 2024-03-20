@@ -35,7 +35,6 @@ namespace WildlifeTracker.Mammals.Dogs
         #region // Constructor //
         public Dog(int numOfTeeth, bool hasFurOrHair) : base(numOfTeeth, hasFurOrHair)
         {
-            SetFoodSchedule();
         }
 
         /// <summary>
@@ -60,22 +59,7 @@ namespace WildlifeTracker.Mammals.Dogs
                 AnimalInfoWindow.AddAttributeRow(parentPanel, "Training Type", dog.SpecialTrainingType.ToString());
             }
         }
-        public override FoodSchedule GetFoodSchedule()
-        {
-            return foodSchedule;
-        }
-
-        /// <summary>
-        /// Method to set the food schedule for the dog
-        /// </summary>
-        private void SetFoodSchedule()
-        {
-            foodSchedule = new FoodSchedule();
-            foodSchedule.EaterType = EaterType.Carnivore;
-            foodSchedule.Add("Morning: Dog food");
-            foodSchedule.Add("Lunch: Boiled chicken");
-            foodSchedule.Add("Evening: Milk and dry food");
-        }
+       
         #endregion
 
 
