@@ -9,19 +9,34 @@ namespace WildlifeTracker.Food
 {
     public class FoodScheduleManager
     {
-        private Dictionary<FoodSchedule, ListManager<Animal>> foodScheduleDict = new Dictionary<FoodSchedule, ListManager<Animal>>();
+        private Dictionary<FoodSchedule, ListManager<Animal>> foodScheduleDict;
 
+        public FoodScheduleManager()
+        {
+            foodScheduleDict = new Dictionary<FoodSchedule, ListManager<Animal>>();
+        }
         public void AddAnimalToFoodSchedule(Animal animal, FoodSchedule foodSchedule)
         {
+            // Kontrollera om foodSchedule redan finns i dictionaryn
             if (foodScheduleDict.ContainsKey(foodSchedule))
             {
-                foodScheduleDict[foodSchedule].Add(animal);
-            }
-            else
-            {
-                ListManager<Animal> animalList = new ListManager<Animal>();
-                animalList.Add(animal);
-                foodScheduleDict.Add(foodSchedule, animalList);
+                // Hämta listan med djur associerad med foodSchedule
+                ListManager<Animal> animalList = foodScheduleDict[foodSchedule];
+
+                if (animalList == null)
+                {
+                    // Skapa en ny lista för djur och lägg till det nya djuret
+                    animalList = new ListManager<Animal>();
+                    animalList.Add(animal);
+
+                    // Lägg till den nya nyckeln och dess associerade lista i dictionaryn
+                    foodScheduleDict[foodSchedule] = animalList;
+                }
+                else
+                {
+                    // Lägg till det nya djuret i listan
+                    animalList.Add(animal);
+                }
             }
         }
 
@@ -52,7 +67,7 @@ namespace WildlifeTracker.Food
                 foodScheduleDict.Add(foodSchedule, null);
             }
         }
-        
+
         public ListManager<Animal> GetAnimalsForFoodSchedule(FoodSchedule foodSchedule)
         {
             if (foodScheduleDict.ContainsKey(foodSchedule))
@@ -79,17 +94,55 @@ namespace WildlifeTracker.Food
             return foodScheduleList;
         }
 
-        public FoodSchedule GetSelectedFoodSchedule(FoodSchedule foodSchedule)
+        public FoodSchedule GetSelectedFoodSchedule(string key)
         {
             // Loop through the dictionary and return the food schedule that matches the input food schedule
             foreach (KeyValuePair<FoodSchedule, ListManager<Animal>> entry in foodScheduleDict)
             {
-                if (entry.Key == foodSchedule)
+                if (key.Equals(entry.Key.ScheduleTitle))
                 {
                     return entry.Key;
                 }
             }
             return null;
+        }
+
+        public FoodSchedule GetFoodScheduleForAnimal(Animal animal)
+        {
+
+            // Check that the foodschedule dictionary is not empty
+            if (foodScheduleDict.Count == 0)
+            {
+                return null;
+            }
+            if (CheckifAnimalIsInFoodSchedule(animal))
+            {
+                // Loop through the dictionary and return the food schedule that contains the input animal
+                foreach (KeyValuePair<FoodSchedule, ListManager<Animal>> entry in foodScheduleDict)
+                {
+                    if (entry.Key != null)
+                    {
+                        return entry.Key;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public bool CheckifAnimalIsInFoodSchedule(Animal animal)
+        {
+            foreach (KeyValuePair<FoodSchedule, ListManager<Animal>> entry in foodScheduleDict)
+            {
+                if (entry.Value != null)
+                {
+                    ListManager<Animal> anmList = entry.Value;
+                    if (anmList.Contains(animal))
+                        return true;
+                }
+
+            }
+            return false;
         }
     }
 }

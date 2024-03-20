@@ -88,7 +88,32 @@ namespace WildlifeTracker
         /// </summary>
         private void FillFoodSchedule()
         {
-            
+            // Get the selected animal from the data context
+            Animal animal = (Animal)this.DataContext;
+            // Check if the animal is not null
+            if (animal != null)
+            {
+                // Get the food schedule of the selected animal
+                FoodSchedule foodSchedule;
+                if (foodScheduleManager.GetFoodScheduleForAnimal(animal) == null)
+                {
+                    foodScheduleListBox.Items.Clear();
+                    return;
+                }
+                foodSchedule = foodScheduleManager.GetFoodScheduleForAnimal(animal);
+                FillFoodScheduleList(foodSchedule); // Fill the food schedule list box with the food schedule
+            }
+        }
+
+        private void FillFoodScheduleList(FoodSchedule selectedSchedule)
+        {
+            // Clear the list box
+            foodScheduleListBox.Items.Clear();
+            string[] strings = selectedSchedule.GetFoodListInfoStrings();
+            foreach (string foodItem in strings)
+            {
+                foodScheduleListBox.Items.Add(foodItem);
+            }
         }
 
         /// <summary>
@@ -250,11 +275,15 @@ namespace WildlifeTracker
         /// <returns></returns>
         private Animal CreateBird()
         {
-            Animal animal = null;
+            Animal animal = null; 
 
             // Read the common bird specific values
             (bool sings, bool canFly, int wingSpan) = ReadBirdSpec();
             // Get the selected species from the list view as a string
+            if (listSpecies.SelectedItem == null)
+            {
+                errorList.Add("Species is required");
+            }
             string strSpecies = listSpecies.SelectedItem.ToString();
             // convert to the enum
             BirdSpecies species = (BirdSpecies)Enum.Parse(typeof(BirdSpecies), strSpecies);
@@ -680,8 +709,9 @@ namespace WildlifeTracker
             Animal selectedAnimal = animalManager.GetAt(index);
             if (selectedAnimal != null) // If the selected animal is not null, set the data context of the window to the selected animal
             {
-                this.DataContext = selectedAnimal;
                 cmbCategory.SelectedItem = (CategoryType)selectedAnimal.Category; // Manually set the category combo box to the category of the selected animal
+                listSpecies.SelectedItem = selectedAnimal.AnimalType; // Manually set the species list view to the species of the selected animal
+                this.DataContext = selectedAnimal;
             }
             UpdateGUI(); // Update the GUI
         }
@@ -797,7 +827,7 @@ namespace WildlifeTracker
         {
             // test animal 1
             Animal testAnimal = new Cat(21, true);
-            testAnimal.Name = "Test";
+            testAnimal.Name = "Pelle";
             testAnimal.Age = 5;
             testAnimal.Color = "Black";
             testAnimal.Gender = GenderType.Female;
@@ -810,7 +840,7 @@ namespace WildlifeTracker
             
             // test animal 2
             Animal testAnimal2 = new Dog(22, true);
-            testAnimal2.Name = "Test2";
+            testAnimal2.Name = "Doggo";
             testAnimal2.Age = 3;
             testAnimal2.Color = "White";
             testAnimal2.Gender = GenderType.Male;
@@ -824,7 +854,7 @@ namespace WildlifeTracker
 
             // test animal 3
             Animal testAnimal3 = new Penguin(false, false, 23);
-            testAnimal3.Name = "Test3";
+            testAnimal3.Name = "Pingu";
             testAnimal3.Age = 2;
             testAnimal3.Color = "Black and white";
             testAnimal3.Category = CategoryType.Bird;
@@ -841,8 +871,17 @@ namespace WildlifeTracker
             catFoodSchedule.Add("Lunch: Water and dry food");
             catFoodSchedule.Add("Dinner: Water and wet food");
 
+            // Create a food schedule for dogs
+            FoodSchedule dogFoodSchedule = new FoodSchedule();
+            dogFoodSchedule.ScheduleTitle = "Basic dog food schedule";
+            dogFoodSchedule.Add("Breakfast: Water and dry food");
+            dogFoodSchedule.Add("Lunch: Water and wet food");
+            dogFoodSchedule.Add("Dinner: Water and dry food");
+
+
             // Add food schedules to the food schedule dictionary
             foodScheduleManager.AddFoodSchedule(catFoodSchedule);
+            foodScheduleManager.AddFoodSchedule(dogFoodSchedule);
         }
 
         /// <summary>
@@ -1056,10 +1095,22 @@ namespace WildlifeTracker
             if (this.DataContext == null)
             {
                 InputValidator.DisplayErrorMessage("You must select a animal first");
+                return;
             }
+            // Get the animal
             Animal animal = (Animal)this.DataContext;
-            AddScheduleToDict(foodSchedule, animal);
-            MessageBox.Show(animal.Name + " connected to " + foodSchedule);
+            // Get the selected food schedule from the combo box
+            FoodSchedule foodSchedule;
+            if (scheduleComboBox.SelectedItem != null)
+                foodSchedule = foodScheduleManager.GetSelectedFoodSchedule(scheduleComboBox.SelectedItem.ToString());
+            else
+            {
+                InputValidator.DisplayErrorMessage("You must select a food schedule first");
+                return;
+            }
+            foodScheduleManager.AddFoodSchedule(foodSchedule);
+            foodScheduleManager.AddAnimalToFoodSchedule(animal, foodSchedule);
+            MessageBox.Show(animal.Name + " connected to " + foodSchedule.ToString());
             UpdateGUI();
         }
         private void PopulateScheduleList()
@@ -1076,21 +1127,18 @@ namespace WildlifeTracker
         private void scheduleComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Fill the list view with the details of the food schedule, eg the strings in the list
-            if (scheduleComboBox.SelectedItem != null)
-            {
-                FoodSchedule selectedSchedule = (FoodSchedule)scheduleComboBox.SelectedItem;
-                foodScheduleListBox.Items.Clear();
-                FillFoodScheduleList(selectedSchedule);
-            }
+            // First get the selected food schedule from the combo box
+            if (scheduleComboBox.SelectedItem == null)
+                return;
+            // Get the food schedule from the combo box
+            FoodSchedule selectedSchedule = foodScheduleManager.GetSelectedFoodSchedule(scheduleComboBox.SelectedItem.ToString());
+
+            // Clear the list view
+            foodScheduleListBox.Items.Clear();
+            // Fill the list view with the food schedule details
+            FillFoodScheduleList(selectedSchedule);
         }
 
-        private void FillFoodScheduleList(FoodSchedule selectedSchedule)
-        {
-            foreach (string foodItem in selectedSchedule.GetFoodListInfoStrings())
-            {
-                foodScheduleListBox.Items.Add(foodItem);
-            }
-        }
     }
 
 

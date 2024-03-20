@@ -96,7 +96,7 @@ namespace WildlifeTracker
 
         public override string ToString()
         {
-            return $"Eater type: {eaterType}"; // Return the eater type
+            return scheduleTitle;
         }
 
         #endregion

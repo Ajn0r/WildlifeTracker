@@ -9,7 +9,7 @@
         xmlns:cats="clr-namespace:WildlifeTracker.Mammals.Cats"
         xmlns:dogs="clr-namespace:WildlifeTracker.Mammals.Dogs"
         xmlns:donkeys="clr-namespace:WildlifeTracker.Mammals.Donkeys"
-        mc:Ignorable="d"        Title="Wildlife Tracker" Height="730" Width="930" ResizeMode="NoResize" >
+        mc:Ignorable="d"        Title="Wildlife Tracker" Height="768" Width="930" ResizeMode="NoResize" >
     <Grid>
 
         <!-- Main grid layout -->
