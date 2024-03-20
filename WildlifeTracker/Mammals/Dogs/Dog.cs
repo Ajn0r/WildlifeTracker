@@ -13,7 +13,6 @@ namespace WildlifeTracker.Mammals.Dogs
         private double tailLength;
         private bool isSpecialTrained;
         private SpecialTrainingType specialTrainingType;
-        private FoodSchedule foodSchedule;
         #endregion
 
         #region // Properties //

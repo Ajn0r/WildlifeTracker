@@ -38,8 +38,11 @@ namespace WildlifeTracker
 
         // A food schedule object to hold the temporary food schedule
         FoodSchedule foodSchedule = new FoodSchedule();
+
         // A Dictionary to hold the foodschedule and animals
         Dictionary<FoodSchedule, ListManager<Animal>> foodScheduleDict = new Dictionary<FoodSchedule, ListManager<Animal>>();
+
+        // FoodScheduleManager to manage the food schedules
         FoodScheduleManager foodScheduleManager = new FoodScheduleManager();
 
         public MainWindow()
@@ -98,20 +101,29 @@ namespace WildlifeTracker
                 if (foodScheduleManager.GetFoodScheduleForAnimal(animal) == null)
                 {
                     foodScheduleListBox.Items.Clear();
+                    scheduleComboBox.SelectedItem = null;
                     return;
                 }
-                foodSchedule = foodScheduleManager.GetFoodScheduleForAnimal(animal);
+                foodSchedule = foodScheduleManager.GetFoodScheduleForAnimal(animal); // Get the food schedule for the selected animal
+                scheduleComboBox.SelectedItem = foodSchedule.ScheduleTitle; // Set the selected item in the combo box to the food schedule title
                 FillFoodScheduleList(foodSchedule); // Fill the food schedule list box with the food schedule
             }
         }
 
+        /// <summary>
+        /// Method to populate the schedule list box with the food schedule items
+        /// </summary>
+        /// <param name="selectedSchedule"></param>
         private void FillFoodScheduleList(FoodSchedule selectedSchedule)
         {
             // Clear the list box
             foodScheduleListBox.Items.Clear();
+            // Get the food list info strings from the selected schedule
             string[] strings = selectedSchedule.GetFoodListInfoStrings();
-            foreach (string foodItem in strings)
-            {
+            foodScheduleListBox.Items.Add(selectedSchedule.ToString() + ":"); // Add the food schedule title to the list box
+            foodScheduleListBox.Items.Add("-----------------");
+            foreach (string foodItem in strings) // for each food item in the strings array, add the food item to the list box
+            { 
                 foodScheduleListBox.Items.Add(foodItem);
             }
         }
@@ -864,35 +876,35 @@ namespace WildlifeTracker
             ((Penguin)testAnimal3).FavoriteFish = "Herring";
             animalManager.AddAnimalWithID(testAnimal3);
 
-            // Create a food schedule for cats
+            // food schedule for cats
             FoodSchedule catFoodSchedule = new FoodSchedule();
             catFoodSchedule.ScheduleTitle = "Basic cat food schedule";
             catFoodSchedule.Add("Breakfast: Milk and wet food");
             catFoodSchedule.Add("Lunch: Water and dry food");
             catFoodSchedule.Add("Dinner: Water and wet food");
 
-            // Create a food schedule for dogs
+            // food schedule for dogs
             FoodSchedule dogFoodSchedule = new FoodSchedule();
             dogFoodSchedule.ScheduleTitle = "Basic dog food schedule";
             dogFoodSchedule.Add("Breakfast: Water and dry food");
             dogFoodSchedule.Add("Lunch: Water and wet food");
             dogFoodSchedule.Add("Dinner: Water and dry food");
 
-            // Create a food schedule for carnivores
+            // food schedule for carnivores
             FoodSchedule carnivoreFoodSchedule = new FoodSchedule();
             carnivoreFoodSchedule.ScheduleTitle = "Basic carnivore food schedule";
             carnivoreFoodSchedule.Add("Breakfast: Meat");
             carnivoreFoodSchedule.Add("Lunch: Chicken");
             carnivoreFoodSchedule.Add("Dinner: Meat");
 
-            // Create a food schedule for herbivores
+            // a food schedule for herbivores
             FoodSchedule herbivoreFoodSchedule = new FoodSchedule();
             herbivoreFoodSchedule.ScheduleTitle = "Basic herbivore food schedule";
             herbivoreFoodSchedule.Add("Breakfast: Water and Grass");
             herbivoreFoodSchedule.Add("Lunch: Water and leaves");
             herbivoreFoodSchedule.Add("Dinner: Grass");
 
-            // Create a food schedule for omnivores
+            // a food schedule for omnivores
             FoodSchedule omnivoreFoodSchedule = new FoodSchedule();
             omnivoreFoodSchedule.ScheduleTitle = "Basic omnivore food schedule";
             omnivoreFoodSchedule.Add("Breakfast: Water and meat");

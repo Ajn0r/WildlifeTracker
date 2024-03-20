@@ -12,7 +12,6 @@ namespace WildlifeTracker
         private string favoritePhrase;
         private bool canSpeak;
         private string species;
-        private FoodSchedule foodSchedule;
         #endregion
 
         #region // Properties //

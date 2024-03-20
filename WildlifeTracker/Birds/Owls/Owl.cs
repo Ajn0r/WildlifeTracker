@@ -11,7 +11,6 @@ namespace WildlifeTracker
         #region // Instance variables //
         private string species;
         private bool isNocturnal;
-        private FoodSchedule foodSchedule;
         #endregion
 
         #region // Properties //

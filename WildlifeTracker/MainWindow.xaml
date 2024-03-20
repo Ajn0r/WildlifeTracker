@@ -271,7 +271,6 @@
         <!-- Food schedule -->
         <GroupBox Grid.Row="3" Grid.Column="0" Header="Food schedule" Grid.ColumnSpan="2" Margin="5" Padding="5" >
             <StackPanel>
-                <TextBlock Name="eaterHeader" Margin="0, 0, 0, 5"/>
                 <ComboBox Name="scheduleComboBox" SelectionChanged="scheduleComboBox_SelectionChanged" MinHeight="30" Margin="5"/>
                 <ListBox Name="foodScheduleListBox" MinHeight="100" Margin="5">
                 </ListBox>
