@@ -31,8 +31,13 @@
         <Menu Grid.ColumnSpan="4" >
             <MenuItem Header="_File">
                 <MenuItem Header="_New"/>
-                <MenuItem Header="_Open"/>
+                <MenuItem Header="_Open" Click="OpenFile_Click" />
                 <MenuItem Header="_Save"/>
+                <MenuItem Header="Save as">
+                    <MenuItem Header="Text"/>
+                    <MenuItem Header="JSON"/>
+                    <MenuItem Header="XML"/>
+                </MenuItem>
                 <MenuItem Header="_Exit"/>
             </MenuItem>
             <MenuItem Header="_Help">

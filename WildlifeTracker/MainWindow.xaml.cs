@@ -1178,7 +1178,14 @@ namespace WildlifeTracker
             FillFoodScheduleList(selectedSchedule);
         }
 
+        private void OpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filename = openFileDialog.FileName;
+                MessageBox.Show(filename);
+            }
+        }
     }
-
-
 }
