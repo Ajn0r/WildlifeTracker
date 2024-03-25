@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -22,16 +23,27 @@ namespace WildlifeTracker
     {
         // A list to store any errors that occur when creating an animal
         private List<string> errorList = new List<string>();
+
         // Variable to hold the image path string, to be used when adding an image to the animal before an animal is created
         string imgPath;
+
+        // Create a new animal manager to manage the animals
         AnimalManager animalManager = new AnimalManager();
 
-        // Variables to hold the click count for each of the column headers for sorting, to sort in ascending or descending order
-        int idClick = 0;
-        int ageClick = 0;
-        int nameClick = 0;
-        int colorClick = 0;
-        int speciesCliked = 0;
+        // A dictionary to hold the different fooditems and animals
+        Dictionary<string, ListManager<Animal>> foodItemsDict = new Dictionary<string, ListManager<Animal>>();
+
+        // A Dictionary to keep track of the click count for each column header
+        Dictionary<string, int> clickCountDict = new Dictionary<string, int>();
+
+        // A food schedule object to hold the temporary food schedule
+        FoodSchedule foodSchedule = new FoodSchedule();
+
+        // A Dictionary to hold the foodschedule and animals
+        Dictionary<FoodSchedule, ListManager<Animal>> foodScheduleDict = new Dictionary<FoodSchedule, ListManager<Animal>>();
+
+        // FoodScheduleManager to manage the food schedules
+        FoodScheduleManager foodScheduleManager = new FoodScheduleManager();
 
         public MainWindow()
         {
@@ -43,6 +55,7 @@ namespace WildlifeTracker
             this.Title += " by Ronja Sjögren"; // Add my name to the title of the window
             this.Title += " - Version 3.0"; // add the version number
             FillAnimalList();
+            PopulateScheduleListCombo();
         }
 
         private void UpdateGUI()
@@ -78,21 +91,40 @@ namespace WildlifeTracker
         /// </summary>
         private void FillFoodSchedule()
         {
-            // Check if the selected index of the animal list view is not -1 or if the data context is null, in that case, return because there is no animal to display
-            if (this.DataContext == null)
-                return;
-
-            Animal animal = (Animal)this.DataContext; // Set the animal
- 
-            if (animal != null) // Check that the animal is not null
+            // Get the selected animal from the data context
+            Animal animal = (Animal)this.DataContext;
+            // Check if the animal is not null
+            if (animal != null)
             {
-                foodScheduleListBox.Items.Clear(); // clear the list box
-                eaterHeader.Text = ((Animal)this.DataContext).GetFoodSchedule().Title(); // set the title of the food schedule to the eater type of the animal
-                string[] foodList = animal.GetFoodSchedule().GetFoodListInfoStrings(); // get the food list from the animal
-                foreach (string food in foodList) // loop through the food list and add the food to the list box
+                // Get the food schedule of the selected animal
+                FoodSchedule foodSchedule;
+                if (foodScheduleManager.GetFoodScheduleForAnimal(animal) == null)
                 {
-                    foodScheduleListBox.Items.Add(food);
-                }               
+                    foodScheduleListBox.Items.Clear();
+                    scheduleComboBox.SelectedItem = null;
+                    return;
+                }
+                foodSchedule = foodScheduleManager.GetFoodScheduleForAnimal(animal); // Get the food schedule for the selected animal
+                scheduleComboBox.SelectedItem = foodSchedule.ScheduleTitle; // Set the selected item in the combo box to the food schedule title
+                FillFoodScheduleList(foodSchedule); // Fill the food schedule list box with the food schedule
+            }
+        }
+
+        /// <summary>
+        /// Method to populate the schedule list box with the food schedule items
+        /// </summary>
+        /// <param name="selectedSchedule"></param>
+        private void FillFoodScheduleList(FoodSchedule selectedSchedule)
+        {
+            // Clear the list box
+            foodScheduleListBox.Items.Clear();
+            // Get the food list info strings from the selected schedule
+            string[] strings = selectedSchedule.GetFoodListInfoStrings();
+            foodScheduleListBox.Items.Add(selectedSchedule.ToString() + ":"); // Add the food schedule title to the list box
+            foodScheduleListBox.Items.Add("-----------------");
+            foreach (string foodItem in strings) // for each food item in the strings array, add the food item to the list box
+            { 
+                foodScheduleListBox.Items.Add(foodItem);
             }
         }
 
@@ -255,11 +287,15 @@ namespace WildlifeTracker
         /// <returns></returns>
         private Animal CreateBird()
         {
-            Animal animal = null;
+            Animal animal = null; 
 
             // Read the common bird specific values
             (bool sings, bool canFly, int wingSpan) = ReadBirdSpec();
             // Get the selected species from the list view as a string
+            if (listSpecies.SelectedItem == null)
+            {
+                errorList.Add("Species is required");
+            }
             string strSpecies = listSpecies.SelectedItem.ToString();
             // convert to the enum
             BirdSpecies species = (BirdSpecies)Enum.Parse(typeof(BirdSpecies), strSpecies);
@@ -685,15 +721,17 @@ namespace WildlifeTracker
             Animal selectedAnimal = animalManager.GetAt(index);
             if (selectedAnimal != null) // If the selected animal is not null, set the data context of the window to the selected animal
             {
-                this.DataContext = selectedAnimal;
                 cmbCategory.SelectedItem = (CategoryType)selectedAnimal.Category; // Manually set the category combo box to the category of the selected animal
+                listSpecies.SelectedItem = selectedAnimal.AnimalType; // Manually set the species list view to the species of the selected animal
+                this.DataContext = selectedAnimal;
             }
             UpdateGUI(); // Update the GUI
         }
 
         /// <summary>
-        /// Method to sort the list, not used currently, want to refactor this later to only have one method for sorting
-        /// and not one for each column header...
+        /// Method to sort the list of registered animals by the column header that was clicked. 
+        /// The method will sort the list in ascending order if the click count is odd, and in descending order if the click count is even.
+        /// A dictionary is used to keep track of the click count for each column header where the key is the property name of the animal object and the value is the click count.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -702,90 +740,17 @@ namespace WildlifeTracker
             // Get the coloumn header that was clicked
             GridViewColumnHeader column = (sender as GridViewColumnHeader); // sender is the column header that was clicked and cast it to a GridViewColumnHeader
             string sortBy = column.Tag.ToString(); // Get the tag of the column header, which is the same property name of the animal object
-
-
-            animalManager.SortList(sortBy); // Call the sort list method of the animal manager to sort the list based on the property name
+            // Check if the click count dictionary contains the property name
+            if (!clickCountDict.ContainsKey(sortBy))
+                clickCountDict.Add(sortBy, 0); // If not, add the property name to the dictionary with a click count of 0
+            int clickCount = clickCountDict[sortBy]; // Get the click count from the dictionary based on the property name and store it in a variable
+            clickCount++; // Increment the click count
+            clickCountDict[sortBy] = clickCount; // Set the click count in the dictionary to the new click count
+            if (clickCount % 2 == 0) // If the click count is even, sort the list in descending order
+                animalManager.SortListDesc(sortBy); // Call the sortlistdesc method to sort the list in descending order based on the property name
+            else // If the click count is odd, sort the list in ascending order
+                animalManager.SortList(sortBy); // Call the sort list method to sort the list in ascending order based on the property name
             FillAnimalList(); // Update the list view with the sorted list
-        }
-
-        /// <summary>
-        /// Method to handle the id column header clicked event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SortByColumnHeaderId_Click(object sender, RoutedEventArgs e)
-        {
-            idClick++; // Increment the click count
-            // If the click count is even, sort the list in descending order
-            if (idClick % 2 == 0)
-                animalManager.SortListDesc("Id");
-            else // If the click count is odd, sort the list in ascending order
-                animalManager.SortList("Id");
-            UpdateGUI(); // Update the list view with the sorted list
-        } 
-
-        /// <summary>
-        /// Method to handle the age column header clicked event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SortByColumnHeaderAge_Click(object sender, RoutedEventArgs e)
-        {
-            ageClick++; // Increment the click count
-            // If the click count is even, sort the list in descending order
-            if (ageClick % 2 == 0)
-                animalManager.SortListDesc("Age");
-            else // If the click count is odd, sort the list in ascending order
-                animalManager.SortList("Age");
-            UpdateGUI(); // Update the list view with the sorted list
-        }
-
-        /// <summary>
-        /// Method to handle the name column header clicked event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SortByColumnHeaderName_Click(object sender, RoutedEventArgs e)
-        {
-            nameClick++; // Increment the click count
-            // If the click count is even, sort the list in descending order
-            if (nameClick % 2 == 0)
-                animalManager.SortListDesc("Name");
-            else // If the click count is odd, sort the list in ascending order
-                animalManager.SortList("Name");
-            UpdateGUI(); // Update the list view with the sorted list
-        }
-
-        /// <summary>
-        /// Method to handle the color column header clicked event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SortByColumnHeaderColor_Click(object sender, RoutedEventArgs e)
-        {
-            colorClick++; // Increment the click count
-            // If the click count is even, sort the list in descending order
-            if (colorClick % 2 == 0)
-                animalManager.SortListDesc("Color");
-            else // If the click count is odd, sort the list in ascending order
-                animalManager.SortList("Color");
-            UpdateGUI(); // Update the list view with the sorted list
-        }
-
-        /// <summary>
-        /// Method to handle the species column header clicked event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SortByColumnHeaderSpecies_Click(object sender, RoutedEventArgs e)
-        {
-            speciesCliked++; // Increment the click count
-            // If the click count is even, sort the list in descending order
-            if (speciesCliked % 2 == 0)
-                animalManager.SortListDesc("Species");
-            else // If the click count is odd, sort the list in ascending order
-                animalManager.SortList("Species");
-            UpdateGUI(); // Update the list view with the sorted list
         }
 
         /// <summary>
@@ -857,19 +822,24 @@ namespace WildlifeTracker
 
         private void AddFoodButton_Click(object sender, RoutedEventArgs e)
         {
-            // Open the FoodForm window
+            // Create a new and open the FoodForm window
             FoodForm foodForm = new FoodForm();
-            foodForm.Show();
+            foodForm.ShowDialog();
+            // if the user clicks ok, add the food item to the list
+            if (foodForm.DialogResult == true)
+            {
+                foodItemList.Items.Add(foodForm.FoodItem.ToString());
+            }
         }
 
         /// <summary>
-        /// Method to add some test animals to the list
+        /// Method to add some test animals and food schedules to the list
         /// </summary>
         private void Test()
         {
             // test animal 1
             Animal testAnimal = new Cat(21, true);
-            testAnimal.Name = "Test";
+            testAnimal.Name = "Pelle";
             testAnimal.Age = 5;
             testAnimal.Color = "Black";
             testAnimal.Gender = GenderType.Female;
@@ -882,7 +852,7 @@ namespace WildlifeTracker
             
             // test animal 2
             Animal testAnimal2 = new Dog(22, true);
-            testAnimal2.Name = "Test2";
+            testAnimal2.Name = "Doggo";
             testAnimal2.Age = 3;
             testAnimal2.Color = "White";
             testAnimal2.Gender = GenderType.Male;
@@ -896,7 +866,7 @@ namespace WildlifeTracker
 
             // test animal 3
             Animal testAnimal3 = new Penguin(false, false, 23);
-            testAnimal3.Name = "Test3";
+            testAnimal3.Name = "Pingu";
             testAnimal3.Age = 2;
             testAnimal3.Color = "Black and white";
             testAnimal3.Category = CategoryType.Bird;
@@ -905,6 +875,50 @@ namespace WildlifeTracker
             ((Penguin)testAnimal3).CanSwim = true;
             ((Penguin)testAnimal3).FavoriteFish = "Herring";
             animalManager.AddAnimalWithID(testAnimal3);
+
+            // food schedule for cats
+            FoodSchedule catFoodSchedule = new FoodSchedule();
+            catFoodSchedule.ScheduleTitle = "Basic cat food schedule";
+            catFoodSchedule.Add("Breakfast: Milk and wet food");
+            catFoodSchedule.Add("Lunch: Water and dry food");
+            catFoodSchedule.Add("Dinner: Water and wet food");
+
+            // food schedule for dogs
+            FoodSchedule dogFoodSchedule = new FoodSchedule();
+            dogFoodSchedule.ScheduleTitle = "Basic dog food schedule";
+            dogFoodSchedule.Add("Breakfast: Water and dry food");
+            dogFoodSchedule.Add("Lunch: Water and wet food");
+            dogFoodSchedule.Add("Dinner: Water and dry food");
+
+            // food schedule for carnivores
+            FoodSchedule carnivoreFoodSchedule = new FoodSchedule();
+            carnivoreFoodSchedule.ScheduleTitle = "Basic carnivore food schedule";
+            carnivoreFoodSchedule.Add("Breakfast: Meat");
+            carnivoreFoodSchedule.Add("Lunch: Chicken");
+            carnivoreFoodSchedule.Add("Dinner: Meat");
+
+            // a food schedule for herbivores
+            FoodSchedule herbivoreFoodSchedule = new FoodSchedule();
+            herbivoreFoodSchedule.ScheduleTitle = "Basic herbivore food schedule";
+            herbivoreFoodSchedule.Add("Breakfast: Water and Grass");
+            herbivoreFoodSchedule.Add("Lunch: Water and leaves");
+            herbivoreFoodSchedule.Add("Dinner: Grass");
+
+            // a food schedule for omnivores
+            FoodSchedule omnivoreFoodSchedule = new FoodSchedule();
+            omnivoreFoodSchedule.ScheduleTitle = "Basic omnivore food schedule";
+            omnivoreFoodSchedule.Add("Breakfast: Water and meat");
+            omnivoreFoodSchedule.Add("Lunch: Water and vegetables");
+            omnivoreFoodSchedule.Add("Dinner: Fish and vegetables");
+
+
+            // Add food schedules to the food schedule dictionary
+            foodScheduleManager.AddFoodSchedule(catFoodSchedule);
+            foodScheduleManager.AddFoodSchedule(dogFoodSchedule);
+            foodScheduleManager.AddFoodSchedule(carnivoreFoodSchedule);
+            foodScheduleManager.AddFoodSchedule(herbivoreFoodSchedule);
+            foodScheduleManager.AddFoodSchedule(omnivoreFoodSchedule);
+
         }
 
         /// <summary>
@@ -918,6 +932,252 @@ namespace WildlifeTracker
             this.DataContext = null;
             animalListView.SelectedIndex = -1;
         }
+
+        /// <summary>
+        /// Method to handle the connect food button clicked event, that conncets to fooditem to the animal in a dictionary
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ConnectFoodBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            // Check that a animal is chosen
+            if (this.DataContext == null)
+            {
+                errorList.Add("You must select a animal first");
+            }
+            // Check that a food item is chosen
+            if (foodItemList.SelectedItem == null)
+            {
+                errorList.Add("You must select a food item first");
+            }
+            if (errorList.Count > 0)
+            {
+                DisplayErrorMessage();
+                return;
+            }
+            // Get the selected animal from the data context
+            Animal animal = (Animal)this.DataContext;
+            // Get the selected food item from the list view
+            string foodItem = foodItemList.SelectedItem.ToString();
+
+            // Check if the animal is already connected to one food item
+            bool animalInDict = CheckIfAnimalIsInDict(animal);
+            // If it is
+            if (animalInDict) 
+            { // Ask the user if they want to change the food item
+                AskToChangeFoodItem(foodItem, animal);
+            }
+            else // If it is not, add it to the dictionary with the selected food item
+            {
+                if(AddToFoodItemsDict(foodItem, animal))
+                    MessageBox.Show(animal.Name + " connected to " + foodItem);
+            }
+            UpdateGUI(); // Update the GUI
+        }
+
+        /// <summary>
+        /// Methood that hanldes adding fooditems and animals to a dictionary
+        /// </summary>
+        /// <param name="foodItem"></param>
+        /// <param name="animal"></param>
+        private bool AddToFoodItemsDict(string foodItem, Animal animal)
+        {
+            bool ok = false;
+            if (!foodItemsDict.ContainsKey(foodItem)) // Check if the food item is not already in the dictionary
+            {
+                // If it is not, create a new list manager and add the animal to the list
+                ListManager<Animal> anmList = new ListManager<Animal>();
+                anmList.Add(animal);
+                foodItemsDict.Add(foodItem, anmList);
+                ok = true;
+            }
+            else // If the food item is already in the dictionary
+            {
+                // Get the list manager from the dictionary and add the animal to the list
+                ListManager<Animal> anmList = foodItemsDict[foodItem];
+                anmList.Add(animal);
+                ok = true;
+            }
+            return ok;
+        }
+
+        /// <summary>
+        /// MEthod that checks if the selected animal is already connected to a food item
+        /// </summary>
+        /// <param name="animal"></param>
+        /// <returns></returns>
+        private bool CheckIfAnimalIsInDict(Animal animal)
+        {
+            foreach (KeyValuePair<string, ListManager<Animal>> entry in foodItemsDict)
+            {
+                ListManager<Animal> anmList = entry.Value;
+                if (anmList.Contains(animal))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// MEthod that asks the user if they want to change the food item the animal is connected to
+        /// </summary>
+        /// <param name="foodItem"></param>
+        /// <param name="animal"></param>
+        private void AskToChangeFoodItem(string foodItem, Animal animal)
+        {
+            // Create a message box to ask the user if they want to connect the animal to the fooditem, and thereby removing it from the other fooditem
+            MessageBoxResult result = MessageBox.Show("The animal is already connected to a food item, do you want to connect it to this food item instead?", "Connect animal to food item", MessageBoxButton.YesNo);
+            // If the user clicks yes, remove the animal from the other food item and connect it to the new food item
+            if (result == MessageBoxResult.Yes)
+            {
+                // Loop through the dictionary
+                foreach (KeyValuePair<string, ListManager<Animal>> entry in foodItemsDict)
+                {
+                    // If the food item is not the same as the selected food item
+                    if (entry.Key != foodItem)
+                    {
+                        // Get the list manager from the dictionary
+                        ListManager<Animal> anmList = entry.Value;
+                        // Check if the animal is in the list
+                        if (anmList.Contains(animal))
+                        {
+                            // Get the index of the animal in the list
+                            int index = anmList.IndexOf(animal);
+                            anmList.DeleteAt(index); // If it is, remove the animal from the list
+                            AddToFoodItemsDict(foodItem, animal); // Add the animal to the new food item
+                            break;
+                        }
+                    }
+                    else // If the food item is the same as the selected food item, let the user know that the animal is already connected to the food item
+                    {
+                        MessageBox.Show("The animal is already connected to this food item");
+                    }
+                }
+            }
+            else // If the user clicks no, do nothing
+            {
+                return;
+            }
+        }
+        /// <summary>
+        /// Method to open a new window with the list of animals connected to the selected food item
+        /// </summary>
+        private void DisplayAnimalsWithFoodItem()
+        {
+            // Get the selected food item from the list view
+            string foodItem = foodItemList.SelectedItem.ToString();
+            // Open a new window with the list of animals connected to the selected food item
+            FoodItemWindow foodItemWindow = new FoodItemWindow(foodItemsDict[foodItem]);
+            foodItemWindow.Show();
+        }
+
+        /// <summary>
+        /// Method to handle the view animals with food item button clicked event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ViewAnimalsWithFoodItem_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (foodItemList.SelectedIndex == -1) // Check that a food item is selected
+            {
+                InputValidator.DisplayErrorMessage("You must select a food item first");
+                return;
+            }
+            DisplayAnimalsWithFoodItem();
+        }
+        
+        /// <summary>
+        /// Method to handle the new food schedule button clicked event, is not implemented yet
+        /// </summary>
+        /// <param name="foodSchedule"></param>
+        /// <param name="animal"></param>
+        /// <returns></returns>
+        private bool AddScheduleToDict(FoodSchedule foodSchedule, Animal animal)
+        {
+            bool ok = false;
+            if (!foodScheduleDict.ContainsKey(foodSchedule)) // Check if the food item is not already in the dictionary
+            {
+                // If it is not, create a new list manager and add the animal to the list
+                ListManager<Animal> anmList = new ListManager<Animal>();
+                anmList.Add(animal);
+                foodScheduleDict.Add(foodSchedule, anmList);
+                ok = true;
+            }
+            else // If the food item is already in the dictionary
+            {
+                // Get the list manager from the dictionary and add the animal to the list
+                ListManager<Animal> anmList = foodScheduleDict[foodSchedule];
+                anmList.Add(animal);
+                ok = true;
+            }
+            return ok;
+        }
+
+        /// <summary>
+        /// Method to handle when the user clicks the connect schedule and animal button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ConnectScheduleAndAnimal_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext == null)
+            {
+                InputValidator.DisplayErrorMessage("You must select a animal first");
+                return;
+            }
+            // Get the animal
+            Animal animal = (Animal)this.DataContext;
+            // Get the selected food schedule from the combo box
+            FoodSchedule foodSchedule; // variable to store the selected food schedule
+            if (scheduleComboBox.SelectedItem != null) // check if a food schedule is selected
+                // Set the foodschedule variable to the selected food schedule
+                foodSchedule = foodScheduleManager.GetSelectedFoodSchedule(scheduleComboBox.SelectedItem.ToString());
+            else
+            { // If not, display an error message
+                InputValidator.DisplayErrorMessage("You must select a food schedule first");
+                return;
+            }
+            // Add the animal to the food schedule dictionary in the food schedule manager
+            if (foodScheduleManager.AddAnimalToFoodSchedule(animal, foodSchedule))
+                // Display a message to let the user know that the animal is connected to the food schedule if it was successful
+                MessageBox.Show(animal.Name + " connected to " + foodSchedule.ToString());
+            UpdateGUI(); // update gui
+        }
+
+        /// <summary>
+        /// Method to populate the combo box with the food schedules
+        /// </summary>
+        private void PopulateScheduleListCombo()
+        {
+            // Get the food schedules as a list
+            ListManager<FoodSchedule> list = foodScheduleManager.GetFoodScheduleAsList();
+            foreach (FoodSchedule foodSchedule in list) // for each list, add the food schedule to the combo box
+            {
+                scheduleComboBox.Items.Add(foodSchedule.ScheduleTitle);
+            }
+        }
+
+        /// <summary>
+        /// Method to handle when the user selects a food schedule from the combo box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void scheduleComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Fill the list view with the details of the food schedule, eg the strings in the list
+            // First get the selected food schedule from the combo box
+            if (scheduleComboBox.SelectedItem == null)
+                return;
+            // Get the food schedule from the combo box
+            FoodSchedule selectedSchedule = foodScheduleManager.GetSelectedFoodSchedule(scheduleComboBox.SelectedItem.ToString());
+
+            // Clear the list view
+            foodScheduleListBox.Items.Clear();
+            // Fill the list view with the food schedule details
+            FillFoodScheduleList(selectedSchedule);
+        }
+
     }
 
 
