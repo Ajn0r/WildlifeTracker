@@ -98,7 +98,6 @@ namespace WildlifeTracker
         #endregion
 
         #region // Methods //
-        public abstract FoodSchedule GetFoodSchedule();
 
         public virtual string GetExtraInfo()
         {

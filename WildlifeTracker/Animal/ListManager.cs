@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace WildlifeTracker
 {
-    public class ListManager <T> : IListManager<T>
+    public class ListManager <T> : IListManager<T>, IEnumerable<T>
     {
         private List<T> list;
 
@@ -31,6 +33,10 @@ namespace WildlifeTracker
                 return false;
             list.Add(type);
             return true;
+        }
+        public bool Contains(T type)
+        {
+            return list.Contains(type);
         }
 
         /// <summary>
@@ -131,6 +137,73 @@ namespace WildlifeTracker
             throw new NotImplementedException();
         }
 
-    }   
+        internal int IndexOf(T type)
+        {
+            int index = list.IndexOf(type);
+            return index;
+            
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return list.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public virtual void SortList(string sortBy)
+        {
+            switch (sortBy)
+            {
+                case "Id":
+                    list.Sort((x, y) => Comparer.Default.Compare((x as Animal).Id, (y as Animal).Id));
+                    break;
+                case "Name":
+                    list.Sort((x, y) => Comparer.Default.Compare((x as Animal).Name, (y as Animal).Name));
+                    break;
+                case "Age":
+                    list.Sort((x, y) => Comparer.Default.Compare((x as Animal).Age, (y as Animal).Age));
+                    break;
+                case "Color":
+                    list.Sort((x, y) => Comparer.Default.Compare((x as Animal).Color, (y as Animal).Color));
+                    break;
+                case "Species":
+                    list.Sort((x, y) => Comparer.Default.Compare((x as Animal).AnimalType, (y as Animal).AnimalType));
+                    break;
+                default:
+                    throw new ArgumentException("Invalid sortBy parameter");
+                    
+            }
+        }
+        public virtual void SortListDesc(string sortBy)
+        {
+            // Sortera listan i fallande ordning efter den givna parametern
+            switch (sortBy)
+            {
+                case "Id":
+                    list.Sort((x, y) => Comparer.Default.Compare((y as Animal).Id, (x as Animal).Id));
+                    break;
+                case "Name":
+                    list.Sort((x, y) => Comparer.Default.Compare((y as Animal).Name, (x as Animal).Name));
+                    break;
+                case "Age":
+                    list.Sort((x, y) => Comparer.Default.Compare((y as Animal).Age, (x as Animal).Age));
+                    break;
+                case "Color":
+                    list.Sort((x, y) => Comparer.Default.Compare((y as Animal).Color, (x as Animal).Color));
+                    break;
+                case "Species":
+                    list.Sort((x, y) => Comparer.Default.Compare((y as Animal).AnimalType, (x as Animal).AnimalType));
+                    break;
+                default:
+                    throw new ArgumentException("Invalid sortBy parameter");
+            }
+        }
+
+  
+    }
 
 }

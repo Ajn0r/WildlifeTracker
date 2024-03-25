@@ -61,11 +61,16 @@
     <Compile Include="Animal\AnimalManager.cs" />
     <Compile Include="Animal\IListManager.cs" />
     <Compile Include="Animal\ListManager.cs" />
+    <Compile Include="Food\FoodScheduleManager.cs" />
+    <Compile Include="Food\ScheduleTypes.cs" />
     <Compile Include="Food\EaterType.cs" />
     <Compile Include="Food\FoodForm.xaml.cs">
       <DependentUpon>FoodForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Food\FoodItem.cs" />
+    <Compile Include="Food\FoodItemWindow.xaml.cs">
+      <DependentUpon>FoodItemWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Food\FoodSchedule.cs" />
     <Compile Include="Animal\IAnimal.cs" />
     <Compile Include="Birds\BirdFactory.cs" />
@@ -81,6 +86,7 @@
     </Compile>
     <Compile Include="Helper classes\BooleanToYesNoConverter.cs" />
     <Compile Include="Helper classes\InputValidator.cs" />
+    <Compile Include="Helper classes\UtilitiesLibrary.cs" />
     <Compile Include="Mammals\MammalSpecies.cs" />
     <Compile Include="Mammals\Cats\CatView.xaml.cs">
       <DependentUpon>CatView.xaml</DependentUpon>
@@ -89,14 +95,11 @@
       <DependentUpon>DogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper classes\CategoryToVisibilityConverter.cs" />
-    <Compile Include="Insects\Bee.cs" />
-    <Compile Include="Insects\Butterfly.cs" />
     <Compile Include="Mammals\Donkeys\Donkey.cs" />
     <Compile Include="Mammals\Dogs\Dog.cs" />
     <Compile Include="Mammals\Cats\Cat.cs" />
     <Compile Include="Animal\CategoryType.cs" />
     <Compile Include="Animal\GenderType.cs" />
-    <Compile Include="Insects\Insect.cs" />
     <Compile Include="Birds\Owls\Owl.cs" />
     <Compile Include="Birds\Parrots\Parrot.cs" />
     <Compile Include="Birds\Penguins\Penguin.cs" />
@@ -118,6 +121,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Food\FoodForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Food\FoodItemWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
