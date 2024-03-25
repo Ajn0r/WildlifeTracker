@@ -86,6 +86,7 @@
     </Compile>
     <Compile Include="Helper classes\BooleanToYesNoConverter.cs" />
     <Compile Include="Helper classes\InputValidator.cs" />
+    <Compile Include="Helper classes\UtilitiesLibrary.cs" />
     <Compile Include="Mammals\MammalSpecies.cs" />
     <Compile Include="Mammals\Cats\CatView.xaml.cs">
       <DependentUpon>CatView.xaml</DependentUpon>
