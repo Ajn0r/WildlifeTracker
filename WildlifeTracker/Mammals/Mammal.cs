@@ -6,7 +6,8 @@ using WildlifeTracker.Mammals.Cats;
 
 namespace WildlifeTracker
 {
-    public abstract class Mammal : Animal
+    [Serializable]
+    public class Mammal : Animal
     {
         #region // Instance variables //
         private int numOfTeeth;
@@ -29,6 +30,7 @@ namespace WildlifeTracker
         #endregion
 
         #region // Methods //
+
 
         #endregion
     }

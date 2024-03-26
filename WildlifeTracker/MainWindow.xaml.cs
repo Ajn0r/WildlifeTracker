@@ -1184,10 +1184,20 @@ namespace WildlifeTracker
         private void OpenFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "XML files (*.xml)|*.xml|Json files (*.json)|*.json";
             if (openFileDialog.ShowDialog() == true)
             {
                 filename = openFileDialog.FileName;
-                MessageBox.Show(filename);
+                if (OpenFromType(filename))
+                {
+                    MessageBox.Show("File opened");
+                    FillAnimalList();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid file type");
+                }
+                    
             }
         }
 
@@ -1202,6 +1212,24 @@ namespace WildlifeTracker
             else
             {
                 SaveNewFile();
+            }
+        }
+
+        private bool OpenFromType(string filename)
+        {
+            if (filename.Contains(".xml"))
+            {
+                animalManager.LoadFromXML(filename);
+                return true;
+            }
+            else if (filename.Contains(".json"))
+            {
+                animalManager.LoadFromJson(filename);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         private void SaveNewFile()

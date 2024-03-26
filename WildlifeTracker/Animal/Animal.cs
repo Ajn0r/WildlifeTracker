@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace WildlifeTracker
 {
     [Serializable]
-    public abstract class Animal : IAnimal, INotifyPropertyChanged
+    public class Animal : IAnimal, INotifyPropertyChanged
     {
         #region // Instance variables //
         private string name;
@@ -18,6 +19,7 @@ namespace WildlifeTracker
         private string color;
         private string id;
         private string imagePath;
+        private string animalType;
 
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
@@ -28,6 +30,7 @@ namespace WildlifeTracker
         // method suggested in the help document with typeOf method.
         // GetType() will return the type of the derived class and .Name will return the name of the class.
         // I then use databinding to display the type of animal in the UI with the property.
+        [JsonPropertyName("AnimalType")]
         public string AnimalType => GetType().Name; 
 
         // Property to get and set the gender of the animal
@@ -95,6 +98,7 @@ namespace WildlifeTracker
         {
             // Set the category of the animal
             this.category = category;
+            animalType = GetType().Name;
         }
         #endregion
 

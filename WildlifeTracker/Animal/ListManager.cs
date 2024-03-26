@@ -218,14 +218,16 @@ namespace WildlifeTracker
         {
             if (fileName == null)
                 return false;
-            UtilitiesLibrary<Animal>.JsonSerialize(fileName, list<Animal>);
+            List<Animal> animals = new List<Animal>();
+            foreach (var item in list)
+            {
+                animals.Add(item as Animal);
+            }
+            UtilitiesLibrary.JsonSerialize(fileName, animals);
             return true;
         } 
 
-        public bool LoadFromJson(string fileName)
-        {
-            throw new NotImplementedException();
-        }
+
 
         /// <summary>
         /// Method that saves the list to a text file
@@ -236,8 +238,13 @@ namespace WildlifeTracker
         {
             if (fileName == null)
                 return false;
-            UtilitiesLibrary<Animal>.TextSerialize(fileName, list);
+            UtilitiesLibrary.TextSerialize(fileName, list);
             return true;
+        }
+
+        public virtual bool LoadFromJson(string fileName)
+        {
+           return false;
         }
     }
 

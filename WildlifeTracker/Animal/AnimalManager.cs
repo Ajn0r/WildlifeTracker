@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using WildlifeTracker;
+using WildlifeTracker.Helper_classes;
 
 namespace WildlifeTracker
 {
@@ -50,6 +52,19 @@ namespace WildlifeTracker
             }
             startID++;
             return id;
+        }
+
+        public override bool LoadFromJson(string fileName)
+        {
+            if (fileName == null)
+                return false;
+            DeleteAll();
+            List<Animal> animalList = UtilitiesLibrary.JsonDeserialize(fileName);
+            foreach (Animal animal in animalList)
+            {
+                Add(animal);
+            }
+            return true;
         }
 
         #endregion
