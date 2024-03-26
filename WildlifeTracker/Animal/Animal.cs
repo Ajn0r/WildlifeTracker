@@ -6,6 +6,7 @@ using System.Text;
 
 namespace WildlifeTracker
 {
+    [Serializable]
     public abstract class Animal : IAnimal, INotifyPropertyChanged
     {
         #region // Instance variables //
