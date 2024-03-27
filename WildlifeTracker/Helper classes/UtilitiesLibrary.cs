@@ -11,96 +11,93 @@ using WildlifeTracker.Mammals.Cats;
 using WildlifeTracker.Mammals.Dogs;
 using WildlifeTracker.Mammals.Donkeys;
 using Newtonsoft.Json.Linq;
+using System.Windows;
 
 
 namespace WildlifeTracker.Helper_classes
 {
     public class UtilitiesLibrary
     {
+        /// <summary>
+        /// Method to serialize a list of animals to a json file, only works for animals that are derived from the Animal class.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="list"></param>
         public static void JsonSerialize(string fileName, List<Animal> list) 
         {
-            /*using (StreamWriter writer = new StreamWriter(fileName))
-            {
-                foreach (Animal item in list)
-                {
-                    string jsonString = JsonConvert.SerializeObject(item);
-                    writer.WriteLine(jsonString);
-                }
-            }*/
             try
             {
+                // Serialize the list of animals to a json string
                 string jsonString = JsonConvert.SerializeObject(list, Formatting.Indented);
+                // Write the json string to a file
                 File.WriteAllText(fileName, jsonString);
             } catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                MessageBox.Show("A error occurred: \n" + e.Message.ToString());
             }
-
-
         }
 
+        /// <summary>
+        /// Method to deserialize a json file and return a list of animals, using a switch statement to determine the type of animal.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public static List<Animal> JsonDeserialize(string fileName)
         {
+            // declare a variable to hold the json string and a list to hold the animals
             string jsonString = string.Empty;
             List<Animal> list = new List<Animal>();
-            
-            string json = File.ReadAllText(fileName);
-            JArray jsonArray = JArray.Parse(json);
-            foreach (JObject jObject in jsonArray.Children<JObject>())
-            {
-                string animalType = jObject["AnimalType"].ToObject<string>();
-                switch (animalType)
-                {
-                    case "Cat":
-                        list.Add(JsonConvert.DeserializeObject<Cat>(jObject.ToString()));
-                        break;
-                    case "Dog":
-                        list.Add(JsonConvert.DeserializeObject<Dog>(jObject.ToString()));
-                        break;
-                    case "Donkey":
-                        list.Add(JsonConvert.DeserializeObject<Donkey>(jObject.ToString()));
-                        break;
-                    default:
-                        // Om AnimalType är okänt eller saknas, lägg till som Animal
-                        list.Add(JsonConvert.DeserializeObject<Animal>(jObject.ToString()));
-                        break;
-                }
-            }
 
-            /*
-            using (StreamReader reader = new StreamReader(fileName))
+            // Using a try block to catch any exceptions that may occur, read the json file and parse it
+            try
             {
-                while ((jsonString = reader.ReadLine()) != null)
+                // Read the json file
+                string json = File.ReadAllText(fileName);
+                // Convert the json string to a JArray object to iterate through the objects before deserializing them 
+                // to be able to determind what type of animal each object is
+                JArray jsonArray = JArray.Parse(json);
+                // loop through the objects in the json array
+                foreach (JObject jObject in jsonArray.Children<JObject>())
                 {
-                    if (jsonString == null)
-                        break;
-                    Animal animal = System.Text.Json.JsonSerializer.Deserialize<Animal>(jsonString, options);
-                    switch (animal.AnimalType)
+                    // Get the animal type from the json object
+                    string animalType = jObject["AnimalType"].ToObject<string>();
+                    // A switch statement to determine the type of animal and deserialize it to the correct type
+                    switch (animalType)
                     {
                         case "Cat":
-                            list.Add(System.Text.Json.JsonSerializer.Deserialize<Cat>(jsonString, options));
+                            list.Add(JsonConvert.DeserializeObject<Cat>(jObject.ToString()));
                             break;
                         case "Dog":
-                            list.Add(System.Text.Json.JsonSerializer.Deserialize<Dog>(jsonString, options));
+                            list.Add(JsonConvert.DeserializeObject<Dog>(jObject.ToString()));
                             break;
                         case "Donkey":
-                            list.Add(System.Text.Json.JsonSerializer.Deserialize<Donkey>(jsonString, options));
+                            list.Add(JsonConvert.DeserializeObject<Donkey>(jObject.ToString()));
                             break;
                         case "Owl":
-                            list.Add(System.Text.Json.JsonSerializer.Deserialize<Owl>(jsonString, options));
+                            list.Add(JsonConvert.DeserializeObject<Owl>(jObject.ToString()));
                             break;
                         case "Parrot":
-                            list.Add(System.Text.Json.JsonSerializer.Deserialize<Parrot>(jsonString, options));
+                            list.Add(JsonConvert.DeserializeObject<Parrot>(jObject.ToString()));
                             break;
                         case "Penguin":
-                            list.Add(System.Text.Json.JsonSerializer.Deserialize<Penguin>(jsonString, options));
+                            list.Add(JsonConvert.DeserializeObject<Penguin>(jObject.ToString()));
                             break;
                         default:
-                            list.Add(animal);
+                            // If the animal type is not recognized, add it as a generic animal
+                            list.Add(JsonConvert.DeserializeObject<Animal>(jObject.ToString()));
                             break;
                     }
                 }
-            }*/
+            } catch (FileNotFoundException e)
+            {
+                MessageBox.Show("A error occurred: \n" + e.Message.ToString());
+                list = null;
+            } catch (Exception e)
+            {
+                MessageBox.Show("A error occurred: \n" + e.Message.ToString());
+                list = null;
+            }
+            // Return the list of animals
             return list;
         }
 
