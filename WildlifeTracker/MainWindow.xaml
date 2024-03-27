@@ -30,7 +30,7 @@
         <!-- Menu controls, functionality will be implemented in a later release  -->
         <Menu Grid.ColumnSpan="4" >
             <MenuItem Header="_File">
-                <MenuItem Header="_New"/ Click="NewFile_Click">
+                <MenuItem Header="_New" Click="NewFile_Click" />
                 <MenuItem Header="_Open" Click="OpenFile_Click" />
                 <MenuItem Header="_Save" Click="SaveFile_Click"/>
                 <MenuItem Header="Save as">
