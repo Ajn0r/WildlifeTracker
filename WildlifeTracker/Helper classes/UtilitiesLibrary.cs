@@ -39,6 +39,13 @@ namespace WildlifeTracker.Helper_classes
 
         /// <summary>
         /// Method to deserialize a json file and return a list of animals, using a switch statement to determine the type of animal.
+        /// The method to get the json strings before deserializing is inspired by a solution from this website:
+        /// https://www.c-sharpcorner.com/UploadFile/vendettamit/parsing-list-of-json-elements-as-list-with-json-net/.
+        /// How to iterate over the JArray object is inspired by this website: https://stackoverflow.com/questions/16045569/how-to-access-elements-of-a-jarray-or-iterate-over-them
+        /// Not sure if we are allowed to use var? But i found that JObject and JArray worked for this purpose.
+        /// JThe json objects are parsed to a JArray object to be able to iterate through them and check each before deserializing them.
+        /// The issue I had was that once the json objects were deserialized, they was all created as Animal objects, and the animal type and all other species specific infomation was lost, 
+        /// so this is the soulution I found to work best without having to rewrite the animal class too much.
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
@@ -57,41 +64,42 @@ namespace WildlifeTracker.Helper_classes
                 // to be able to determind what type of animal each object is
                 JArray jsonArray = JArray.Parse(json);
                 // loop through the objects in the json array
-                foreach (JObject jObject in jsonArray.Children<JObject>())
+                foreach (JObject animal in jsonArray)
                 {
-                    // Get the animal type from the json object
-                    string animalType = jObject["AnimalType"].ToObject<string>();
+                    // Get the animal type from the json object, convert it to a string with a cast
+                    string animalType = (string)animal["AnimalType"];
                     // A switch statement to determine the type of animal and deserialize it to the correct type
                     switch (animalType)
                     {
                         case "Cat":
-                            list.Add(JsonConvert.DeserializeObject<Cat>(jObject.ToString()));
+                            list.Add(JsonConvert.DeserializeObject<Cat>(animal.ToString()));
                             break;
                         case "Dog":
-                            list.Add(JsonConvert.DeserializeObject<Dog>(jObject.ToString()));
+                            list.Add(JsonConvert.DeserializeObject<Dog>(animal.ToString()));
                             break;
                         case "Donkey":
-                            list.Add(JsonConvert.DeserializeObject<Donkey>(jObject.ToString()));
+                            list.Add(JsonConvert.DeserializeObject<Donkey>(animal.ToString()));
                             break;
                         case "Owl":
-                            list.Add(JsonConvert.DeserializeObject<Owl>(jObject.ToString()));
+                            list.Add(JsonConvert.DeserializeObject<Owl>(animal.ToString()));
                             break;
                         case "Parrot":
-                            list.Add(JsonConvert.DeserializeObject<Parrot>(jObject.ToString()));
+                            list.Add(JsonConvert.DeserializeObject<Parrot>(animal.ToString()));
                             break;
                         case "Penguin":
-                            list.Add(JsonConvert.DeserializeObject<Penguin>(jObject.ToString()));
+                            list.Add(JsonConvert.DeserializeObject<Penguin>(animal.ToString()));
                             break;
                         default:
                             // If the animal type is not recognized, add it as a generic animal
-                            list.Add(JsonConvert.DeserializeObject<Animal>(jObject.ToString()));
+                            list.Add(JsonConvert.DeserializeObject<Animal>(animal.ToString()));
                             break;
                     }
                 }
+                // Catch any exceptions that may occur, I handle FileNotFoundException and general exceptions
             } catch (FileNotFoundException e)
             {
                 MessageBox.Show("A error occurred: \n" + e.Message.ToString());
-                list = null;
+                list = null; // return null if an exception occurs, so that the caller method knows that something went wrong.
             } catch (Exception e)
             {
                 MessageBox.Show("A error occurred: \n" + e.Message.ToString());

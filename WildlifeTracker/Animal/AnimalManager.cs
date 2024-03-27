@@ -60,9 +60,10 @@ namespace WildlifeTracker
                 return false;
             DeleteAll();
             List<Animal> animalList = UtilitiesLibrary.JsonDeserialize(fileName);
-            // if the list is null return false, otherwise add the animals to the list
+            // if the list is null return false, since then a exception was thrown in the deserialization
             if (animalList == null)
                 return false;
+            // otherwise add each of the animals to the list
             foreach (Animal animal in animalList)
             {
                 Add(animal); // add the animal to the list

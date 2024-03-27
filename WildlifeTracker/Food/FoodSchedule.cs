@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Documents;
+using System.Xml.Serialization;
 using WildlifeTracker.Food;
+using WildlifeTracker.Helper_classes;
 
 
 namespace WildlifeTracker
@@ -97,6 +99,16 @@ namespace WildlifeTracker
         public override string ToString()
         {
             return scheduleTitle;
+        }
+
+        public void SaveToXML(string fileName)
+        {
+            UtilitiesLibrary.XmlSerialize(fileName, foodList);
+        }
+
+        public bool LoadFromXML(string fileName)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
