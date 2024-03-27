@@ -1328,6 +1328,7 @@ namespace WildlifeTracker
             FillAnimalList();
             UpdateGUI();
         }
+
         /// <summary>
         /// Method that checks if there are any unsaved changes and asks the user if they want to save them before any other actions are carried out.
         /// </summary>
