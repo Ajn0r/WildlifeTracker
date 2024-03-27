@@ -25,6 +25,11 @@ namespace WildlifeTracker
         T GetAt(int index);
         string[] ToStringArray();
         List<string> ToStringList();
+        bool SaveToXML(string fileName);
+        bool LoadFromXML(string fileName);
+        bool SaveToJson(string fileName);
+        bool LoadFromJson(string fileName);
+        bool SaveToText(string fileName);
         #endregion
     }
 }

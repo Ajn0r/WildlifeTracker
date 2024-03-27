@@ -6,6 +6,7 @@ using System.Windows.Controls;
 
 namespace WildlifeTracker.Mammals.Cats
 {
+    [Serializable]
     public class Cat : Mammal
     {
         #region // Instance variables //

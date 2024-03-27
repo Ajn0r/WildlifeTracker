@@ -32,10 +32,10 @@
             <MenuItem Header="_File">
                 <MenuItem Header="_New"/>
                 <MenuItem Header="_Open" Click="OpenFile_Click" />
-                <MenuItem Header="_Save"/>
+                <MenuItem Header="_Save" Click="SaveFile_Click"/>
                 <MenuItem Header="Save as">
                     <MenuItem Header="Text"/>
-                    <MenuItem Header="JSON"/>
+                    <MenuItem Header="JSON" Click="SaveAsJson_Click"/>
                     <MenuItem Header="XML"/>
                 </MenuItem>
                 <MenuItem Header="_Exit"/>

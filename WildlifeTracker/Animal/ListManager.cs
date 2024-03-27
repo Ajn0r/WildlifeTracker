@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using WildlifeTracker.Helper_classes;
 
 namespace WildlifeTracker
 {
@@ -203,7 +204,48 @@ namespace WildlifeTracker
             }
         }
 
-  
+        public bool SaveToXML(string fileName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool LoadFromXML(string fileName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SaveToJson(string fileName)
+        {
+            if (fileName == null)
+                return false;
+            List<Animal> animals = new List<Animal>();
+            foreach (var item in list)
+            {
+                animals.Add(item as Animal);
+            }
+            UtilitiesLibrary.JsonSerialize(fileName, animals);
+            return true;
+        } 
+
+
+
+        /// <summary>
+        /// Method that saves the list to a text file
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public bool SaveToText(string fileName)
+        {
+            if (fileName == null)
+                return false;
+            UtilitiesLibrary.TextSerialize(fileName, list);
+            return true;
+        }
+
+        public virtual bool LoadFromJson(string fileName)
+        {
+           return false;
+        }
     }
 
 }

@@ -45,6 +45,9 @@ namespace WildlifeTracker
         // FoodScheduleManager to manage the food schedules
         FoodScheduleManager foodScheduleManager = new FoodScheduleManager();
 
+        // String to hold the filename
+        private string filename;
+
         public MainWindow()
         {
             Test(); // Call the test method to add some test animals to the list
@@ -1181,10 +1184,127 @@ namespace WildlifeTracker
         private void OpenFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "XML files (*.xml)|*.xml|Json files (*.json)|*.json";
             if (openFileDialog.ShowDialog() == true)
+            { // get the selected file name
+                filename = openFileDialog.FileName;
+                // if the file is opened successfully, display a message to the user and fill the list view with the animals
+                if (OpenFromType(filename))
+                {
+                    MessageBox.Show("File opened");
+                    FillAnimalList();
+                }
+                else // else, display an error message
+                {
+                    MessageBox.Show("Could not open file, please try again or select another file");
+                }
+                    
+            }
+        }
+
+        /// <summary>
+        /// Method to handle the save file button clicked event, if a filepath is already know it will save to that,
+        /// otherwise it will open a save file dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveFile_Click(object sender, RoutedEventArgs e)
+        {
+            // Save the file to the previously selected file path if it is not null
+            if (filename != null)
             {
-                string filename = openFileDialog.FileName;
-                MessageBox.Show(filename);
+                SaveToType(filename);
+            } // If the file path is null, call the SaveNewFile method to open a save file dialog
+            else
+            {
+                SaveNewFile();
+            }
+        }
+
+        /// <summary>
+        /// Method to handle opening a file based on the file type, either xml or json. Calls the animal manager load methods
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        private bool OpenFromType(string filename)
+        {
+            bool ok = false;
+            // Check that the file type is xml before trying to load the file
+            if (filename.Contains(".xml"))
+            {
+                ok = animalManager.LoadFromXML(filename);
+            }
+            // or if the file type is json
+            else if (filename.Contains(".json"))
+            {
+                ok = animalManager.LoadFromJson(filename);
+            } // return the result of the load method
+            return ok;
+        }
+
+        /// <summary>
+        /// Method to handle saving a new file, opens a save file dialog and saves the file based on the file type
+        /// </summary>
+        private void SaveNewFile()
+        {
+            // Open a save file dialog
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            // Set the filter to only allow xml, json and text files
+            saveFileDialog.Filter = "XML files (*.xml)|*.xml|Json files (*.json)|*.json|Text files (*.txt)|*.txt";
+            // If the user clicks ok
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                filename = saveFileDialog.FileName; // Set the filename to the selected file path
+                SaveToType(filename); // Save the file to the selected file path
+            }
+        }
+
+        /// <summary>
+        /// Method to save the file based on the file type, either json, xml or txt
+        /// </summary>
+        /// <param name="filename"></param>
+        private void SaveToType(string filename)
+        {
+            bool ok = false;
+            // Check if the file type is xml
+            if (filename.Contains(".xml"))
+            {
+                // Save the file as xml
+                ok = animalManager.SaveToXML(filename);
+            }
+            else if (filename.Contains(".txt")) // Check if the file type is txt
+            {
+                // Save the file as txt
+                ok = animalManager.SaveToText(filename);
+            }
+            else if (filename.Contains(".json")) // Check if the file type is json
+            {
+                // Save the file as json
+                ok = animalManager.SaveToJson(filename);
+            }
+            else // If the file type is not xml or txt, display an error message
+            {
+                MessageBox.Show("Invalid file type");
+            }
+            if (ok) // if the file was saved successfully, display a message to the user
+                MessageBox.Show("File saved");
+        }
+
+        /// <summary>
+        /// Method to handle the save as json menu option clicked event, opens a save file dialog and saves the file as json
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveAsJson_Click(object sender, RoutedEventArgs e)
+        {
+            // Open a file dialog and set the filter to only allow json files
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Json files (*.json)|*.json";
+            if (saveFileDialog.ShowDialog() == true)
+            { // if the user clicks ok, save the file as json
+                filename = saveFileDialog.FileName;
+                if (animalManager.SaveToJson(filename))
+                    MessageBox.Show("File saved");
             }
         }
     }

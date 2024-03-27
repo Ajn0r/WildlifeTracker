@@ -102,6 +102,11 @@ namespace WildlifeTracker
         /// </summary>
         private void SetCategorySpecificInfo()
         {
+            if (Animal is Mammal mammal)
+            {
+                AddAttributeRow(AnimalInfoStack, "Number of teeth: ", mammal.NumOfTeeth.ToString());
+                AddAttributeRow(AnimalInfoStack, "Has fur: ", mammal.HasFurOrHair ? "Yes" : "No");
+            }
             if (Animal.Category == CategoryType.Mammal)
             {
                 // Cast the animal to a mammal object and add the common attributes to the window
