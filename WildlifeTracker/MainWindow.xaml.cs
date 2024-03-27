@@ -1228,6 +1228,7 @@ namespace WildlifeTracker
         /// <returns></returns>
         private bool OpenFromType(string filename)
         {
+            CheckForNewAnimals();
             bool ok = false;
             // Check that the file type is xml before trying to load the file
             if (filename.Contains(".xml"))
@@ -1305,6 +1306,33 @@ namespace WildlifeTracker
                 filename = saveFileDialog.FileName;
                 if (animalManager.SaveToJson(filename))
                     MessageBox.Show("File saved");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Method that handles when the user clicks on "new" in the menu, checks if there are any unsaved changes and asks the user if they want to save them
+    /// before clearing the filename and setting the data context to null and updating the GUI
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void NewFile_Click(object sender, RoutedEventArgs e)
+    {
+        CheckForNewAnimals();
+        filename = "";
+        this.DataContext = null;
+        UpdateGUI();
+    }
+    /// <summary>
+    /// Method that checks if there are any unsaved changes and asks the user if they want to save them before any other actions are carried out.
+    /// </summary>
+    private void CheckForNewAnimals(){
+        if (animalManager.GetCount() > 0)
+        {
+            MessageBoxResult result = MessageBox.Show("There are unsaved changes, do you want to save them?", "Save changes", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                SaveFile_Click(this, new RoutedEventArgs());
             }
         }
     }
