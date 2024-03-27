@@ -88,7 +88,7 @@ namespace WildlifeTracker
             }
 
         }
-       
+
         /// <summary>
         /// Method to fill the food schedule listbox with the food schedule of the selected animal
         /// </summary>
@@ -126,7 +126,7 @@ namespace WildlifeTracker
             foodScheduleListBox.Items.Add(selectedSchedule.ToString() + ":"); // Add the food schedule title to the list box
             foodScheduleListBox.Items.Add("-----------------");
             foreach (string foodItem in strings) // for each food item in the strings array, add the food item to the list box
-            { 
+            {
                 foodScheduleListBox.Items.Add(foodItem);
             }
         }
@@ -179,7 +179,8 @@ namespace WildlifeTracker
             {
                 errorList.Add("Category is required");
                 return null;
-            } else 
+            }
+            else
                 selectedCategory = ReadCategory();
 
             Animal animal = null;
@@ -227,10 +228,10 @@ namespace WildlifeTracker
         {
             // local variables to store if the bird sings, if it can fly and the wing span
             // sings and canFly are set to false by default
-            bool sings = false; 
+            bool sings = false;
             bool canFly = false;
             int wingSpan = 0;
-            
+
             if (chkSings.IsChecked == true) // Check if the bird sings, if so, set the sings variable to true
                 sings = true;
             if (rdoBirdYes.IsChecked == true) // Check if the bird can fly, if so, set the canFly variable to true
@@ -260,7 +261,7 @@ namespace WildlifeTracker
             if (listSpecies.SelectedItem == null)
             {
                 errorList.Add("Species is required");
-            } 
+            }
             // Get the selected species from the list view
             string strSpecies = listSpecies.SelectedItem.ToString();
             // Convert the string to a MammalSpecies enum
@@ -290,7 +291,7 @@ namespace WildlifeTracker
         /// <returns></returns>
         private Animal CreateBird()
         {
-            Animal animal = null; 
+            Animal animal = null;
 
             // Read the common bird specific values
             (bool sings, bool canFly, int wingSpan) = ReadBirdSpec();
@@ -387,7 +388,7 @@ namespace WildlifeTracker
             ((Donkey)animal).Weight = donkeyView.ReadWeight(ref errorList);
             ((Donkey)animal).IsUsedAsPackAnimal = donkeyView.ReadIsUsedAsPackAnimal();
             ((Donkey)animal).MaxLoad = donkeyView.ReadMaxLoad(ref errorList);
-        }   
+        }
 
         /// <summary>
         /// Method to read common attributes from the UI
@@ -459,7 +460,7 @@ namespace WildlifeTracker
             if (chkShowAll.IsChecked == false)
                 fillListView(selectedCategory);
         }
- 
+
 
         /// <summary>
         /// A method to fill the list view with the species of the selected category
@@ -469,11 +470,11 @@ namespace WildlifeTracker
         {
             // Clear the list view
             listSpecies.Items.Clear();
-            
+
             // Check if the selected category is Mammal, and populate the list view with the Mammal objects
             if (categoryType == CategoryType.Mammal)
             {
-               fillListMammalSpecies();
+                fillListMammalSpecies();
             }
             else
             {
@@ -609,7 +610,7 @@ namespace WildlifeTracker
                     break;
             }
         }
-        
+
         /// <summary>
         /// Method to display an error message if the animal could not be created
         /// </summary>
@@ -674,7 +675,8 @@ namespace WildlifeTracker
             {
                 AnimalInfoWindow animalInfoWindow = new AnimalInfoWindow((Animal)this.DataContext);
                 animalInfoWindow.Show();
-            } else // If the data context is null, display an error message
+            }
+            else // If the data context is null, display an error message
             {
                 MessageBox.Show("Error: No animal selected");
             }
@@ -702,7 +704,7 @@ namespace WildlifeTracker
             // If the image path is not null or empty, set the image source of the image control to the image path
             if (!string.IsNullOrEmpty(imgPath))
                 imgAnimal.Source = new BitmapImage(filePath); // Create a new bitmap image with the Uri converted image path
-           
+
         }
 
         /// <summary>
@@ -715,7 +717,7 @@ namespace WildlifeTracker
         {
             // Check if an animal is selected in the list view
             if (animalListView.SelectedIndex == -1)
-                return; 
+                return;
             // Set the add animal button to disabled to prevent users from adding a new animal when an animal is selected
             btnAddAnimal.IsEnabled = false;
             // Get the index of the selected animal in the list view
@@ -787,7 +789,8 @@ namespace WildlifeTracker
                     FillAnimalList();
                     UpdateGUI();
                 }
-            } else
+            }
+            else
             {
                 InputValidator.DisplayErrorMessage("You must select a animal first");
             }
@@ -852,7 +855,7 @@ namespace WildlifeTracker
             ((Cat)testAnimal).FavoriteToy = "Mouse";
             ((Cat)testAnimal).IsHouseTrained = true;
             animalManager.AddAnimalWithID(testAnimal);
-            
+
             // test animal 2
             Animal testAnimal2 = new Dog(22, true);
             testAnimal2.Name = "Doggo";
@@ -966,13 +969,13 @@ namespace WildlifeTracker
             // Check if the animal is already connected to one food item
             bool animalInDict = CheckIfAnimalIsInDict(animal);
             // If it is
-            if (animalInDict) 
+            if (animalInDict)
             { // Ask the user if they want to change the food item
                 AskToChangeFoodItem(foodItem, animal);
             }
             else // If it is not, add it to the dictionary with the selected food item
             {
-                if(AddToFoodItemsDict(foodItem, animal))
+                if (AddToFoodItemsDict(foodItem, animal))
                     MessageBox.Show(animal.Name + " connected to " + foodItem);
             }
             UpdateGUI(); // Update the GUI
@@ -1089,7 +1092,7 @@ namespace WildlifeTracker
             }
             DisplayAnimalsWithFoodItem();
         }
-        
+
         /// <summary>
         /// Method to handle the new food schedule button clicked event, is not implemented yet
         /// </summary>
@@ -1198,7 +1201,7 @@ namespace WildlifeTracker
                 {
                     MessageBox.Show("Could not open file, please try again or select another file");
                 }
-                    
+
             }
         }
 
@@ -1308,31 +1311,35 @@ namespace WildlifeTracker
                     MessageBox.Show("File saved");
             }
         }
-    }
 
-    /// <summary>
-    /// Method that handles when the user clicks on "new" in the menu, checks if there are any unsaved changes and asks the user if they want to save them
-    /// before clearing the filename and setting the data context to null and updating the GUI
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void NewFile_Click(object sender, RoutedEventArgs e)
-    {
-        CheckForNewAnimals();
-        filename = "";
-        this.DataContext = null;
-        UpdateGUI();
-    }
-    /// <summary>
-    /// Method that checks if there are any unsaved changes and asks the user if they want to save them before any other actions are carried out.
-    /// </summary>
-    private void CheckForNewAnimals(){
-        if (animalManager.GetCount() > 0)
+        /// <summary>
+        /// Method that handles when the user clicks on "new" in the menu, checks if there are any unsaved changes and asks the user if they want to save them
+        /// before clearing the filename and setting the data context to null and updating the GUI
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NewFile_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("There are unsaved changes, do you want to save them?", "Save changes", MessageBoxButton.YesNo);
-            if (result == MessageBoxResult.Yes)
+            CheckForNewAnimals();
+            // Clear everything and set the data context to null
+            filename = null;
+            this.DataContext = null;
+            animalManager.DeleteAll();  // clear the animal list
+            FillAnimalList();
+            UpdateGUI();
+        }
+        /// <summary>
+        /// Method that checks if there are any unsaved changes and asks the user if they want to save them before any other actions are carried out.
+        /// </summary>
+        private void CheckForNewAnimals()
+        {
+            if (animalManager.Count > 0)
             {
-                SaveFile_Click(this, new RoutedEventArgs());
+                MessageBoxResult result = MessageBox.Show("Do you want to save before starting on a new file?", "Save", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    SaveFile_Click(this, new RoutedEventArgs());
+                }
             }
         }
     }
