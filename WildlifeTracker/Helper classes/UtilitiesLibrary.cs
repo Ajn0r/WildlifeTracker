@@ -12,6 +12,8 @@ using WildlifeTracker.Mammals.Dogs;
 using WildlifeTracker.Mammals.Donkeys;
 using Newtonsoft.Json.Linq;
 using System.Windows;
+using System.Xml.Serialization;
+using System.Security.RightsManagement;
 
 
 namespace WildlifeTracker.Helper_classes
@@ -120,9 +122,61 @@ namespace WildlifeTracker.Helper_classes
         }
 
 
-        public static void XmlSerialize(string fileName) { }
+        public static void XmlSerialize(string fileName, List<string> foodList) 
+        {
+            try
+            {
+                XmlSerializer xmlSerrializer = new XmlSerializer(typeof(List<string>));
+                using (StreamWriter writer = new StreamWriter(fileName))
+                {
+                    xmlSerrializer.Serialize(writer, foodList);
+                    writer.Close();
+                }
+            } catch (Exception e)
+            {
+                MessageBox.Show("A error occurred: \n" + e.Message.ToString());
+            }
+        }
 
-        public static void XmlDeserialize(string fileName) { }
+        public static List<string> XmlDeserialize(string fileName) 
+        {
+            List<string> foodItemList = new List<string>();
+            try
+            {
+                XmlSerializer xmlSerrializer = new XmlSerializer(typeof(List<string>));
+                using (StreamReader reader = new StreamReader(fileName))
+                {
+                    foodItemList = (List<string>)xmlSerrializer.Deserialize(reader);
+                    reader.Close();
+                }
+            } catch (Exception e)
+            {
+                MessageBox.Show("A error occurred: \n" + e.Message.ToString());
+                foodItemList = null;
+            }
+            return foodItemList;
+        }
 
+        public static void XmlSerializeSchedule(string fileName, List<FoodSchedule> foodList)
+        {
+            XmlSerializer xmlSerrializer = new XmlSerializer(typeof(List<FoodSchedule>));
+            using (StreamWriter writer = new StreamWriter(fileName))
+            {
+                xmlSerrializer.Serialize(writer, foodList);
+                writer.Close();
+            }
+        }
+
+        public static List<FoodSchedule> XmlDeserializeSchedule(string fileName) 
+        { 
+            List<FoodSchedule> foodList = new List<FoodSchedule>();
+            XmlSerializer xmlSerrializer = new XmlSerializer(typeof(List<FoodSchedule>));
+            using (StreamReader reader = new StreamReader(fileName))
+            {
+                foodList = (List<FoodSchedule>)xmlSerrializer.Deserialize(reader);
+                reader.Close();
+            }
+            return foodList;    
+        }
     }
 }

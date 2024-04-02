@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using WildlifeTracker.Helper_classes;
 
 namespace WildlifeTracker.Food
 {
@@ -192,5 +193,39 @@ namespace WildlifeTracker.Food
             // return false if the animal is not found
             return false;
         }
+
+        /// <summary>
+        /// Method that saves the food schedules in the dictionary as xml by calling the method in the UtilitiesLibrary, which returns a list of FoodSchedule objects
+        /// Those objects are then saved to the dictionary.
+        /// </summary>
+        /// <param name="fileName"></param>
+        public void SaveToXML(string fileName)
+        {
+            // Declaes a list to hold the food schedules that are in the dictionary to send to the UtilitiesLibrary to be serialized
+            List<FoodSchedule> foodList = new List<FoodSchedule>();
+            // Loop through the dictionary and add the food schedules to the list
+            foreach (KeyValuePair<FoodSchedule, ListManager<Animal>> entry in foodScheduleDict)
+            {
+                foodList.Add(entry.Key);
+            }
+            // Call the method in the UtilitiesLibrary to serialize the list of food schedules
+            UtilitiesLibrary.XmlSerializeSchedule(fileName, foodList);
+        }
+
+        public bool LoadFromXML(string fileName)
+        {
+            bool ok = false;
+            List<FoodSchedule> foodList = UtilitiesLibrary.XmlDeserializeSchedule(fileName);
+            if (foodList != null)
+            {
+                foreach (FoodSchedule food in foodList)
+                {
+                    AddFoodSchedule(food);
+                }
+                ok = true;
+            }
+            return ok;
+        }
+
     }
 }

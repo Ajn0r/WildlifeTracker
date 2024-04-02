@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -56,7 +57,7 @@ namespace WildlifeTracker
             btnAddAnimal.IsEnabled = false; // Disable the add animal button until a species is selected
             viewAnimalBtn.IsEnabled = false; // Disable the view animal button until an animal is created
             this.Title += " by Ronja Sjögren"; // Add my name to the title of the window
-            this.Title += " - Version 3.0"; // add the version number
+            this.Title += " - Version 4.0"; // add the version number
             FillAnimalList();
             PopulateScheduleListCombo();
         }
@@ -916,15 +917,15 @@ namespace WildlifeTracker
             omnivoreFoodSchedule.Add("Breakfast: Water and meat");
             omnivoreFoodSchedule.Add("Lunch: Water and vegetables");
             omnivoreFoodSchedule.Add("Dinner: Fish and vegetables");
-
-
+            
+            /*
             // Add food schedules to the food schedule dictionary
             foodScheduleManager.AddFoodSchedule(catFoodSchedule);
             foodScheduleManager.AddFoodSchedule(dogFoodSchedule);
             foodScheduleManager.AddFoodSchedule(carnivoreFoodSchedule);
             foodScheduleManager.AddFoodSchedule(herbivoreFoodSchedule);
             foodScheduleManager.AddFoodSchedule(omnivoreFoodSchedule);
-
+            */
         }
 
         /// <summary>
@@ -1074,8 +1075,14 @@ namespace WildlifeTracker
             // Get the selected food item from the list view
             string foodItem = foodItemList.SelectedItem.ToString();
             // Open a new window with the list of animals connected to the selected food item
-            FoodItemWindow foodItemWindow = new FoodItemWindow(foodItemsDict[foodItem]);
-            foodItemWindow.Show();
+            if (foodItemsDict.ContainsKey(foodItem))
+            {
+                FoodItemWindow foodItemWindow = new FoodItemWindow(foodItemsDict[foodItem]);
+                foodItemWindow.Show();
+            } else // If the food item is not in the dictionary, display an error message
+            {
+                MessageBox.Show("No animals connected to this food item");
+            }
         }
 
         /// <summary>
@@ -1156,6 +1163,7 @@ namespace WildlifeTracker
         /// </summary>
         private void PopulateScheduleListCombo()
         {
+            scheduleComboBox.Items.Clear();
             // Get the food schedules as a list
             ListManager<FoodSchedule> list = foodScheduleManager.GetFoodScheduleAsList();
             foreach (FoodSchedule foodSchedule in list) // for each list, add the food schedule to the combo box
@@ -1196,6 +1204,7 @@ namespace WildlifeTracker
                 {
                     MessageBox.Show("File opened");
                     FillAnimalList();
+                    PopulateScheduleListCombo();
                 }
                 else // else, display an error message
                 {
@@ -1236,7 +1245,22 @@ namespace WildlifeTracker
             // Check that the file type is xml before trying to load the file
             if (filename.Contains(".xml"))
             {
-                ok = animalManager.LoadFromXML(filename);
+                if (filename.Contains("-foodschedule.xml"))
+                    ok = foodScheduleManager.LoadFromXML(filename);
+                
+                else
+                {
+                    List<string> fooditems = UtilitiesLibrary.XmlDeserialize(filename);
+                    if (fooditems != null)
+                    {
+                        foreach (string foodItem in fooditems)
+                        {
+                            foodItemList.Items.Add(foodItem);
+                        }
+                        ok = true;
+                    }
+                }
+                   
             }
             // or if the file type is json
             else if (filename.Contains(".json"))
@@ -1329,8 +1353,29 @@ namespace WildlifeTracker
             UpdateGUI();
         }
 
+        private void SaveAsXML_Click(object sender, RoutedEventArgs e)
+        {
+            // Open a file dialog and set the filter to only allow xml files
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "XML files (*.xml)|*.xml";
+            
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                filename = saveFileDialog.FileName;
+                List<string> xml = new List<string>();
+                foreach (string foodItem in foodItemList.Items)
+                {
+                    xml.Add(foodItem);
+                }
+                UtilitiesLibrary.XmlSerialize(filename, xml);
+                filename = filename.Replace(".xml", "-foodschedule.xml");
+                foodScheduleManager.SaveToXML(filename);
+            }
+        } 
+
+
         /// <summary>
-        /// Method that checks if there are any unsaved changes and asks the user if they want to save them before any other actions are carried out.
+        /// Method that checks if there are animals in the animalmanger and asks the user if they want to save before any other actions are carried out.
         /// </summary>
         private void CheckForNewAnimals()
         {

@@ -89,8 +89,6 @@ namespace WildlifeTracker.Food
             {
                 InputValidator.DisplayErrorMessage("Please enter a valid name");
             }
-            
-
         }
 
         private void cancelBtn_Clicked(object sender, RoutedEventArgs e)

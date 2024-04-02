@@ -8,6 +8,7 @@ using WildlifeTracker.Helper_classes;
 
 namespace WildlifeTracker
 {
+    [Serializable]
     public class FoodSchedule
     {
         #region // Instance variables //
@@ -20,6 +21,9 @@ namespace WildlifeTracker
         public EaterType EaterType { get => eaterType; set => eaterType = value; }
         public int Count { get => foodList.Count; } // Get the number of items in the list
         public string ScheduleTitle { get => scheduleTitle; set => scheduleTitle = value; }
+        // Had to add this property to be able to serialize the list of food items in the food schedule.
+        [XmlElement]
+        public List<string> FoodList { get => foodList; set => foodList = value; }
 
         #endregion
 
@@ -101,16 +105,7 @@ namespace WildlifeTracker
             return scheduleTitle;
         }
 
-        public void SaveToXML(string fileName)
-        {
-            UtilitiesLibrary.XmlSerialize(fileName, foodList);
-        }
-
-        public bool LoadFromXML(string fileName)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         #endregion
     }
 }

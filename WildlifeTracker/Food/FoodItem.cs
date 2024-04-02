@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace WildlifeTracker
 {
+    [Serializable]
     public class FoodItem
     {
         #region // Instance variables //
