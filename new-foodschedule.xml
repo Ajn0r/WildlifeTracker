@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfFoodSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FoodSchedule>
+    <EaterType>Carnivore</EaterType>
+    <ScheduleTitle>Basic cat food schedule</ScheduleTitle>
+    <FoodList>Breakfast: Milk and wet food</FoodList>
+    <FoodList>Lunch: Water and dry food</FoodList>
+    <FoodList>Dinner: Water and wet food</FoodList>
+  </FoodSchedule>
+  <FoodSchedule>
+    <EaterType>Carnivore</EaterType>
+    <ScheduleTitle>Basic dog food schedule</ScheduleTitle>
+    <FoodList>Breakfast: Water and dry food</FoodList>
+    <FoodList>Lunch: Water and wet food</FoodList>
+    <FoodList>Dinner: Water and dry food</FoodList>
+  </FoodSchedule>
+  <FoodSchedule>
+    <EaterType>Carnivore</EaterType>
+    <ScheduleTitle>Basic carnivore food schedule</ScheduleTitle>
+    <FoodList>Breakfast: Meat</FoodList>
+    <FoodList>Lunch: Chicken</FoodList>
+    <FoodList>Dinner: Meat</FoodList>
+  </FoodSchedule>
+  <FoodSchedule>
+    <EaterType>Carnivore</EaterType>
+    <ScheduleTitle>Basic herbivore food schedule</ScheduleTitle>
+    <FoodList>Breakfast: Water and Grass</FoodList>
+    <FoodList>Lunch: Water and leaves</FoodList>
+    <FoodList>Dinner: Grass</FoodList>
+  </FoodSchedule>
+  <FoodSchedule>
+    <EaterType>Carnivore</EaterType>
+    <ScheduleTitle>Basic omnivore food schedule</ScheduleTitle>
+    <FoodList>Breakfast: Water and meat</FoodList>
+    <FoodList>Lunch: Water and vegetables</FoodList>
+    <FoodList>Dinner: Fish and vegetables</FoodList>
+  </FoodSchedule>
+</ArrayOfFoodSchedule>

@@ -51,7 +51,7 @@ namespace WildlifeTracker
 
         public MainWindow()
         {
-            Test(); // Call the test method to add some test animals to the list
+            // Test(); // Call the test method to add some test animals to the list
             InitializeComponent();
             PopulateComboBoxes();
             btnAddAnimal.IsEnabled = false; // Disable the add animal button until a species is selected
@@ -743,19 +743,38 @@ namespace WildlifeTracker
         /// <param name="e"></param>
         private void SortByColumnHeader_Click(object sender, RoutedEventArgs e)
         {
+
             // Get the coloumn header that was clicked
             GridViewColumnHeader column = (sender as GridViewColumnHeader); // sender is the column header that was clicked and cast it to a GridViewColumnHeader
             string sortBy = column.Tag.ToString(); // Get the tag of the column header, which is the same property name of the animal object
-            // Check if the click count dictionary contains the property name
             if (!clickCountDict.ContainsKey(sortBy))
                 clickCountDict.Add(sortBy, 0); // If not, add the property name to the dictionary with a click count of 0
             int clickCount = clickCountDict[sortBy]; // Get the click count from the dictionary based on the property name and store it in a variable
             clickCount++; // Increment the click count
             clickCountDict[sortBy] = clickCount; // Set the click count in the dictionary to the new click count
-            if (clickCount % 2 == 0) // If the click count is even, sort the list in descending order
-                animalManager.SortListDesc(sortBy); // Call the sortlistdesc method to sort the list in descending order based on the property name
-            else // If the click count is odd, sort the list in ascending order
-                animalManager.SortList(sortBy); // Call the sort list method to sort the list in ascending order based on the property name
+            // Check if the click count is odd or even to sort the list in ascending or descending order, set the sort direction to be passed to the sort method
+            SortDirection direction = clickCount % 2 == 0 ? SortDirection.Descending : SortDirection.Ascending;
+            // A switch statement to sort the list based on the property name of the animal object, which is the tag of the column header
+            switch (sortBy)
+            {
+                case "Id":
+                    animalManager.Sort(new IdSorter(direction));
+                    break;
+                case "Name":
+                    animalManager.Sort(new NameSorter(direction));
+                    break;
+                case "Age":
+                    animalManager.Sort(new AgeSorter(direction));
+                    break;
+                case "Color":
+                    animalManager.Sort(new ColorSorter(direction));
+                    break;
+                case "Species":
+                    animalManager.Sort(new SpeciesSorter(direction));
+                    break;
+                default:
+                    break;
+            }
             FillAnimalList(); // Update the list view with the sorted list
         }
 
@@ -1134,27 +1153,41 @@ namespace WildlifeTracker
         /// <param name="e"></param>
         private void ConnectScheduleAndAnimal_Clicked(object sender, RoutedEventArgs e)
         {
-            if (this.DataContext == null)
+            // Using a try catch block to catch the custom exception if no animal is selected. The old code for catching this error is commented out.
+            try
             {
-                InputValidator.DisplayErrorMessage("You must select a animal first");
-                return;
+                if (this.DataContext == null)
+                {
+                    throw new NoAnimalSelectedException("You must select a animal first");
+                    //InputValidator.DisplayErrorMessage("You must select a animal first");
+                    //return;
+                }
+                // Get the animal
+                Animal animal = (Animal)this.DataContext;
+            
+                // Get the selected food schedule from the combo box
+                FoodSchedule foodSchedule; // variable to store the selected food schedule
+                if (scheduleComboBox.SelectedItem != null) // check if a food schedule is selected
+                    // Set the foodschedule variable to the selected food schedule
+                    foodSchedule = foodScheduleManager.GetSelectedFoodSchedule(scheduleComboBox.SelectedItem.ToString());
+                else
+                { // If not, display an error message
+                    InputValidator.DisplayErrorMessage("You must select a food schedule first");
+                    return;
+                }
+                // Add the animal to the food schedule dictionary in the food schedule manager
+                if (animal != null && foodScheduleManager.AddAnimalToFoodSchedule(animal, foodSchedule))
+                    // Display a message to let the user know that the animal is connected to the food schedule if it was successful
+                    MessageBox.Show(animal.Name + " connected to " + foodSchedule.ToString());
             }
-            // Get the animal
-            Animal animal = (Animal)this.DataContext;
-            // Get the selected food schedule from the combo box
-            FoodSchedule foodSchedule; // variable to store the selected food schedule
-            if (scheduleComboBox.SelectedItem != null) // check if a food schedule is selected
-                // Set the foodschedule variable to the selected food schedule
-                foodSchedule = foodScheduleManager.GetSelectedFoodSchedule(scheduleComboBox.SelectedItem.ToString());
-            else
-            { // If not, display an error message
-                InputValidator.DisplayErrorMessage("You must select a food schedule first");
-                return;
+            // Catch the custom exception and display the error message
+            catch (NoAnimalSelectedException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            } catch (Exception ex) // Catch any other exceptions and display the error message
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            // Add the animal to the food schedule dictionary in the food schedule manager
-            if (foodScheduleManager.AddAnimalToFoodSchedule(animal, foodSchedule))
-                // Display a message to let the user know that the animal is connected to the food schedule if it was successful
-                MessageBox.Show(animal.Name + " connected to " + foodSchedule.ToString());
             UpdateGUI(); // update gui
         }
 
@@ -1351,6 +1384,7 @@ namespace WildlifeTracker
             filename = null;
             this.DataContext = null;
             animalManager.DeleteAll();  // clear the animal list
+            foodItemList.Items.Clear(); // clear the food item list
             FillAnimalList();
             UpdateGUI();
         }
@@ -1414,13 +1448,20 @@ namespace WildlifeTracker
             }
         }
 
+        /// <summary>
+        /// Method to handle if the user clicks on save as > text menu option.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveAsText_Click(object sender, RoutedEventArgs e)
         {
+            // open a save file dialog and set the filter to only allow text files
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Text files (*.txt)|*.txt";
             if (saveFileDialog.ShowDialog() == true)
             {
                 filename = saveFileDialog.FileName;
+                // If the file was saved successfully, display a message to the user
                 if (animalManager.SaveToText(filename))
                     MessageBox.Show("File saved");
             }

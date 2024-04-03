@@ -92,6 +92,7 @@
     <Compile Include="Animal\AnimalManager.cs" />
     <Compile Include="Animal\IListManager.cs" />
     <Compile Include="Animal\ListManager.cs" />
+    <Compile Include="Helper classes\ColorSorter.cs" />
     <Compile Include="Food\FoodScheduleManager.cs" />
     <Compile Include="Food\ScheduleTypes.cs" />
     <Compile Include="Food\EaterType.cs" />
@@ -115,9 +116,14 @@
     <Compile Include="Birds\Penguins\PenguinView.xaml.cs">
       <DependentUpon>PenguinView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helper classes\AgeSorter.cs" />
     <Compile Include="Helper classes\BooleanToYesNoConverter.cs" />
     <Compile Include="Helper classes\InputValidator.cs" />
+    <Compile Include="Helper classes\NameSorter.cs" />
+    <Compile Include="Helper classes\NoAnimalSelectedException.cs" />
+    <Compile Include="Helper classes\SortDirection.cs" />
     <Compile Include="Helper classes\UtilitiesLibrary.cs" />
+    <Compile Include="Helper classes\IdSorter.cs" />
     <Compile Include="Mammals\MammalSpecies.cs" />
     <Compile Include="Mammals\Cats\CatView.xaml.cs">
       <DependentUpon>CatView.xaml</DependentUpon>
@@ -135,6 +141,7 @@
     <Compile Include="Birds\Parrots\Parrot.cs" />
     <Compile Include="Birds\Penguins\Penguin.cs" />
     <Compile Include="Mammals\Dogs\SpecialTrainingType.cs" />
+    <Compile Include="Helper classes\SpeciesSorter.cs" />
     <Page Include="AnimalInfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

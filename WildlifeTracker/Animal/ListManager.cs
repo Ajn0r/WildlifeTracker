@@ -155,53 +155,13 @@ namespace WildlifeTracker
             return GetEnumerator();
         }
 
-        public virtual void SortList(string sortBy)
+        /// <summary>
+        /// Method that sorts the list with a comparer
+        /// </summary>
+        /// <param name="comparer"></param>
+        public void Sort(IComparer<T> comparer)
         {
-            switch (sortBy)
-            {
-                case "Id":
-                    list.Sort((x, y) => Comparer.Default.Compare((x as Animal).Id, (y as Animal).Id));
-                    break;
-                case "Name":
-                    list.Sort((x, y) => Comparer.Default.Compare((x as Animal).Name, (y as Animal).Name));
-                    break;
-                case "Age":
-                    list.Sort((x, y) => Comparer.Default.Compare((x as Animal).Age, (y as Animal).Age));
-                    break;
-                case "Color":
-                    list.Sort((x, y) => Comparer.Default.Compare((x as Animal).Color, (y as Animal).Color));
-                    break;
-                case "Species":
-                    list.Sort((x, y) => Comparer.Default.Compare((x as Animal).AnimalType, (y as Animal).AnimalType));
-                    break;
-                default:
-                    throw new ArgumentException("Invalid sortBy parameter");
-                    
-            }
-        }
-        public virtual void SortListDesc(string sortBy)
-        {
-            // Sortera listan i fallande ordning efter den givna parametern
-            switch (sortBy)
-            {
-                case "Id":
-                    list.Sort((x, y) => Comparer.Default.Compare((y as Animal).Id, (x as Animal).Id));
-                    break;
-                case "Name":
-                    list.Sort((x, y) => Comparer.Default.Compare((y as Animal).Name, (x as Animal).Name));
-                    break;
-                case "Age":
-                    list.Sort((x, y) => Comparer.Default.Compare((y as Animal).Age, (x as Animal).Age));
-                    break;
-                case "Color":
-                    list.Sort((x, y) => Comparer.Default.Compare((y as Animal).Color, (x as Animal).Color));
-                    break;
-                case "Species":
-                    list.Sort((x, y) => Comparer.Default.Compare((y as Animal).AnimalType, (x as Animal).AnimalType));
-                    break;
-                default:
-                    throw new ArgumentException("Invalid sortBy parameter");
-            }
+            list.Sort(comparer);
         }
 
         /// <summary>
