@@ -54,11 +54,18 @@ namespace WildlifeTracker
             return id;
         }
 
+        /// <summary>
+        /// Override method to load a list from a json file
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public override bool LoadFromJson(string fileName)
         {
             if (fileName == null)
                 return false;
+            // delete all the items in the list to prevent duplicates
             DeleteAll();
+            // deserialize the json file and save the list that is returned in a variable
             List<Animal> animalList = UtilitiesLibrary.JsonDeserialize(fileName);
             // if the list is null return false, since then a exception was thrown in the deserialization
             if (animalList == null)

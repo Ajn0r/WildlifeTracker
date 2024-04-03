@@ -34,7 +34,7 @@
                 <MenuItem Header="_Open" Click="OpenFile_Click" />
                 <MenuItem Header="_Save" Click="SaveFile_Click"/>
                 <MenuItem Header="Save as">
-                    <MenuItem Header="Text"/>
+                    <MenuItem Header="Text" Click="SaveAsText_Click"/>
                     <MenuItem Header="JSON" Click="SaveAsJson_Click"/>
                     <MenuItem Header="XML" Click="SaveAsXML_Click"/>
                 </MenuItem>

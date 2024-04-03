@@ -111,19 +111,34 @@ namespace WildlifeTracker.Helper_classes
             return list;
         }
 
-        public static void TextSerialize<T>(string fileName, List<T> list) { 
-            using (StreamWriter writer = new StreamWriter(fileName))
+        public static bool TextSerialize<T>(string fileName, List<T> list) { 
+            bool ok = false;
+            try
             {
-                foreach (T item in list)
+                using (StreamWriter writer = new StreamWriter(fileName))
                 {
-                    writer.WriteLine(item.ToString());
+                    foreach (T item in list)
+                    {
+                        writer.WriteLine(item.ToString());
+                    }
                 }
+                ok = true;
+            } catch (Exception e)
+            {
+                MessageBox.Show("A error occurred: \n" + e.Message.ToString());
             }
+            return ok;
         }
 
-
-        public static void XmlSerialize(string fileName, List<string> foodList) 
+        /// <summary>
+        /// Mehtod that serialize a list of strings to a xml file, returns false if an exception occurs and shows a message box with the exception message
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="foodList"></param>
+        /// <returns></returns>
+        public static bool XmlSerialize(string fileName, List<string> foodList) 
         {
+            bool ok = false;
             try
             {
                 XmlSerializer xmlSerrializer = new XmlSerializer(typeof(List<string>));
@@ -132,12 +147,19 @@ namespace WildlifeTracker.Helper_classes
                     xmlSerrializer.Serialize(writer, foodList);
                     writer.Close();
                 }
+                ok = true;
             } catch (Exception e)
             {
                 MessageBox.Show("A error occurred: \n" + e.Message.ToString());
             }
+            return ok;
         }
 
+        /// <summary>
+        /// Method that deserialize a xml file and return a list of strings, returns null if an exception occurs
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public static List<string> XmlDeserialize(string fileName) 
         {
             List<string> foodItemList = new List<string>();
@@ -157,24 +179,51 @@ namespace WildlifeTracker.Helper_classes
             return foodItemList;
         }
 
-        public static void XmlSerializeSchedule(string fileName, List<FoodSchedule> foodList)
+        /// <summary>
+        /// Method to serialize a list of food schedules to a xml file, only applicable to food schedules
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="foodList"></param>
+        public static bool XmlSerializeSchedule(string fileName, List<FoodSchedule> foodList)
         {
-            XmlSerializer xmlSerrializer = new XmlSerializer(typeof(List<FoodSchedule>));
-            using (StreamWriter writer = new StreamWriter(fileName))
+            bool ok = false;
+            try
             {
-                xmlSerrializer.Serialize(writer, foodList);
-                writer.Close();
+                XmlSerializer xmlSerrializer = new XmlSerializer(typeof(List<FoodSchedule>));
+                using (StreamWriter writer = new StreamWriter(fileName))
+                {
+                    xmlSerrializer.Serialize(writer, foodList);
+                    writer.Close();
+                }
+                ok = true;
             }
+            catch (Exception e)
+            {
+                MessageBox.Show("A error occurred: \n" + e.Message.ToString());
+            }
+            return ok;
         }
 
+        /// <summary>
+        /// Method to deserialize a xml file and return a list of food schedules
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public static List<FoodSchedule> XmlDeserializeSchedule(string fileName) 
         { 
             List<FoodSchedule> foodList = new List<FoodSchedule>();
-            XmlSerializer xmlSerrializer = new XmlSerializer(typeof(List<FoodSchedule>));
-            using (StreamReader reader = new StreamReader(fileName))
+            try
             {
-                foodList = (List<FoodSchedule>)xmlSerrializer.Deserialize(reader);
-                reader.Close();
+                XmlSerializer xmlSerrializer = new XmlSerializer(typeof(List<FoodSchedule>));
+                using (StreamReader reader = new StreamReader(fileName))
+                {
+                    foodList = (List<FoodSchedule>)xmlSerrializer.Deserialize(reader);
+                    reader.Close();
+                }
+            } catch (Exception e)
+            {
+                MessageBox.Show("A error occurred: \n" + e.Message.ToString());
+                foodList = null;
             }
             return foodList;    
         }

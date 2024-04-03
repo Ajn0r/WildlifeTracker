@@ -204,16 +204,11 @@ namespace WildlifeTracker
             }
         }
 
-        public bool SaveToXML(string fileName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool LoadFromXML(string fileName)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Method that saves the list to a json file
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public bool SaveToJson(string fileName)
         {
             if (fileName == null)
@@ -227,8 +222,6 @@ namespace WildlifeTracker
             return true;
         } 
 
-
-
         /// <summary>
         /// Method that saves the list to a text file
         /// </summary>
@@ -238,10 +231,16 @@ namespace WildlifeTracker
         {
             if (fileName == null)
                 return false;
-            UtilitiesLibrary.TextSerialize(fileName, list);
-            return true;
+            if (UtilitiesLibrary.TextSerialize(fileName, list))
+                return true;
+            return false;
         }
 
+        /// <summary>
+        /// Virtual method to load a list from a json file, implemented in the derived class AnimalManager
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public virtual bool LoadFromJson(string fileName)
         {
            return false;

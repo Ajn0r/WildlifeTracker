@@ -1240,27 +1240,29 @@ namespace WildlifeTracker
         /// <returns></returns>
         private bool OpenFromType(string filename)
         {
-            CheckForNewAnimals();
+            CheckForNewAnimalsOrFood();
             bool ok = false;
             // Check that the file type is xml before trying to load the file
             if (filename.Contains(".xml"))
             {
+                // check if the filename ends with -foodschedule.xml, if it does, load the food schedules by calling the method that deserialize the file to foodschedule objects
                 if (filename.Contains("-foodschedule.xml"))
                     ok = foodScheduleManager.LoadFromXML(filename);
-                
                 else
-                {
+                { // else, if it just ends with .xml, load the file to a list of strings, and add the strings to the food item list
                     List<string> fooditems = UtilitiesLibrary.XmlDeserialize(filename);
-                    if (fooditems != null)
+                    // clear the food item list to prevent duplicates
+                    foodItemList.Items.Clear();
+                    if (fooditems != null) // if the list is not null, add the items to the list view
                     {
                         foreach (string foodItem in fooditems)
                         {
+
                             foodItemList.Items.Add(foodItem);
                         }
                         ok = true;
                     }
                 }
-                   
             }
             // or if the file type is json
             else if (filename.Contains(".json"))
@@ -1298,7 +1300,7 @@ namespace WildlifeTracker
             if (filename.Contains(".xml"))
             {
                 // Save the file as xml
-                ok = animalManager.SaveToXML(filename);
+                ok = SaveXML(filename);
             }
             else if (filename.Contains(".txt")) // Check if the file type is txt
             {
@@ -1344,7 +1346,7 @@ namespace WildlifeTracker
         /// <param name="e"></param>
         private void NewFile_Click(object sender, RoutedEventArgs e)
         {
-            CheckForNewAnimals();
+            CheckForNewAnimalsOrFood();
             // Clear everything and set the data context to null
             filename = null;
             this.DataContext = null;
@@ -1353,6 +1355,11 @@ namespace WildlifeTracker
             UpdateGUI();
         }
 
+        /// <summary>
+        /// Method to handle the save as xml menu option clicked event, opens a save file dialog and saves the file as xml
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveAsXML_Click(object sender, RoutedEventArgs e)
         {
             // Open a file dialog and set the filter to only allow xml files
@@ -1362,30 +1369,60 @@ namespace WildlifeTracker
             if (saveFileDialog.ShowDialog() == true)
             {
                 filename = saveFileDialog.FileName;
-                List<string> xml = new List<string>();
-                foreach (string foodItem in foodItemList.Items)
-                {
-                    xml.Add(foodItem);
-                }
-                UtilitiesLibrary.XmlSerialize(filename, xml);
-                filename = filename.Replace(".xml", "-foodschedule.xml");
-                foodScheduleManager.SaveToXML(filename);
+                SaveXML(filename);
             }
-        } 
+        }
 
+        /// <summary>
+        /// Method to save the food items to xml file
+        /// </summary>
+        /// <param name="filename"></param>
+        private bool SaveXML(string filename)
+        {
+            List<string> xml = new List<string>();
+            foreach (string foodItem in foodItemList.Items)
+            {
+                xml.Add(foodItem);
+            }
+            if (UtilitiesLibrary.XmlSerialize(filename, xml))
+                return true; // return true if the file was saved successfully
+            /*
+             * This code is for saving the food schedules to xml, but since there is no way to add or change the food schedules in the GUI, 
+             * it is not used in the current version of the program, but the logic is there if it is needed in the future. 
+             * Changes the filename to add -foodschedule to the end of the filename to seperate the food items and the food schedules, both can be saved at the same time.
+             * It is also used to determind wihch method to call when loading a xml file, since there are two different types of xml files that can be loaded (foodschedule and fooditems=strings).
+             * 
+             * filename = filename.Replace(".xml", "-foodschedule.xml");
+            foodScheduleManager.SaveToXML(filename);
+            */
+            return false;
+        }
 
         /// <summary>
         /// Method that checks if there are animals in the animalmanger and asks the user if they want to save before any other actions are carried out.
         /// </summary>
-        private void CheckForNewAnimals()
+        private void CheckForNewAnimalsOrFood()
         {
-            if (animalManager.Count > 0)
+            // check if there are any animals in the animal manager or food items in the list
+            if (animalManager.Count > 0 || foodItemList.Items.Count > 0)
             {
                 MessageBoxResult result = MessageBox.Show("Do you want to save before starting on a new file?", "Save", MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
                 {
                     SaveFile_Click(this, new RoutedEventArgs());
                 }
+            }
+        }
+
+        private void SaveAsText_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text files (*.txt)|*.txt";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                filename = saveFileDialog.FileName;
+                if (animalManager.SaveToText(filename))
+                    MessageBox.Show("File saved");
             }
         }
     }

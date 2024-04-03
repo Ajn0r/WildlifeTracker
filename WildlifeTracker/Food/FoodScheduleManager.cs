@@ -197,6 +197,8 @@ namespace WildlifeTracker.Food
         /// <summary>
         /// Method that saves the food schedules in the dictionary as xml by calling the method in the UtilitiesLibrary, which returns a list of FoodSchedule objects
         /// Those objects are then saved to the dictionary.
+        /// The method is currently not in use, but the logic works so it can be used in the future. There is no was to add or alter th food schedules in the GUI
+        /// so the method is not needed at the moment.
         /// </summary>
         /// <param name="fileName"></param>
         public void SaveToXML(string fileName)
@@ -209,20 +211,32 @@ namespace WildlifeTracker.Food
                 foodList.Add(entry.Key);
             }
             // Call the method in the UtilitiesLibrary to serialize the list of food schedules
-            UtilitiesLibrary.XmlSerializeSchedule(fileName, foodList);
+            if (UtilitiesLibrary.XmlSerializeSchedule(fileName, foodList))
+            {
+                MessageBox.Show("The food schedule has been saved");
+            }
         }
 
+        /// <summary>
+        /// Method to load the food schedules from a xml file by calling the method in the UtilitiesLibrary, which returns a list of FoodSchedule objects
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public bool LoadFromXML(string fileName)
         {
             bool ok = false;
+            // Deserialize the xml file and return a list of food schedules
             List<FoodSchedule> foodList = UtilitiesLibrary.XmlDeserializeSchedule(fileName);
-            if (foodList != null)
+            if (foodList != null) // if the list is not null, loop through the list and add the food schedules to the dictionary
             {
                 foreach (FoodSchedule food in foodList)
                 {
                     AddFoodSchedule(food);
                 }
-                ok = true;
+                ok = true; // ok will be true if the list is not null
+            } else 
+            { // Else if the list is null, the file could not be loaded or is empty
+                MessageBox.Show("The file could not be loaded or is empty");
             }
             return ok;
         }
